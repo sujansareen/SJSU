@@ -1,0 +1,23 @@
+lab: zero point five - raw socket communication
+
+This lab demonstrates and allows you to work with raw (basic) socket 
+communication. When we think about communication, certainly client-server 
+concepts, technologies like web services, the web, email, DBMS, etc. 
+are examples most often brought up. Others that we may not associate 
+with this type of point-to-point communication are NFS, map-reduce 
+frameworks, web frameworks, networks, and devices.
+
+So, why is this lab important? As hinted above, communication (messaging) 
+is core to all client-servers. It doesn't matter what abstractions are built 
+upon it to hide this interaction - It's there.
+
+Codewise, look at and explore:
+
+   1. connection management (lifecycle)
+   2. message content - header and payload
+
+Grey matter, looking deeper:
+
+   1. weaknesses - how to harden this code
+   2. measuring and changing performance, throughput
+   3. how does it scale?
