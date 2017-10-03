@@ -19,6 +19,8 @@ import gash.router.client.CommConnection;
 import gash.router.client.CommListener;
 import gash.router.client.MessageClient;
 import routing.Pipe.Route;
+import java.util.*;
+import java.io.*;
 
 public class DemoApp implements CommListener {
 	private MessageClient mc;
@@ -26,42 +28,73 @@ public class DemoApp implements CommListener {
 	public DemoApp(MessageClient mc) {
 		init(mc);
 	}
-
+    public String shortMsg = "Hello Word ";
+    public String medMsg =  new String(new char[300]).replace("\0", shortMsg);
+    public String lgMsg =  new String(new char[3000]).replace("\0", shortMsg);
 	private void init(MessageClient mc) {
 		this.mc = mc;
 		this.mc.addListener(this);
 	}
+    /**
+     * Open and read a file, and return the lines in the file as a list
+     * of Strings.
+     * (Demonstrates Java FileReader, BufferedReader, and Java5.)
+     */
+    private List<String> readFile(String filename)
+    {
+        List<String> records = new ArrayList<String>();
+        try
+        {
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            String line;
+            while ((line = reader.readLine()) != null)
+            {
+                records.add(line);
+            }
+            reader.close();
+            return records;
+        }
+        catch (Exception e)
+        {
+            System.err.format("Exception occurred trying to read '%s'.", filename);
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-	private void ping(int N) {
-		// test round-trip overhead (note overhead for initial connection)
+    // send a message
+    private void postMessage(int N) {
+        final int maxN = 10;
+        long[] dt = new long[N];
+        long st = System.nanoTime(), ft = 0;
+
+        for (int n = 0; n < N; n++) {
+            mc.postMessage(lgMsg + n);
+            ft = System.nanoTime();
+            dt[n] = ft - st;
+            st = ft;
+        }
+
+        System.out.println("Round-trip post times (msec)");
+        for (int n = 0; n < N; n++)
+            System.out.printf("%d :  %.3f%n ",n, dt[n]/1e6);
+        System.out.println("");
+    }
+    // test round-trip overhead (note overhead for initial connection)
+    private void ping(int N) {
 		final int maxN = 10;
 		long[] dt = new long[N];
-		long st = System.currentTimeMillis(), ft = 0;
+		long st = System.nanoTime(), ft = 0;
 		for (int n = 0; n < N; n++) {
 			mc.ping();
-			ft = System.currentTimeMillis();
+			ft = System.nanoTime();
 			dt[n] = ft - st;
 			st = ft;
 		}
 
 		System.out.println("Round-trip ping times (msec)");
 		for (int n = 0; n < N; n++)
-			System.out.print(dt[n] + " ");
-		System.out.println("");
-
-		// send a message
-		st = System.currentTimeMillis();
-		ft = 0;
-		for (int n = 0; n < N; n++) {
-			mc.postMessage("hello world " + n);
-			ft = System.currentTimeMillis();
-			dt[n] = ft - st;
-			st = ft;
-		}
-
-		System.out.println("Round-trip post times (msec)");
-		for (int n = 0; n < N; n++)
-			System.out.print(dt[n] + " ");
+            System.out.printf("%d :  %.3f%n ",n, dt[n]/1e6);
 		System.out.println("");
 	}
 
@@ -74,27 +107,36 @@ public class DemoApp implements CommListener {
 	public void onMessage(Route msg) {
 		System.out.println("---> " + msg);
 	}
+    public static DemoApp startConnection(String host, int port) {
+        MessageClient mc = new MessageClient(host, port);
 
+        return new DemoApp(mc);
+    }
 	/**
 	 * sample application (client) use of our messaging service
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String host = "127.0.0.1";
+        String host = "10.21.1.10";
 		int port = 4567;
+        int n = 1;
 
 		try {
-			MessageClient mc = new MessageClient(host, port);
-			DemoApp da = new DemoApp(mc);
-
+            System.out.printf("\n** 1 **\n");
+            System.out.print(CommConnection.getInstance());
+            System.out.printf("\n** 2 **");
+            DemoApp da = startConnection(host,port);
 			// do stuff w/ the connection
-			da.ping(4000);
-
-			System.out.println("\n** exiting in 10 seconds. **");
+            //da.ping(n);
+            //da.postMessage(n);
+            System.out.printf("\n** 3 **");
+            System.out.print(CommConnection.getInstance());
+			System.out.printf("\n** exiting in %d seconds. **",n);
 			System.out.flush();
-			Thread.sleep(10 * 1000);
+			Thread.sleep(n * 1000);
 		} catch (Exception e) {
+            System.out.printf("\n** Catch. **",n);
 			e.printStackTrace();
 		} finally {
 			CommConnection.getInstance().release();
