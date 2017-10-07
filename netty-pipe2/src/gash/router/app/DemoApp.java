@@ -118,7 +118,7 @@ public class DemoApp implements CommListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-        String host = "10.21.1.10";
+		String host = "127.0.0.1";
 		int port = 4567;
         int n = 1;
 
