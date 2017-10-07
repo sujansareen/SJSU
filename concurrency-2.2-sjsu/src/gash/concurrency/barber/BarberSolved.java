@@ -175,8 +175,9 @@ public class BarberSolved implements Runnable {
 	}
 
 	public static void main(String[] args) {
+		int nCustomers = 4;
 		BarberSolved barber = new BarberSolved();
-		for (int n = 0; n < 20; n++) {
+		for (int n = 0; n < nCustomers; n++) {
 			Customer c = new Customer(n, barber);
 			c.start();
 		}
