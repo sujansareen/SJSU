@@ -39,10 +39,10 @@ public class RingTest {
 	public void testBrokenRing() throws Exception {
 		// ring not closed
 		MessageTransport r = new Ring(20);
-
+		Node[] nodes = r.getNodes();
 		// break the ring
-		((RingNode) r.getNodes()[15]).setPrevious(null);
-		((RingNode) r.getNodes()[14]).setNext(null);
+		((RingNode) nodes[15]).setPrevious(null);
+		((RingNode) nodes[14]).setNext(null);
 
 		r.sendMessage(3, 17, "hello world");
 		Thread.sleep(10000);
