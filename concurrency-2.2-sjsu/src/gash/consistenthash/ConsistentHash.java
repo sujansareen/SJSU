@@ -26,7 +26,7 @@ public class ConsistentHash {
 		return bin;
 	}
 }
-//TODO: Create Rings 
+//TODO: Create Rings
 public class Ring {
 	public void init() {
 	}
