@@ -1,6 +1,5 @@
 package gash.consistenthash;
 
-import java.io.File;
 import java.util.TreeMap;
 
 public class ConsistentHash {
@@ -24,21 +23,5 @@ public class ConsistentHash {
 		Integer bin = null;
 
 		return bin;
-	}
-}
-//TODO: Create Rings
-public class Ring {
-	public void init() {
-	}
-	public void createNodes(int value) {
-	}
-	public void printNodeRanges(File outputFile) {
-	}
-}
-
-public class BasicRing extends Ring {}
-public class EqualAreaRing extends Ring {}
-public class MovableSegmentsRing extends Ring {
-	public void addData(String name) {
 	}
 }
