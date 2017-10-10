@@ -1,0 +1,15 @@
+This toolkil provides a simple (single process) application to test and understand
+overlay networks. Through these examples, you should construct different network
+configurations (e.g., hub-spoke, bus, ring, tree) and understand how messages
+flow between the nodes (vertices). 
+
+Some questions (not all) to consider:
+
+1. How many hops does a message travel? Can it be improved?
+2. Failure and recovery with the lost of a node. How does the network handle failures?
+3. Redundant paths. How does he network handle cycles?
+
+
+
+
+4. Implement TTL, heartbeat, vector clocks, authentication.
