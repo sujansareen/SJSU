@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 
 import org.junit.Test;
-
+/*
 public class RingTest {
 
 	@Test
@@ -52,3 +52,4 @@ public class RingTest {
 		br.close();
 	}
 }
+*/
