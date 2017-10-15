@@ -72,4 +72,10 @@
 		</java>
 	</target>
 
+	<target name="chatServer" depends="build">
+		<java fork="yes" classname="example.securechat.SecureChatServer">
+			<classpath refid="project.classpath" />
+		</java>
+	</target>
+
 </project>
