@@ -25,14 +25,15 @@ public class CommWorker extends Thread {
 	public void run() {
 		System.out.println("--> starting worker thread");
 		System.out.flush();
-
+		//System.out.println("--> pup1");
 		Channel ch = conn.connect();
 		if (ch == null || !ch.isOpen() || !ch.isActive()) {
 			CommConnection.logger.error("connection missing, no outbound communication");
 			return;
 		}
-
+		//System.out.println("--> pup2");
 		while (true) {
+		//	System.out.println("--> pup3");
 			if (!forever && conn.outbound.size() == 0)
 				break;
 

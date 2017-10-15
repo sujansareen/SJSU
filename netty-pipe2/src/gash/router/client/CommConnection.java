@@ -43,11 +43,11 @@ public class CommConnection {
 
 	protected static AtomicReference<CommConnection> instance = new AtomicReference<CommConnection>();
 
-	private String host;
-	private int port;
+	private static String host;
+	private static int port;
 	private ChannelFuture channel; // do not use directly call
 									// connect()!
-
+	public static boolean isConnected=false;
 	private EventLoopGroup group;
 
 	// our surge protection using a in-memory cache for messages
@@ -63,21 +63,29 @@ public class CommConnection {
 	 * @param host
 	 * @param port
 	 */
-	protected CommConnection(String host, int port) {
-		this.host = host;
-		this.port = port;
-
+	protected CommConnection(String h, int p) {
+		if(!isConnected){
+			host = h;
+			port = p;
+		}
 		init();
 	}
 
 	public static CommConnection initConnection(String host, int port) {
+		
 		instance.compareAndSet(null, new CommConnection(host, port));
-		return instance.get();
+		if(isConnected)
+			return instance.get();
+		else
+			return null;
 	}
 
 	public static CommConnection getInstance() {
 		// TODO throw exception if not initialized!
-		return instance.get();
+		if(isConnected)
+			return instance.get();
+		else
+			return null;
 	}
 
 	/**
@@ -143,6 +151,7 @@ public class CommConnection {
 	}
 
 	private void init() {
+		System.out.println("host: "+host+" port:"+port);
 		System.out.println("--> initializing connection to " + host + ":" + port);
 
 		// the queue to support client-side surging
@@ -167,11 +176,14 @@ public class CommConnection {
 
 			System.out.println(channel.channel().localAddress() + " -> open: " + channel.channel().isOpen()
 					+ ", write: " + channel.channel().isWritable() + ", reg: " + channel.channel().isRegistered());
+			isConnected=true;
+			
 
 		} catch (Throwable ex) {
-			logger.error("failed to initialize the client connection", ex);
-			ex.printStackTrace();
-		}
+			logger.error("failed to initialize the client connection");
+			//System.out.println("Worker should not be started ...");
+			//ex.printStackTrace();
+		} 
 
 		// start outbound message processor
 		worker = new CommWorker(this);
@@ -187,6 +199,7 @@ public class CommConnection {
 	protected Channel connect() {
 		// Start the connection attempt.
 		if (channel == null) {
+			System.out.println("pup");
 			init();
 		}
 

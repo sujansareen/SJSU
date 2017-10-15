@@ -31,12 +31,15 @@ public class MessageClient {
 		init(host, port);
 	}
 
+	
+
 	private void init(String host, int port) {
 		CommConnection.initConnection(host, port);
 	}
 
 	public void addListener(CommListener listener) {
-		CommConnection.getInstance().addListener(listener);
+		if(CommConnection.getInstance() != null)
+			CommConnection.getInstance().addListener(listener);
 	}
 
 	public void ping() {
