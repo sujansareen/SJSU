@@ -1,0 +1,20 @@
+Build and install pcre and swig from the uploaded files.
+
+Notes:
+1. substitute '*' for correct version [file]
+2. I used xcode to build and install swig as I ran into an issue with gcc-6.1
+
+Install example:
+0. mkdir /usr/local/swig
+1. mkdir swig-dev
+2. copy contents of lab to swig-dev. (e.g., cp swig* pcre* swig-dev/.)
+3. cd swig-dev
+4. build and install pcre and swig. For example:
+   a. untar swig*
+   b. cp build-*.sh swig-*/
+   c. cd swig-*
+   d. untar ../pcre-*   
+   e. cp build-pcre.sh pcre-*
+   f. run script to build and install
+   g. cd ..
+   h. run and install swig
