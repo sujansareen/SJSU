@@ -24,3 +24,7 @@ fi
 
 
 protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/pipe.proto
+
+protoc --proto_path=${project_base}/resources/leaderProto --java_out=${project_base}/generated ${project_base}/resources/leaderProto/common.proto
+protoc --proto_path=${project_base}/resources/leaderProto --java_out=${project_base}/generated ${project_base}/resources/leaderProto/election.proto
+protoc --proto_path=${project_base}/resources/leaderProto --java_out=${project_base}/generated ${project_base}/resources/leaderProto/work.proto
