@@ -11,7 +11,7 @@ echo server home = $SVR_HOME
 
 #cd ${SVR_HOME}
 
-JAVA_MAIN='chatApp.server.WebSocketServer'
+JAVA_MAIN='chatApp.server.SecureChat.Server'
 JAVA_ARGS="$1"
 echo -e "\n** config: ${JAVA_ARGS} **\n"
 

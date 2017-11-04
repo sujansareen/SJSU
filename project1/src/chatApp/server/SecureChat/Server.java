@@ -1,4 +1,4 @@
-package chatApp.server;
+package chatApp.server.SecureChat;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
@@ -14,7 +14,7 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
 /**
  * Simple SSL chat server modified from {@link TelnetServer}.
  */
-public final class SecureChatServer {
+public final class Server {
 
     static final int PORT = Integer.parseInt(System.getProperty("port", "8992"));
 
@@ -30,7 +30,7 @@ public final class SecureChatServer {
             b.group(bossGroup, workerGroup)
              .channel(NioServerSocketChannel.class)
              .handler(new LoggingHandler(LogLevel.INFO))
-             .childHandler(new SecureChatServerInitializer(sslCtx));
+             .childHandler(new ServerInitializer(sslCtx));
 
             b.bind(PORT).sync().channel().closeFuture().sync();
         } finally {

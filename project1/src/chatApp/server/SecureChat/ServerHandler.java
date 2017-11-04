@@ -1,4 +1,4 @@
-package chatApp.server;
+package chatApp.server.SecureChat;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -15,7 +15,7 @@ import java.net.InetAddress;
 /**
  * Handles a server-side channel.
  */
-public class SecureChatServerHandler extends SimpleChannelInboundHandler<String> {
+public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
