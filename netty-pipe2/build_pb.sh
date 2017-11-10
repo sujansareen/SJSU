@@ -22,4 +22,5 @@ else
   mkdir ${project_base}/generated
 fi
 
+
 protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/pipe.proto

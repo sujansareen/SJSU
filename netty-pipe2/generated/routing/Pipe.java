@@ -8,10 +8,10 @@ public final class Pipe {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
-  public interface RouteOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Route)
-      com.google.protobuf.MessageOrBuilder {
+  public interface RouteOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
 
+    // required int64 id = 1;
     /**
      * <code>required int64 id = 1;</code>
      *
@@ -29,6 +29,7 @@ public final class Pipe {
      */
     long getId();
 
+    // required string path = 2;
     /**
      * <code>required string path = 2;</code>
      */
@@ -43,6 +44,7 @@ public final class Pipe {
     com.google.protobuf.ByteString
         getPathBytes();
 
+    // optional string payload = 3;
     /**
      * <code>optional string payload = 3;</code>
      */
@@ -61,9 +63,8 @@ public final class Pipe {
    * Protobuf type {@code Route}
    */
   public static final class Route extends
-      com.google.protobuf.GeneratedMessage implements
-      // @@protoc_insertion_point(message_implements:Route)
-      RouteOrBuilder {
+      com.google.protobuf.GeneratedMessage
+      implements RouteOrBuilder {
     // Use Route.newBuilder() to construct.
     private Route(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -115,15 +116,13 @@ public final class Pipe {
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              path_ = bs;
+              path_ = input.readBytes();
               break;
             }
             case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              payload_ = bs;
+              payload_ = input.readBytes();
               break;
             }
           }
@@ -166,6 +165,7 @@ public final class Pipe {
     }
 
     private int bitField0_;
+    // required int64 id = 1;
     public static final int ID_FIELD_NUMBER = 1;
     private long id_;
     /**
@@ -189,6 +189,7 @@ public final class Pipe {
       return id_;
     }
 
+    // required string path = 2;
     public static final int PATH_FIELD_NUMBER = 2;
     private java.lang.Object path_;
     /**
@@ -231,6 +232,7 @@ public final class Pipe {
       }
     }
 
+    // optional string payload = 3;
     public static final int PAYLOAD_FIELD_NUMBER = 3;
     private java.lang.Object payload_;
     /**
@@ -281,8 +283,7 @@ public final class Pipe {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasId()) {
         memoizedIsInitialized = 0;
@@ -411,9 +412,8 @@ public final class Pipe {
      * Protobuf type {@code Route}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Route)
-        routing.Pipe.RouteOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements routing.Pipe.RouteOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return routing.Pipe.internal_static_Route_descriptor;
@@ -556,6 +556,7 @@ public final class Pipe {
       }
       private int bitField0_;
 
+      // required int64 id = 1;
       private long id_ ;
       /**
        * <code>required int64 id = 1;</code>
@@ -604,6 +605,7 @@ public final class Pipe {
         return this;
       }
 
+      // required string path = 2;
       private java.lang.Object path_ = "";
       /**
        * <code>required string path = 2;</code>
@@ -617,12 +619,9 @@ public final class Pipe {
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            path_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          path_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -680,6 +679,7 @@ public final class Pipe {
         return this;
       }
 
+      // optional string payload = 3;
       private java.lang.Object payload_ = "";
       /**
        * <code>optional string payload = 3;</code>
@@ -693,12 +693,9 @@ public final class Pipe {
       public java.lang.String getPayload() {
         java.lang.Object ref = payload_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            payload_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          payload_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -767,7 +764,7 @@ public final class Pipe {
     // @@protoc_insertion_point(class_scope:Route)
   }
 
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_Route_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -785,23 +782,23 @@ public final class Pipe {
       "h\030\002 \002(\t\022\017\n\007payload\030\003 \001(\tB\013\n\007routingH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
+      new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
+        public com.google.protobuf.ExtensionRegistry assignDescriptors(
+            com.google.protobuf.Descriptors.FileDescriptor root) {
+          descriptor = root;
+          internal_static_Route_descriptor =
+            getDescriptor().getMessageTypes().get(0);
+          internal_static_Route_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_Route_descriptor,
+              new java.lang.String[] { "Id", "Path", "Payload", });
+          return null;
+        }
+      };
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_Route_descriptor =
-      getDescriptor().getMessageTypes().get(0);
-    internal_static_Route_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_Route_descriptor,
-        new java.lang.String[] { "Id", "Path", "Payload", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
