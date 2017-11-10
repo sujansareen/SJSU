@@ -73,7 +73,7 @@
 	</target>
 
 	<target name="chatServer" depends="build">
-		<java fork="yes" classname="chatApp.server.SecureChat">
+		<java fork="yes" classname="chatApp.server.SecureChat.Server">
 			<classpath refid="project.classpath" />
 		</java>
 	</target>
