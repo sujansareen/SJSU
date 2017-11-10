@@ -1,4 +1,4 @@
-package chatApp.server;
+package chatApp.server.SecureChat;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -12,11 +12,11 @@ import io.netty.handler.ssl.SslContext;
 /**
  * Creates a newly configured {@link ChannelPipeline} for a new channel.
  */
-public class SecureChatServerInitializer extends ChannelInitializer<SocketChannel> {
+public class ServerInitializer extends ChannelInitializer<SocketChannel> {
 
     private final SslContext sslCtx;
 
-    public SecureChatServerInitializer(SslContext sslCtx) {
+    public ServerInitializer(SslContext sslCtx) {
         this.sslCtx = sslCtx;
     }
 
@@ -37,6 +37,6 @@ public class SecureChatServerInitializer extends ChannelInitializer<SocketChanne
         pipeline.addLast(new StringEncoder());
 
         // and then business logic.
-        pipeline.addLast(new SecureChatServerHandler());
+        pipeline.addLast(new ServerHandler());
     }
 }
