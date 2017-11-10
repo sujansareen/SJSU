@@ -1,11 +1,11 @@
 #!/bin/bash
 #
-# build the protobuf classes from the .proto. Note tested with 
+# build the protobuf classes from the .proto. Note tested with
 # protobuf 2.4.1. Current version is 2.5.0.
 #
-# Building: 
-# 
-# Running this script is only needed when the protobuf structures 
+# Building:
+#
+# Running this script is only needed when the protobuf structures
 # have change.
 #
 
@@ -24,8 +24,8 @@ fi
 
 
 protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/pipe.proto
-
 protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/common.proto
-protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/election.proto
-protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/work.proto
+
+#protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/election.proto
+#protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/work.proto
 
