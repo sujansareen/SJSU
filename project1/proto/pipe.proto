@@ -29,3 +29,11 @@ message AddNodeRequest{
 	required string host = 2;
 	required int32 port = 3;
 }
+
+
+message Route {
+    // a node should not have a value though this is not enforced
+    required int64 id = 1;
+    required string path = 2;
+    optional string payload = 3;
+}
