@@ -28,3 +28,4 @@ protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated $
 protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/common.proto
 protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/election.proto
 protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/work.proto
+
