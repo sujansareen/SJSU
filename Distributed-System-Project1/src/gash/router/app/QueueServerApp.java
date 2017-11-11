@@ -8,25 +8,13 @@ import java.io.File;
 import routing.Pipe.CommandMessage;
 
 public class QueueServerApp {
-
-
-	 private static int  id;
-	//protected RingNode previous;
-	//ip of previous server
-		//protected static String next="169.254.67.22";
-	protected static String next="169.254.121.22";
-		//169.254.52.52
-	//protected RingNode next;
-	//ip of next server
-	protected static String previous="169.254.85.237";
-
+	private static int  id;
 	private QueueServer server;
 	private static MessageClient client;
 
-
 	public QueueServerApp() {
-		
-		}
+
+	}
 	public QueueServerApp(int id, String pathname) {
 
 		this.id = id;
@@ -40,23 +28,19 @@ public class QueueServerApp {
 			System.out.println("server closing");
 		}
 	}
-
 	/**
-	 * sample application (client) use of our messaging service
-	 * 
-	 * @param args
-	 */
+	* sample application (client) use of our messaging service
+	* @param args
+	*/
 	public static void main(String[] args) {
 		String pathname = "runtime/queueServer.conf";
 		if (args.length == 0) {
 			System.out.println("usage: server" + pathname);
 		} else {
 			pathname = args[0];
+			System.out.println("usage: server" + args[0]);
 		}
-		//String host = "169.254.82.122";
-		//int port = 4567;
-		System.out.println("test");
-		QueueServerApp app= new QueueServerApp(0 , pathname);//
-		
+		System.out.println("QueueServerApp");
+		QueueServerApp app = new QueueServerApp(0 , pathname);//
 	}
 }
