@@ -23,19 +23,19 @@ else
 fi
 
 
-protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/common.proto
-protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/election.proto
-protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/work.proto
+protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/common.proto
+protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/election.proto
+protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/work.proto
 
-protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/pipe.proto
+protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/pipe.proto
 
 
 # Resolve Import Files 
-protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/AppendEntriesRPC.proto
-protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/HeartBeatRPC.proto
-protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/VoteRPC.proto
-protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/Ping.proto
+protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/AppendEntriesRPC.proto
+protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/HeartBeatRPC.proto
+protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/VoteRPC.proto
+protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/Ping.proto
 
-protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/imageTransfer.proto
-protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/monitor.proto
+protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/imageTransfer.proto
+protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/monitor.proto
 

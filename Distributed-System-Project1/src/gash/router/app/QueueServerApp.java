@@ -14,7 +14,7 @@ public class QueueServerApp {
 	//protected RingNode previous;
 	//ip of previous server
 		//protected static String next="169.254.67.22";
-		protected static String next="169.254.121.22";
+	protected static String next="169.254.121.22";
 		//169.254.52.52
 	//protected RingNode next;
 	//ip of next server

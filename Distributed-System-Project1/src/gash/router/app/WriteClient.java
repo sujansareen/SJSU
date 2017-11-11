@@ -180,7 +180,7 @@ public class WriteClient {
 		System.out.println("Sent the message");
 		
 		WriteClient.init(host, port);
-		File file = new File("runtime/route-1.conf");
+		File file = new File("runtime/log.txt");
 		WriteClient.writeFile(file);
 		//AdapterClientAPI.post("vinit_adapter".getBytes());;
 	
