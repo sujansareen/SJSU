@@ -25,12 +25,12 @@ private static MessageClient client;
 public ServerApp() {
 	
 	}
-public ServerApp(int id) {
+public ServerApp(int id, String pathname) {
 
 	this.id = id;
 	
 	
-	File cf = new File("runtime/route-1.conf");
+	File cf = new File(pathname);
 	try {
 		server = new MessageServer(cf);
 		server.startServer();
@@ -97,8 +97,15 @@ public static void propagateMessage(CommandMessage msg) {
 public static void main(String[] args) {
 	//String host = "169.254.82.122";
 	//int port = 4567;
+
+	String pathname = "runtime/route-1.conf";
+	if (args.length == 0) {
+		System.out.println("usage: server" + pathname);
+	} else {
+		pathname = args[0];
+	}
 	System.out.println("test");
-	ServerApp app= new ServerApp(0);
+	ServerApp app= new ServerApp(0, pathname);
 	
 }
 

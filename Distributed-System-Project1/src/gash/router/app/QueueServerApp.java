@@ -27,12 +27,10 @@ public class QueueServerApp {
 	public QueueServerApp() {
 		
 		}
-	public QueueServerApp(int id) {
+	public QueueServerApp(int id, String pathname) {
 
-		this.id=id;
-		
-		
-		File cf = new File("runtime/queueServer.conf");
+		this.id = id;
+		File cf = new File(pathname);
 		try {
 			server = new QueueServer(cf);
 			server.startServer();
@@ -49,10 +47,16 @@ public class QueueServerApp {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		String pathname = "runtime/queueServer.conf";
+		if (args.length == 0) {
+			System.out.println("usage: server" + pathname);
+		} else {
+			pathname = args[0];
+		}
 		//String host = "169.254.82.122";
 		//int port = 4567;
 		System.out.println("test");
-		QueueServerApp app= new QueueServerApp(0);
+		QueueServerApp app= new QueueServerApp(0 , pathname);//
 		
 	}
 }
