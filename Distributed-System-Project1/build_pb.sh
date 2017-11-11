@@ -28,3 +28,14 @@ protoc --proto_path=${project_base}/resources --java_out=${project_base}/generat
 protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/work.proto
 
 protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/pipe.proto
+
+
+# Resolve Import Files 
+protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/AppendEntriesRPC.proto
+protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/HeartBeatRPC.proto
+protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/VoteRPC.proto
+protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/Ping.proto
+
+protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/imageTransfer.proto
+protoc --proto_path=${project_base}/resources --java_out=${project_base}/generated ${project_base}/resources/monitor.proto
+

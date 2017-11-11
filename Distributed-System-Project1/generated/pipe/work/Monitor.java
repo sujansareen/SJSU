@@ -1235,7 +1235,7 @@ public final class Monitor {
       "uster_id\030\001 \002(\003\022\021\n\tnum_nodes\030\002 \002(\005\022\022\n\npro" +
       "cess_id\030\003 \003(\005\022\020\n\010enqueued\030\004 \003(\005\022\021\n\tproce" +
       "ssed\030\005 \003(\005\022\016\n\006stolen\030\006 \003(\005\022\014\n\004tick\030\007 \002(\003" +
-      "B\016\n\npipe.workH\001"
+      "B\r\n\tpipe.workH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

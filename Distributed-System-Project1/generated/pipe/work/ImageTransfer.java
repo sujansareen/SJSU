@@ -517,8 +517,8 @@ public final class ImageTransfer {
   static {
     java.lang.String[] descriptorData = {
       "\n\023imageTransfer.proto\".\n\010ImageMsg\022\017\n\007ver" +
-      "sion\030\001 \002(\005\022\021\n\timageData\030\002 \002(\014B\014\n\nraft.pr" +
-      "oto"
+      "sion\030\001 \002(\005\022\021\n\timageData\030\002 \002(\014B\013\n\tpipe.wo" +
+      "rk"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
