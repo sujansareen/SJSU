@@ -15,7 +15,12 @@ public class PostgreSQL implements DatabaseClient {
 	Connection conn = null;
 
 	public PostgreSQL(String url, String username, String password, String ssl) throws SQLException {
-		
+		try {
+			Class.forName("org.postgresql.Driver");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Properties props = new Properties();
 		props.setProperty("user", username);
 		props.setProperty("password", password);
@@ -43,6 +48,28 @@ public class PostgreSQL implements DatabaseClient {
 		return image;		
 	}
 
+	@Override
+	public byte[] getMessage(String key) {
+		Statement stmt = null;
+		byte[] image=null; 
+		System.out.println(key);
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("Select * FROM messages WHERE \"id\" = 1");
+			
+			while (rs.next()) {
+				image=rs.getBytes(1);
+			}
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+		}
+		return image;		
+	}
+
+	
+	
 	@Override
 	public List<Record> getNewEntries(long staleTimestamp) {
 		Statement stmt = null;

@@ -21,5 +21,7 @@ public interface DatabaseClient {
 	List<Record> getAllEntries();
 
 	void post(String key, byte[] image, long timestamp);
+
+	byte[] getMessage(String key);
 	
 }
