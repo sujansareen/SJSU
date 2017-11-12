@@ -115,6 +115,7 @@ public class PostgreSQL implements DatabaseClient {
 			ResultSet set = ps.executeQuery();
 			
 		} catch (SQLException e) {
+			
 		} finally {
 			try {
 				if (ps != null)

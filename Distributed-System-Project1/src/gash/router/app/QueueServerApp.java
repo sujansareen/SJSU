@@ -1,16 +1,11 @@
 package gash.router.app;
 
-import gash.router.client.MessageClient;
-import gash.router.server.MessageServer;
-
 import java.io.File;
-
 import routing.Pipe.CommandMessage;
 
 public class QueueServerApp {
 	private static int  id;
 	private QueueServer server;
-	private static MessageClient client;
 
 	public QueueServerApp() {
 

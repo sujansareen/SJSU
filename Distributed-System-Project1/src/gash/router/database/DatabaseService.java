@@ -9,7 +9,7 @@ public class DatabaseService {
 	private String username = null;
 	private String password = null;
 	private String dbType = null;
-	protected String ssl="false";
+	protected String ssl = "false";
 
 	private static DatabaseService instance = null;
 	
@@ -25,10 +25,8 @@ public class DatabaseService {
 	
 	public DatabaseClient getDb() {
 		try {
-		if (db == null) {
-			if (dbType.equalsIgnoreCase("cassandra")) {
-				//db = new MyCassandraDB("127.0.0.1","db275");
-			} else if (dbType.equalsIgnoreCase("postgresql")) {				
+			if (db == null) {
+				if (dbType.equalsIgnoreCase("postgresql")) {				
 					db = new PostgreSQL(url, username, password, ssl);
 				} 
 			}
