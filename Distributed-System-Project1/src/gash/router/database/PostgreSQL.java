@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -49,23 +50,24 @@ public class PostgreSQL implements DatabaseClient {
 	}
 
 	@Override
-	public byte[] getMessage(String key) {
+	public ResultSetMetaData getMessage(String key) {
+		ResultSetMetaData rsmd=null;
 		Statement stmt = null;
 		byte[] image=null; 
 		System.out.println(key);
 		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("Select * FROM messages WHERE \"id\" = 1");
+			rsmd=rs.getMetaData();
 			
-			while (rs.next()) {
-				image=rs.getBytes(1);
-			}
 			rs.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 		}
-		return image;		
+		
+		return rsmd;		
 	}
 
 	

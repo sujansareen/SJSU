@@ -1,5 +1,6 @@
 package gash.router.database;
 
+import java.sql.ResultSetMetaData;
 import java.util.List;
 
 public interface DatabaseClient {
@@ -22,6 +23,6 @@ public interface DatabaseClient {
 
 	void post(String key, byte[] image, long timestamp);
 
-	byte[] getMessage(String key);
+	ResultSetMetaData getMessage(String key);
 	
 }
