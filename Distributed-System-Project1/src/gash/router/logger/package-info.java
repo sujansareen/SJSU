@@ -1,5 +1,0 @@
-/**
- * 
- */
-
-package gash.router.logger;

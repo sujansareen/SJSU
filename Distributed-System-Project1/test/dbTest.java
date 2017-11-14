@@ -1,7 +1,7 @@
 import java.sql.ResultSetMetaData;
 
 import org.junit.Test;
-import gash.router.database.*;
+import database.*;
 
 public class dbTest {
 
