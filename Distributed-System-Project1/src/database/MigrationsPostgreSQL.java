@@ -5,10 +5,10 @@ public class MigrationsPostgreSQL {
         StringBuilder sql = new StringBuilder();
         return sql.append("CREATE TABLE messages ( " +
                 " id             integer PRIMARY KEY CONSTRAINT no_null NOT NULL DEFAULT nextval('messages_seq'::regclass),\n" +
-                " messages       varchar NOT NULL, " +
+                " message        varchar NOT NULL, " +
                 " to_id          integer CONSTRAINT no_null NOT NULL,\n" +
                 " from_id        integer CONSTRAINT no_null NOT NULL,\n" +
-                " created        TIMESTAMP CONSTRAINT no_null NOT NULL,\n" +
+                " created        TIMESTAMP CONSTRAINT no_null NOT NULL DEFAULT now(),\n" +
                 " archived       TIMESTAMP\n" +
                 ");").toString();
     }

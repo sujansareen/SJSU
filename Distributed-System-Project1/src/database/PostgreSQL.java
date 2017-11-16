@@ -48,29 +48,6 @@ public class PostgreSQL implements DatabaseClient {
 		}
 		return image;		
 	}
-
-	@Override
-	public ResultSetMetaData getMessage(String key) {
-		ResultSetMetaData rsmd=null;
-		Statement stmt = null;
-		byte[] image=null; 
-		System.out.println(key);
-		try {
-			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("Select * FROM messages WHERE \"id\" = 1");
-			rsmd=rs.getMetaData();
-			
-			rs.close();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-		}
-		
-		return rsmd;		
-	}
-
-	
 	
 	@Override
 	public List<Record> getNewEntries(long staleTimestamp) {
@@ -223,6 +200,45 @@ public class PostgreSQL implements DatabaseClient {
 			e.printStackTrace();
 		} finally {
 			// initiate new everytime
+		}
+	}
+	@Override
+	public ResultSetMetaData getMessage(String key) {
+		ResultSetMetaData rsmd=null;
+		Statement stmt = null;
+		System.out.println("getMessage: " + key);
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("Select * FROM messages WHERE \"id\" =" +  key + ";") ;
+			rsmd=rs.getMetaData();
+
+			rs.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+		}
+
+		return rsmd;
+	}
+
+	public void postMessage(String message, String toId,String fromId){
+		PreparedStatement ps = null;
+		try {
+			ps = conn.prepareStatement("INSERT INTO messages (message, to_id, from_id) VALUES ( ?, ?, ?)");
+			ps.setString(1, message);
+			ps.setString(2, toId);
+			ps.setString(3, fromId);
+			ResultSet set = ps.executeQuery();
+
+		} catch (SQLException e) {
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	@Override
