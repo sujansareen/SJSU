@@ -225,5 +225,21 @@ public class PostgreSQL implements DatabaseClient {
 			// initiate new everytime
 		}
 	}
+	@Override
+	public void createDb(){
+		Statement stmt = null;
+		try {
+			MigrationsPostgreSQL migrationSql = new MigrationsPostgreSQL();
+			stmt = conn.createStatement();
+
+			//stmt.executeUpdate(migrationSql.seqMessageTable());
+			stmt.executeUpdate(migrationSql.createMessageTable());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// initiate new everytime
+		}
+	}
 
 }
