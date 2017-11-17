@@ -79,8 +79,13 @@ public class State {
 	public void handleWriteFile(WriteBody msg) {
 		
 	}
-
-	public void handleReplicationMessage(Route msg){
+	
+	public void handleReplicationMessage(Route msg) {
 		
 	}
+	
+	public void sendReplicationMessage() {
+		
+	}
+
 }

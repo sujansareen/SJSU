@@ -174,6 +174,8 @@ public class WriteClient {
 		/*long f = 2297;
 		int chunkSize = 1024;
 		System.out.println((int) Math.ceil(f/(double)chunkSize));*/
+		
+		//Queue server address
 		String host = "127.0.0.1";
 		int port = 4068;
 		

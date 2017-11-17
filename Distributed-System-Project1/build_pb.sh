@@ -39,5 +39,3 @@ protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated $
 protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/imageTransfer.proto
 protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/monitor.proto
 protoc --proto_path=${project_base}/proto --java_out=${project_base}/generated ${project_base}/proto/msg_interface.proto
-
-

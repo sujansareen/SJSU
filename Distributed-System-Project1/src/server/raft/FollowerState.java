@@ -118,6 +118,38 @@ public class FollowerState extends State implements Runnable{
 		}
 
 	}
+	
+	
+	
+	//***************************************************************
+	// Put message in the leaderQueue of Queue Server
+	//***************************************************************
+	
+	public void handleReplicationMessage(Route msg) {
+		Logger.DEBUG("Route packet received from client :" + msg.toString());
+			for (EdgeInfo ei : NodeState.getInstance().getServerState().getEmon().getOutboundEdges().getMap().values()) {
+
+				if (ei.isActive() && ei.getChannel() != null
+						&& ei.getRef() == 0) {
+
+					Logger.DEBUG("Sent Route Packet for replication to " + ei.getRef());
+					ChannelFuture cf = ei.getChannel().writeAndFlush(msg);
+					if (cf.isDone() && !cf.isSuccess()) {
+						Logger.DEBUG("failed to send message (Route) to Queue-server");
+					}
+
+				}
+			}
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 /**
  * Actual Deletion
  */

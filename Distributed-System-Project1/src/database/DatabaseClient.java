@@ -24,6 +24,7 @@ public interface DatabaseClient {
 	void post(String key, byte[] image, long timestamp);
 
 	ResultSetMetaData getMessage(String key);
+	void postMessage(String message, String toId,String fromId);
 
 	void createDb();
 	

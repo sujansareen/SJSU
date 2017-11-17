@@ -13,6 +13,7 @@ import pipe.work.AppendEntriesRPC.AppendEntries.RequestType;
 
 import pipe.work.VoteRPC.ResponseVoteRPC;
 import pipe.work.Work.WorkMessage;
+import routing.MsgInterface.Route;
 
 
 
@@ -121,6 +122,12 @@ public class LeaderState extends State implements Runnable {
 			}
 		}
 	/** TODO: Group */		
+	}
+	
+	
+	
+	public void sendReplicationMessage(Route msg) {
+		
 	}
 	
 	public void sendClusterMonitor(String host, int port) {

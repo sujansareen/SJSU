@@ -125,20 +125,14 @@ public class EdgeMonitor implements EdgeListener, Runnable {
 						//if(state != null && state.getTasks() != null){
 							if(ei.getRef() == 0 && (state.getTasks() == null || state.getTasks().numEnqueued() == 0)){ //Value 0 is for proxy server
 								Logger.DEBUG("Sending WSR to Proxy ");
-								CommandMessage.Builder cmd = CommandMessage.newBuilder();
 								WorkStealingRequest.Builder wsr = WorkStealingRequest.newBuilder();
 								wsr.setHost(state.getConf().getHost());
 								wsr.setPort(port); //Command Port
 								wsr.setNodeState(String.valueOf(NodeState.getInstance().getNodestate()));
+								wsr.setNodeId(state.getConf().getNodeId());
 								Logger.DEBUG("WSR request before set : " + wsr);
-								cmd.setWsr(wsr);
-								Logger.DEBUG("WSR request after set " + cmd.getWsr());
-								Header.Builder header= Header.newBuilder();
-								header.setNodeId(state.getConf().getNodeId());
-								header.setTime(999);
-								cmd.setHeader(header);
-								CommandMessage commandMessage = cmd.build();
-								ChannelFuture cf = ei.getChannel().writeAndFlush(commandMessage);
+								WorkStealingRequest wsrMessage = wsr.build();
+								ChannelFuture cf = ei.getChannel().writeAndFlush(wsrMessage);
 								//Thread.sleep(4000);
 								if (cf.isDone() && cf.isSuccess()) {
 									Logger.DEBUG("Message sent to proxy !");
