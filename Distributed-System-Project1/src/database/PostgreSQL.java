@@ -193,7 +193,7 @@ public class PostgreSQL implements DatabaseClient {
 		try {
 			stmt = conn.createStatement();
 			StringBuilder sql = new StringBuilder();
-			sql.append("DELETE FROM testtable WHERE key LIKE '"+key+"';");			
+			sql.append("DELETE FROM messages WHERE key LIKE '"+key+"';");
 			stmt.executeUpdate(sql.toString());
 			
 		} catch (Exception e) {
@@ -204,12 +204,12 @@ public class PostgreSQL implements DatabaseClient {
 	}
 	@Override
 	public ResultSetMetaData getMessage(String key) {
-		ResultSetMetaData rsmd=null;
+		ResultSetMetaData rsmd = null;
 		Statement stmt = null;
 		System.out.println("getMessage: " + key);
 		try {
 			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("Select * FROM messages WHERE \"id\" =" +  key + ";") ;
+			ResultSet rs = stmt.executeQuery("Select * FROM messages WHERE \"id\" ='"+key+"';") ;
 			rsmd=rs.getMetaData();
 
 			rs.close();
@@ -221,7 +221,7 @@ public class PostgreSQL implements DatabaseClient {
 
 		return rsmd;
 	}
-
+	@Override
 	public void postMessage(String message, String toId,String fromId){
 		PreparedStatement ps = null;
 		try {
@@ -232,6 +232,7 @@ public class PostgreSQL implements DatabaseClient {
 			ResultSet set = ps.executeQuery();
 
 		} catch (SQLException e) {
+
 		} finally {
 			try {
 				if (ps != null)

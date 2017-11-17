@@ -1,13 +1,14 @@
 package database;
 
 public class MigrationsPostgreSQL {
+
     public String createMessageTable(){
         StringBuilder sql = new StringBuilder();
         return sql.append("CREATE TABLE messages ( " +
-                " id             integer PRIMARY KEY CONSTRAINT no_null NOT NULL DEFAULT nextval('messages_seq'::regclass),\n" +
+                " id             varchar PRIMARY KEY CONSTRAINT no_null NOT NULL DEFAULT ('msg_'::text || (substr(md5((random())::text), 1, 4) || (nextval('messages_seq'::regclass))::text)),\n" +
                 " message        varchar NOT NULL, " +
-                " to_id          integer CONSTRAINT no_null NOT NULL,\n" +
-                " from_id        integer CONSTRAINT no_null NOT NULL,\n" +
+                " to_id          varchar CONSTRAINT no_null NOT NULL,\n" +
+                " from_id        varchar CONSTRAINT no_null NOT NULL,\n" +
                 " created        TIMESTAMP CONSTRAINT no_null NOT NULL DEFAULT now(),\n" +
                 " archived       TIMESTAMP\n" +
                 ");").toString();
@@ -15,6 +16,46 @@ public class MigrationsPostgreSQL {
     public String seqMessageTable(){
         StringBuilder sql = new StringBuilder();
         return sql.append("CREATE SEQUENCE messages_seq\n" +
+                "                    INCREMENT 1\n" +
+                "                    MINVALUE 1000\n" +
+                "                    MAXVALUE 999999999\n" +
+                "                    START 1001\n" +
+                "                    CYCLE\n" +
+                "            ;").toString();
+    }
+    public String createGroupTable(){
+        StringBuilder sql = new StringBuilder();
+        return sql.append("CREATE TABLE groups ( " +
+                " id             varchar PRIMARY KEY CONSTRAINT no_null NOT NULL DEFAULT ('group_'::text || (substr(md5((random())::text), 1, 4) || (nextval('group_seq'::regclass))::text)),\n" +
+                " gname          varchar NOT NULL, " +
+                " username       varchar,\n" +
+                " created        TIMESTAMP CONSTRAINT no_null NOT NULL DEFAULT now(),\n" +
+                " archived       TIMESTAMP\n" +
+                ");").toString();
+    }
+    public String seqGroupTable(){
+        StringBuilder sql = new StringBuilder();
+        return sql.append("CREATE SEQUENCE group_seq\n" +
+                "                    INCREMENT 1\n" +
+                "                    MINVALUE 1000\n" +
+                "                    MAXVALUE 999999999\n" +
+                "                    START 1001\n" +
+                "                    CYCLE\n" +
+                "            ;").toString();
+    }
+    public String createUserTable(){
+        StringBuilder sql = new StringBuilder();
+        return sql.append("CREATE TABLE users ( " +
+                " id             varchar PRIMARY KEY CONSTRAINT no_null NOT NULL DEFAULT ('group_'::text || (substr(md5((random())::text), 1, 4) || (nextval('user_seq'::regclass))::text)),\n" +
+                " gname          varchar NOT NULL, " +
+                " username       varchar,\n" +
+                " created        TIMESTAMP CONSTRAINT no_null NOT NULL DEFAULT now(),\n" +
+                " archived       TIMESTAMP\n" +
+                ");").toString();
+    }
+    public String seqUserTable(){
+        StringBuilder sql = new StringBuilder();
+        return sql.append("CREATE SEQUENCE user_seq\n" +
                 "                    INCREMENT 1\n" +
                 "                    MINVALUE 1000\n" +
                 "                    MAXVALUE 999999999\n" +
