@@ -1,48 +1,31 @@
-
 package app;
 
-
 import java.io.BufferedInputStream;
-
-
-
-
-
-
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.InetAddress;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import com.google.protobuf.ByteString;
 
 import client.CommInit;
-import logger.Logger;
-import server.ServerUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import logger.Logger;
 import pipe.common.Common.Chunk;
 import pipe.common.Common.Header;
 import pipe.common.Common.Node;
 import pipe.common.Common.Request;
 import pipe.common.Common.TaskType;
-//import pipe.common.Common.Request.RequestType;
 import pipe.common.Common.WriteBody;
-import pipe.work.Work.WorkMessage;
+import routing.MsgInterface.Message;
+import routing.MsgInterface.Route;
 import routing.Pipe.CommandMessage;
 
+public class TestClient {
 
-//import pipe.common.Common.Body.BodyType;
-
-
-
-public class WriteClient {
 	
 	static String host;
 	static int port;
@@ -85,7 +68,7 @@ public class WriteClient {
 
 	}
 	
-	public static void writeFile(File f){
+/*	public static void writeFile(File f){
 		
 			int partCounter = 0;
 			byte[] data;
@@ -166,25 +149,39 @@ public class WriteClient {
 			e.printStackTrace();
 		}
 		
+}	*/
+	public static void writeMessage(String message,String destination_id){
+		Message.Builder msg=Message.newBuilder();
+		msg.setType(Message.Type.SINGLE);
+		msg.setSenderId("dhanashree");
+		msg.setPayload(message);
+		msg.setReceiverId(destination_id);
+		msg.setTimestamp("10:01");
+		msg.setAction(Message.ActionType.POST);
+		
+		Route.Builder route= Route.newBuilder();
+		route.setId(123);
+		route.setPath(Route.Path.MESSAGE);
+		route.setMessage(msg);
+		Route routeMessage= route.build();
+		
+		channel.channel().writeAndFlush(routeMessage);
+		
+		if (channel.isDone() && channel.isSuccess()) {
+			System.out.println("Msg sent succesfully:");
+		}
 	}
-	
 	
 
 	public static void main(String[] args) {
-		/*long f = 2297;
-		int chunkSize = 1024;
-		System.out.println((int) Math.ceil(f/(double)chunkSize));*/
 		
-		//Queue server address
 		String host = "127.0.0.1";
-		int port = 4068;
+		int port = 4167;
 		
 		System.out.println("Sent the message");
-		
-		WriteClient.init(host, port);
+		TestClient.init(host, port);
 		File file = new File("runtime/log.txt");
-		WriteClient.writeFile(file);
-		//AdapterClientAPI.post("vinit_adapter".getBytes());;
+		TestClient.writeMessage("Hello Dhanashree","client1");
 	
 		while(true){
 			
@@ -192,5 +189,6 @@ public class WriteClient {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

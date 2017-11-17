@@ -43,11 +43,10 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import routing.MsgInterface.Route;
 
 import java.util.Queue;
 import java.util.LinkedList;
-
-import routing.Pipe.CommandMessage;
 
 public class QueueServer {
 	protected static Logger logger = LoggerFactory.getLogger("server");
@@ -59,8 +58,8 @@ public class QueueServer {
 
 	protected RoutingConf conf;
 	protected boolean background = false;
-	protected static Queue<CommandMessage> leaderMessageQue = new LinkedList<CommandMessage>();
-	protected static Queue<CommandMessage> nonLeaderMessageQue = new LinkedList<CommandMessage>();
+	protected static Queue<Route> leaderMessageQue = new LinkedList<Route>();
+	protected static Queue<Route> nonLeaderMessageQue = new LinkedList<Route>();
 
 	/**
 	 * initialize the server with a configuration of it's resources
@@ -73,8 +72,8 @@ public class QueueServer {
 
 	public QueueServer(RoutingConf conf) {
 		this.conf = conf;
-		QueueServer.leaderMessageQue = new LinkedList<CommandMessage>();
-		QueueServer.nonLeaderMessageQue = new LinkedList<CommandMessage>();
+		QueueServer.leaderMessageQue = new LinkedList<Route>();
+		QueueServer.nonLeaderMessageQue = new LinkedList<Route>();
 	}
 
 	public void release() {
@@ -175,10 +174,10 @@ public class QueueServer {
 	 */
 	private static class StartCommandCommunication implements Runnable {
 		RoutingConf conf;
-		Queue<CommandMessage> leaderMessageQue; 
-		Queue<CommandMessage> nonLeaderMessageQue; 
+		Queue<Route> leaderMessageQue; 
+		Queue<Route> nonLeaderMessageQue; 
 		
-		public StartCommandCommunication(RoutingConf conf, Queue<CommandMessage> leaderMessageQue, Queue<CommandMessage> nonLeaderMessageQue) {
+		public StartCommandCommunication(RoutingConf conf, Queue<Route> leaderMessageQue, Queue<Route> nonLeaderMessageQue) {
 			this.conf = conf;
 			this.leaderMessageQue = leaderMessageQue;
 			this.nonLeaderMessageQue = nonLeaderMessageQue;
