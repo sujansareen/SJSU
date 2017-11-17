@@ -2008,6 +2008,15 @@ public final class Pipe {
      */
     com.google.protobuf.ByteString
         getNodeStateBytes();
+
+    /**
+     * <code>required int32 nodeId = 5;</code>
+     */
+    boolean hasNodeId();
+    /**
+     * <code>required int32 nodeId = 5;</code>
+     */
+    int getNodeId();
   }
   /**
    * Protobuf type {@code WorkStealingRequest}
@@ -2076,6 +2085,11 @@ public final class Pipe {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
               nodeState_ = bs;
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000008;
+              nodeId_ = input.readInt32();
               break;
             }
           }
@@ -2217,10 +2231,26 @@ public final class Pipe {
       }
     }
 
+    public static final int NODEID_FIELD_NUMBER = 5;
+    private int nodeId_;
+    /**
+     * <code>required int32 nodeId = 5;</code>
+     */
+    public boolean hasNodeId() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 nodeId = 5;</code>
+     */
+    public int getNodeId() {
+      return nodeId_;
+    }
+
     private void initFields() {
       host_ = "";
       port_ = 0;
       nodeState_ = "";
+      nodeId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2240,6 +2270,10 @@ public final class Pipe {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasNodeId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -2255,6 +2289,9 @@ public final class Pipe {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(4, getNodeStateBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(5, nodeId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2276,6 +2313,10 @@ public final class Pipe {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(4, getNodeStateBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, nodeId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2400,6 +2441,8 @@ public final class Pipe {
         bitField0_ = (bitField0_ & ~0x00000002);
         nodeState_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        nodeId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -2440,6 +2483,10 @@ public final class Pipe {
           to_bitField0_ |= 0x00000004;
         }
         result.nodeState_ = nodeState_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.nodeId_ = nodeId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2469,6 +2516,9 @@ public final class Pipe {
           nodeState_ = other.nodeState_;
           onChanged();
         }
+        if (other.hasNodeId()) {
+          setNodeId(other.getNodeId());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -2483,6 +2533,10 @@ public final class Pipe {
           return false;
         }
         if (!hasNodeState()) {
+          
+          return false;
+        }
+        if (!hasNodeId()) {
           
           return false;
         }
@@ -2688,6 +2742,38 @@ public final class Pipe {
   }
   bitField0_ |= 0x00000004;
         nodeState_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int nodeId_ ;
+      /**
+       * <code>required int32 nodeId = 5;</code>
+       */
+      public boolean hasNodeId() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 nodeId = 5;</code>
+       */
+      public int getNodeId() {
+        return nodeId_;
+      }
+      /**
+       * <code>required int32 nodeId = 5;</code>
+       */
+      public Builder setNodeId(int value) {
+        bitField0_ |= 0x00000008;
+        nodeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 nodeId = 5;</code>
+       */
+      public Builder clearNodeId() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        nodeId_ = 0;
         onChanged();
         return this;
       }
@@ -3303,10 +3389,11 @@ public final class Pipe {
       "(\0132\010.RequestH\000\022\027\n\003err\030\005 \001(\0132\010.FailureH\000\022" +
       "#\n\003wsr\030\007 \001(\0132\024.WorkStealingRequestH\000\022\036\n\003" +
       "anr\030\010 \001(\0132\017.AddNodeRequestH\000\022\035\n\010response" +
-      "\030\t \001(\0132\t.ResponseH\000B\t\n\007payload\"D\n\023WorkSt" +
+      "\030\t \001(\0132\t.ResponseH\000B\t\n\007payload\"T\n\023WorkSt" +
       "ealingRequest\022\014\n\004host\030\002 \002(\t\022\014\n\004port\030\003 \002(" +
-      "\005\022\021\n\tnodeState\030\004 \002(\t\",\n\016AddNodeRequest\022\014" +
-      "\n\004host\030\002 \002(\t\022\014\n\004port\030\003 \002(\005B\013\n\007routingH\001"
+      "\005\022\021\n\tnodeState\030\004 \002(\t\022\016\n\006nodeId\030\005 \002(\005\",\n\016" +
+      "AddNodeRequest\022\014\n\004host\030\002 \002(\t\022\014\n\004port\030\003 \002",
+      "(\005B\013\n\007routingH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3332,7 +3419,7 @@ public final class Pipe {
     internal_static_WorkStealingRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_WorkStealingRequest_descriptor,
-        new java.lang.String[] { "Host", "Port", "NodeState", });
+        new java.lang.String[] { "Host", "Port", "NodeState", "NodeId", });
     internal_static_AddNodeRequest_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_AddNodeRequest_fieldAccessorTable = new

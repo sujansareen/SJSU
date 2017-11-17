@@ -95,7 +95,7 @@ public class MessageServer {
 		}
 		logger.info("Work starting");
 		//startWorkWatcher();
-		// We always start the worker in the background
+		// We always start the worker in the background 
 		Thread cthread = new Thread(comm);
 		cthread.start();
 
