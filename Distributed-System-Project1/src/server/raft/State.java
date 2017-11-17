@@ -56,6 +56,9 @@ public class State {
 	public void handleUserEntries(Route rm) {
 
 	}
+	public void handleNetworkDiscoveryPacketEntries(Route rm) {
+
+	}
 	
 	/* Images */
 	public byte[] handleGetMessage(String key) {
@@ -70,33 +73,6 @@ public class State {
 	}
 	
 	public void handleDelete(String key) {
-	}
-	/* Messages */
-	public String handleMessageGet(String key) {
-		return null;
-	}
-	public String handleMessagePost(String message, String toId,String fromId) {
-		return null;
-	}
-	public void handleMessagePut(String message, String toId,String fromId) {
-	}
-	public void handleMessageDelete(String key) {
-	}
-	/* Groups */
-	public String handleGroupPost(String fromId) {
-		return null;
-	}
-	public void handleGroupPut(String groupId, String addUserId) {
-	}
-	public void handleGroupDelete(String groupId) {
-	}
-	/* Users */
-	public String handleUserPost(String uname, String email, String password) {
-		return null;
-	}
-	public void handleUserPut(String uname, String email, String password) {
-	}
-	public void handleUserDelete(String uname) {
 	}
 	/*  */
 	public void sendAppendEntries(WriteBody wm) {

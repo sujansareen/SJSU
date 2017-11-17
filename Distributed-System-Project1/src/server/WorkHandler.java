@@ -63,15 +63,18 @@ public class WorkHandler extends SimpleChannelInboundHandler<Route> {
 			System.out.println("ERROR: Unexpected content - " + msg);
 			return;
 		}
-		if(msg.hasUser()) {
-			System.out.println("hasUser: " +  msg.getUser().toString());
-			NodeState.getState().handleMessageEntries(msg);
-		} else if(msg.hasMessage()){
-			System.out.println("hasMessage: " +  msg.getMessage().toString());
-			NodeState.getState().handleUserEntries(msg);
+		if(msg.hasPath()){
+			String path = msg.getPath().toString().toLowerCase();
+			if(msg.hasNetworkDiscoveryPacket()) {
+				NodeState.getInstance().getState().handleNetworkDiscoveryPacketEntries(msg);
+			} else if( path.equals("message") ) { //msg.hasUser()
+				NodeState.getInstance().getState().handleMessageEntries(msg);
+			} else if( path.equals("user")){ //msg.hasMessage()
+				NodeState.getInstance().getState().handleUserEntries(msg);
+			}
 		} else if (msg.hasWorkMessage()) {
-			WorkMessage wm = msg.getWorkMessage();
 			System.out.println("Raft Stuff");
+			WorkMessage wm = msg.getWorkMessage();
 			if (wm.hasTrivialPing()) {
 				Logger.DEBUG(" The node: " + wm.getTrivialPing().getNodeId() + " Is Active to this IP: "
 						+ wm.getTrivialPing().getIP());

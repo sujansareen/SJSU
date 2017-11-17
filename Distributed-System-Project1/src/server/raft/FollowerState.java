@@ -138,6 +138,7 @@ public class FollowerState extends State implements Runnable{
 					Logger.DEBUG("Sent Route Packet for replication to " + ei.getRef());
 					ChannelFuture cf = ei.getChannel().writeAndFlush(msg);
 					if (cf.isDone() && !cf.isSuccess()) {
+						//TODO: add to failed messages queue
 						Logger.DEBUG("failed to send message (Route) to Queue-server");
 					}
 
@@ -150,6 +151,7 @@ public class FollowerState extends State implements Runnable{
 	@Override
 	public void handleUserEntries(Route msg) {
 		User.ActionType type = msg.getUser().getAction();
+		System.out.println("handleUserEntries: " + type.toString());
 		if (type == User.ActionType.REGISTER) {
 
 		} else if (type == User.ActionType.ACCESS) {
@@ -161,8 +163,10 @@ public class FollowerState extends State implements Runnable{
 	@Override
 	public void handleMessageEntries(Route msg) {
 		Message.ActionType type = msg.getMessage().getAction();
+		System.out.println("handleMessageEntries: " + type.toString() + " : " + Message.ActionType.POST);
 		if (type == Message.ActionType.POST) {
-
+			//For testing without Leader -  DatabaseService.getInstance().getDb().postMessage(msg.getMessage().getPayload(), msg.getMessage().getReceiverId(),msg.getMessage().getSenderId());
+			handleReplicationMessage(msg);
 		} else if (type == Message.ActionType.UPDATE) {
 
 		} else if (type == Message.ActionType.DELETE) {
