@@ -26,13 +26,13 @@ message Route {
 	    NetworkDiscoveryPacket networkDiscoveryPacket = 3;
 	    User user = 4;
 	    Message message = 5;
-        WorkMessage workMessage = 11; //Attention :   Only For our team
     }
     optional Group group = 6;
     optional MessagesRequest messagesRequest = 7;
     optional MessagesResponse messagesResponse = 8;
     optional Header header = 9;
     optional Response response=10;
+    optional WorkMessage workMessage = 11; //Attention :   Only For our team
     
 }
 

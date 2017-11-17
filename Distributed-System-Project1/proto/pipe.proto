@@ -5,7 +5,7 @@ option java_package = "routing";
 import "common.proto";
 
 message CommandMessage {
-   //required Header header = 1;
+   optional Header header = 1;
 
     oneof payload {
       // a client (external) sanity check for testing

@@ -13,15 +13,15 @@ public final class Pipe {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     boolean hasHeader();
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     pipe.common.Common.Header getHeader();
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     pipe.common.Common.HeaderOrBuilder getHeaderOrBuilder();
 
@@ -346,19 +346,19 @@ public final class Pipe {
     public static final int HEADER_FIELD_NUMBER = 1;
     private pipe.common.Common.Header header_;
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     public boolean hasHeader() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     public pipe.common.Common.Header getHeader() {
       return header_;
     }
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     public pipe.common.Common.HeaderOrBuilder getHeaderOrBuilder() {
       return header_;
@@ -577,13 +577,11 @@ public final class Pipe {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasHeader()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!getHeader().isInitialized()) {
-        memoizedIsInitialized = 0;
-        return false;
+      if (hasHeader()) {
+        if (!getHeader().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       if (hasRequest()) {
         if (!getRequest().isInitialized()) {
@@ -952,13 +950,11 @@ public final class Pipe {
       }
 
       public final boolean isInitialized() {
-        if (!hasHeader()) {
-          
-          return false;
-        }
-        if (!getHeader().isInitialized()) {
-          
-          return false;
+        if (hasHeader()) {
+          if (!getHeader().isInitialized()) {
+            
+            return false;
+          }
         }
         if (hasRequest()) {
           if (!getRequest().isInitialized()) {
@@ -1031,13 +1027,13 @@ public final class Pipe {
       private com.google.protobuf.SingleFieldBuilder<
           pipe.common.Common.Header, pipe.common.Common.Header.Builder, pipe.common.Common.HeaderOrBuilder> headerBuilder_;
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public boolean hasHeader() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public pipe.common.Common.Header getHeader() {
         if (headerBuilder_ == null) {
@@ -1047,7 +1043,7 @@ public final class Pipe {
         }
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public Builder setHeader(pipe.common.Common.Header value) {
         if (headerBuilder_ == null) {
@@ -1063,7 +1059,7 @@ public final class Pipe {
         return this;
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public Builder setHeader(
           pipe.common.Common.Header.Builder builderForValue) {
@@ -1077,7 +1073,7 @@ public final class Pipe {
         return this;
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public Builder mergeHeader(pipe.common.Common.Header value) {
         if (headerBuilder_ == null) {
@@ -1096,7 +1092,7 @@ public final class Pipe {
         return this;
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public Builder clearHeader() {
         if (headerBuilder_ == null) {
@@ -1109,7 +1105,7 @@ public final class Pipe {
         return this;
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public pipe.common.Common.Header.Builder getHeaderBuilder() {
         bitField0_ |= 0x00000001;
@@ -1117,7 +1113,7 @@ public final class Pipe {
         return getHeaderFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public pipe.common.Common.HeaderOrBuilder getHeaderOrBuilder() {
         if (headerBuilder_ != null) {
@@ -1127,7 +1123,7 @@ public final class Pipe {
         }
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           pipe.common.Common.Header, pipe.common.Common.Header.Builder, pipe.common.Common.HeaderOrBuilder> 
@@ -3384,7 +3380,7 @@ public final class Pipe {
   static {
     java.lang.String[] descriptorData = {
       "\n\npipe.proto\032\014common.proto\"\361\001\n\016CommandMe" +
-      "ssage\022\027\n\006header\030\001 \002(\0132\007.Header\022\016\n\004ping\030\003" +
+      "ssage\022\027\n\006header\030\001 \001(\0132\007.Header\022\016\n\004ping\030\003" +
       " \001(\010H\000\022\021\n\007message\030\004 \001(\tH\000\022\033\n\007request\030\006 \001" +
       "(\0132\010.RequestH\000\022\027\n\003err\030\005 \001(\0132\010.FailureH\000\022" +
       "#\n\003wsr\030\007 \001(\0132\024.WorkStealingRequestH\000\022\036\n\003" +
