@@ -8,6 +8,9 @@ import server.timer.NodeTimer;
 import io.netty.channel.ChannelFuture;
 import pipe.work.Work.WorkMessage;
 import routing.MsgInterface.Route;
+import routing.MsgInterface.User;
+import routing.MsgInterface.Group;
+import routing.MsgInterface.Message;
 import pipe.common.Common.WriteBody;
 import pipe.work.AppendEntriesRPC.AppendEntries.RequestType;
 import pipe.work.VoteRPC.ResponseVoteRPC;
@@ -143,8 +146,30 @@ public class FollowerState extends State implements Runnable{
 		
 		
 	}
-	
-	
+
+	@Override
+	public void handleUserEntries(Route msg) {
+		User.ActionType type = msg.getUser().getAction();
+		if (type == User.ActionType.REGISTER) {
+			
+		} else if (type == User.ActionType.ACCESS) {
+
+		} else if (type == User.ActionType.DELETE) {
+
+		}
+	}
+	@Override
+	public void handleMessageEntries(Route msg) {
+		Message.ActionType type = msg.getMessage().getAction();
+		if (type == Message.ActionType.POST) {
+
+		} else if (type == Message.ActionType.UPDATE) {
+
+		} else if (type == Message.ActionType.DELETE) {
+
+		}
+	}
+
 	
 	
 	

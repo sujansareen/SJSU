@@ -63,18 +63,24 @@ public class WorkHandler extends SimpleChannelInboundHandler<Route> {
 			System.out.println("ERROR: Unexpected content - " + msg);
 			return;
 		}
-		
-		if(msg.getPath().toString().toLowerCase().equals("user") || msg.getPath().toString().toLowerCase().equals("message") ){
-			if(NodeState.getNodestate()==NodeState.FOLLOWER){
-				NodeState.getInstance().getState().handleReplicationMessage(msg);
-			}else if(NodeState.getNodestate()==NodeState.LEADER){
-			//TODO Make db call for replicating data on leader.
-				
-				//NodeState.getState().sendReplicationMessage(msg);
-				//if leader don do db call and replicate
-				
-			}
+		if(msg.hasUser()) {
+			System.out.println("hasUser: " +  msg.getUser().toString());
+			NodeState.getState().handleMessageEntries(msg);
+		} else if(msg.hasMessage()){
+			System.out.println("hasMessage: " +  msg.getMessage().toString());
+			NodeState.getState().handleUserEntries(msg);
 		}
+//		else if(msg.getPath().toString().toLowerCase().equals("user") || msg.getPath().toString().toLowerCase().equals("message") ){
+//			if(NodeState.getNodestate()==NodeState.FOLLOWER){
+//				NodeState.getInstance().getState().handleReplicationMessage(msg);
+//			}else if(NodeState.getNodestate()==NodeState.LEADER){
+//			//TODO Make db call for replicating data on leader.
+//
+//				//NodeState.getState().sendReplicationMessage(msg);
+//				//if leader don do db call and replicate
+//
+//			}
+//		}
 	}
 /*	public void handleMessage(WorkMessage msg, Channel channel) {
 		

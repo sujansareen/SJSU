@@ -50,6 +50,12 @@ public class State {
 	public void handleAppendEntries(WorkMessage wm) {
 
 	}
+	public void handleMessageEntries(Route rm) {
+
+	}
+	public void handleUserEntries(Route rm) {
+
+	}
 	
 	/* Images */
 	public byte[] handleGetMessage(String key) {
