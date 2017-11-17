@@ -10,6 +10,6 @@
 	<classpathentry kind="lib" path="lib/slf4j-api-1.7.2.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-simple-1.7.2.jar"/>
 	<classpathentry kind="lib" path="lib/protobuf-java-3.2.0.jar"/>
-	<classpathentry kind="lib" path="S:/275Gash/cmpe-275/CMPE-275/Distributed-System-Project1/lib/netty-all-4.0.15.Final.jar"/>
+	<classpathentry kind="lib" path="lib/netty-all-4.0.15.Final.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

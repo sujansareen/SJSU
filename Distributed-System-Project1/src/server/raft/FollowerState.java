@@ -217,9 +217,7 @@ public class FollowerState extends State implements Runnable{
 		
 	}
 
-   public void handleReplicationMessage(Route msg){
-	   
-   }
+   
 	
 
 }
