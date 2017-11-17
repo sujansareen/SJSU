@@ -169,6 +169,14 @@ public class FollowerState extends State implements Runnable{
 	@Override
 	public void stopService() {
 		running = Boolean.FALSE;
+		if (cthread != null) {
+            try {
+                cthread.join();
+            } catch (InterruptedException e) {
+                Logger.DEBUG("Exception", e);
+            }
+            Logger.DEBUG("cthread successfully stopped.");
+        } 
 	}
 	
 	public void handleWriteFile(WriteBody msg) {
