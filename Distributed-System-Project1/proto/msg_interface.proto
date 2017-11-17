@@ -1,6 +1,7 @@
 syntax = "proto2";
 option optimize_for = SPEED;
 option java_package = "routing";
+import "work.proto";
 
 message Route {
 
@@ -25,6 +26,7 @@ message Route {
 	    NetworkDiscoveryPacket networkDiscoveryPacket = 3;
 	    User user = 4;
 	    Message message = 5;
+        WorkMessage workMessage = 11; //Attention :   Only For our team
     }
     optional Group group = 6;
     optional MessagesRequest messagesRequest = 7;
