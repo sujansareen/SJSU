@@ -19,6 +19,7 @@ package server;
 
 
 import logger.Logger;
+import server.raft.FollowerState;
 import server.raft.NodeState;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -27,6 +28,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 //import pipe.common.Common.Failure;
 
 import pipe.work.Work.WorkMessage;
+import routing.MsgInterface.Route;
 
 
 
@@ -38,7 +40,7 @@ import pipe.work.Work.WorkMessage;
  * @author gash
  * 
  */
-public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
+public class WorkHandler extends SimpleChannelInboundHandler<Route> {
 //	protected static Logger logger = LoggerFactory.getLogger("work");
 	protected ServerState state;
 	protected boolean debug = false;
@@ -51,10 +53,35 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 
 	/**
 	 * override this method to provide processing behavior. T
-	 * 
+	 *This method will be called when workhandler will receive route message from client
 	 * @param msg
 	 */
-	public void handleMessage(WorkMessage msg, Channel channel) {
+	
+	public void handleMessage(Route msg, Channel channel) {
+		if (msg == null) {
+			// TODO add logging
+			System.out.println("ERROR: Unexpected content - " + msg);
+			return;
+		}
+		
+		if(msg.getPath().toString().toLowerCase().equals("user") || msg.getPath().toString().toLowerCase().equals("message") ){
+			if(NodeState.getNodestate()==NodeState.FOLLOWER){
+				NodeState.getInstance().getState().handleReplicationMessage(msg);
+			}else if(NodeState.getNodestate()==NodeState.LEADER){
+			//TODO Make db call for replicating data on leader.
+				
+				//NodeState.getState().sendReplicationMessage(msg);
+				//if leader don do db call and replicate
+				
+			}
+		}
+	}
+/*	public void handleMessage(WorkMessage msg, Channel channel) {
+		
+		
+		
+		
+		/*
 		 
 		if (msg == null) {
 			// TODO add logging
@@ -124,7 +151,7 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 			
 			
 	}
-	
+	*/
 	
 
 	/**
@@ -138,7 +165,7 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 	 *            The message
 	 */
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, WorkMessage msg) throws Exception {
+	protected void channelRead0(ChannelHandlerContext ctx, Route msg) throws Exception {
 		
 		handleMessage(msg, ctx.channel());
 	}

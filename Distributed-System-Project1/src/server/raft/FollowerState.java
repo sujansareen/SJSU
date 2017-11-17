@@ -7,6 +7,7 @@ import server.edges.EdgeInfo;
 import server.timer.NodeTimer;
 import io.netty.channel.ChannelFuture;
 import pipe.work.Work.WorkMessage;
+import routing.MsgInterface.Route;
 import pipe.common.Common.WriteBody;
 import pipe.work.AppendEntriesRPC.AppendEntries.RequestType;
 import pipe.work.VoteRPC.ResponseVoteRPC;
@@ -184,7 +185,9 @@ public class FollowerState extends State implements Runnable{
 		
 	}
 
-	
+   public void handleReplicationMessage(Route msg){
+	   
+   }
 	
 
 }

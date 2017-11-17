@@ -4,6 +4,7 @@ package server.raft;
 import pipe.common.Common.Request;
 import pipe.common.Common.WriteBody;
 import pipe.work.Work.WorkMessage;
+import routing.MsgInterface.Route;
 
 
 /**
@@ -79,5 +80,7 @@ public class State {
 		
 	}
 
-
+	public void handleReplicationMessage(Route msg){
+		
+	}
 }
