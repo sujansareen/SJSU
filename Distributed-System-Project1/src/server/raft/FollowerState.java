@@ -151,7 +151,7 @@ public class FollowerState extends State implements Runnable{
 	public void handleUserEntries(Route msg) {
 		User.ActionType type = msg.getUser().getAction();
 		if (type == User.ActionType.REGISTER) {
-			
+
 		} else if (type == User.ActionType.ACCESS) {
 
 		} else if (type == User.ActionType.DELETE) {
