@@ -189,7 +189,7 @@ public class CommConnection {
 					break;
 				}
 				if(uname == null){
-					uname = "arturo";
+					loginUser(line);
 					System.out.println("+++++++++++++++++++++++++");
 					Route message = getMessages(uname);
 					lastWriteFuture = ch.writeAndFlush(message);
@@ -200,10 +200,10 @@ public class CommConnection {
 
 					// If user typed the 'bye' command, wait until the server closes
 					// the connection.
-					if ("bye".equals(line.toLowerCase())) {
-						ch.closeFuture().sync();
-						break;
-					}
+				}
+				if ("bye".equals(line.toLowerCase())) {
+					ch.closeFuture().sync();
+					break;
 				}
 			}
 			// Wait until all messages are flushed before closing the channel.

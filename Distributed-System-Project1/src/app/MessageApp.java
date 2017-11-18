@@ -82,7 +82,7 @@ public class MessageApp implements CommListener {
 		return route.build();
 	}
 	public static Route getMessages(String destination_id){
-		Message.Builder msg=Message.newBuilder();
+		Message.Builder msg = Message.newBuilder();
 		msg.setType(Message.Type.SINGLE);
 		msg.setSenderId(destination_id);
 		msg.setReceiverId(uname);
