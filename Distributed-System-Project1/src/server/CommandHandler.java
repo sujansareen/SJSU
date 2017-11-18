@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import app.ServerApp;
 import container.RoutingConf;
+import routing.MsgInterface;
 import server.raft.NodeState;
 import server.tasks.TaskList;
 import io.netty.channel.Channel;
@@ -30,7 +31,10 @@ import pipe.common.Common.Failure;
 //import pipe.common.Common.Failure;
 //import pipe.common.Common.Request.RequestType;
 import routing.Pipe.CommandMessage;
-
+import routing.MsgInterface.Route;
+import io.netty.channel.group.ChannelGroup;
+import io.netty.channel.group.DefaultChannelGroup;
+import io.netty.util.concurrent.GlobalEventExecutor;
 
 /**
  * The message handler processes json messages that are delimited by a 'newline'
@@ -40,8 +44,10 @@ import routing.Pipe.CommandMessage;
  * @author gash
  * 
  */
-public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> {
+public class CommandHandler extends SimpleChannelInboundHandler<Route> {
 	protected static Logger logger = LoggerFactory.getLogger("cmd");
+	static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+
 	protected RoutingConf conf;
 	protected ServerState state;
 	
@@ -53,7 +59,20 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 			this.state = state;
 		}
 	}
+	public static Route sendMessageBack(){
+		MsgInterface.Message.Builder msg= MsgInterface.Message.newBuilder();
+		msg.setType(MsgInterface.Message.Type.SINGLE);
+		msg.setSenderId("");
+		msg.setReceiverId("");
+		msg.setTimestamp("10:01");
+		msg.setAction(MsgInterface.Message.ActionType.POST);
 
+		Route.Builder route= Route.newBuilder();
+		route.setId(123);
+		route.setPath(Route.Path.MESSAGES_REQUEST);
+		route.setMessage(msg);
+		return route.build();
+	}
 	/**
 	 * override this method to provide processing behavior. This implementation
 	 * mimics the routing we see in annotating classes to support a RESTful-like
@@ -61,7 +80,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 	 * 
 	 * @param msg
 	 */
-	public void handleMessage(CommandMessage msg, Channel channel) {
+	public void handleMessage(Route msg, Channel channel) {
 		
 		if (msg == null) {
 			// TODO add logging
@@ -72,36 +91,21 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 		//PrintUtil.printCommand(msg);
          
 		try {
-			// TODO How can you implement this without if-else statements?
-			if (msg.hasPing()) {
-				
-				logger.info("ping from " + msg.getHeader().getNodeId());
-				//to distribute this message internally
-			} else if (msg.hasMessage()) {
-				logger.info(msg.getMessage());
-			}
-			else if (msg.hasRequest() == true) {
-				System.out.println("OH i got a file to write");
-				NodeState.getInstance().getState().handleWriteFile(msg.getRequest().getRwb());
-				
-			}
-			else {
-				//TODO
-				
-			}
-
+			System.out.println("Hello: content - " + msg.toString() );
+			channel.write(sendMessageBack());
+			// if (msg.hasPing()) {
 		} catch (Exception e) {
 			// TODO add logging
 			Failure.Builder eb = Failure.newBuilder();
 			eb.setId(conf.getNodeId());
-			eb.setRefId(msg.getHeader().getNodeId());
+			//eb.setRefId(msg.getHeader().getNodeId());
 			eb.setMessage(e.getMessage());
-			CommandMessage.Builder rb = CommandMessage.newBuilder(msg);
-			rb.setErr(eb);
+			Route.Builder rb = Route.newBuilder(msg);
+			//rb.setErr(eb);
 			channel.write(rb.build());
 		}
 		
-		state.getTasks().dequeue();
+//		state.getTasks().dequeue();
 		System.out.flush();
 	}
 
@@ -116,20 +120,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<CommandMessage> 
 	 *            The message
 	 */
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, CommandMessage msg) throws Exception {
-		//ServerState state = NodeState.getInstance().getServerState();
-		if(state.getTasks() != null){
-			state.getTasks().addTask(msg);
-		}
-		else{
-			TaskList task = new TaskList();
-			task.addTask(msg);
-			state.setTasks(task);
-		}
-		
-		//NodeState.getInstance().getServerState().setTasks(task);
-		//NodeState.getInstance().getServerState().getTasks().addTask(msg);
-		logger.info("Message received by worker(leader/follower) to process");
+	protected void channelRead0(ChannelHandlerContext ctx, Route msg) throws Exception {
 		handleMessage(msg, ctx.channel());	
 	}
 

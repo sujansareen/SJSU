@@ -32,6 +32,13 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import routing.Pipe.CommandMessage;
+import routing.MsgInterface.Route;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import routing.MsgInterface.Message;
+
 
 /**
  * provides an abstraction of the communication to the remote server.
@@ -43,7 +50,8 @@ public class CommConnection {
 	protected static Logger logger = LoggerFactory.getLogger("connect");
 
 	protected static AtomicReference<CommConnection> instance = new AtomicReference<CommConnection>();
-
+	
+	static String uname;
 	private String host;
 	private int port;
 	private ChannelFuture channel; // do not use directly call
@@ -52,7 +60,7 @@ public class CommConnection {
 	private EventLoopGroup group;
 
 	// our surge protection using a in-memory cache for messages
-	LinkedBlockingDeque<CommandMessage> outbound;
+	LinkedBlockingDeque<Route> outbound;
 
 	// message processing is delegated to a threading model
 	private CommWorker worker;
@@ -100,7 +108,7 @@ public class CommConnection {
 	 * @exception An
 	 *                exception is raised if the message cannot be enqueued.
 	 */
-	public void enqueue(CommandMessage req) throws Exception {
+	public void enqueue(Route req) throws Exception {
 		// enqueue message
 		outbound.put(req);
 	}
@@ -118,7 +126,7 @@ public class CommConnection {
 	 * @param msg
 	 * @return
 	 */
-	public boolean write(CommandMessage msg) {
+	public boolean write(Route msg) {
 		if (msg == null)
 			return false;
 		else if (channel == null)
@@ -150,7 +158,7 @@ public class CommConnection {
 		System.out.println("--> initializing connection to " + host + ":" + port);
 
 		// the queue to support client-side surging
-		outbound = new LinkedBlockingDeque<CommandMessage>();
+		outbound = new LinkedBlockingDeque<Route>();
 
 		group = new NioEventLoopGroup();
 		try {
@@ -162,12 +170,46 @@ public class CommConnection {
 			b.option(ChannelOption.SO_KEEPALIVE, true);
 
 			// Make the connection attempt.
-			channel = b.connect(host, port).syncUninterruptibly();
+			//channel = b.connect(host, port).syncUninterruptibly();
 
 			// want to monitor the connection to the server s.t. if we loose the
 			// connection, we can try to re-establish it.
-			ClientClosedListener ccl = new ClientClosedListener(this);
-			channel.channel().closeFuture().addListener(ccl);
+			//ClientClosedListener ccl = new ClientClosedListener(this);
+			//channel.channel().closeFuture().addListener(ccl);
+						// Start the connection attempt.
+			Channel ch = b.connect(host, port).sync().channel();
+			//
+			ChannelFuture lastWriteFuture = null;
+			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+			System.out.print("Username: ");
+			for (;;) {
+
+				String line = in.readLine();
+				if (line == null) {
+					break;
+				}
+				if(uname == null){
+					uname = "arturo";
+					System.out.println("+++++++++++++++++++++++++");
+					Route message = getMessages(uname);
+					lastWriteFuture = ch.writeAndFlush(message);
+				} else {
+					// Sends the received line to the server.
+					Route message = writeMessage(line,"client1");
+					lastWriteFuture = ch.writeAndFlush(message);
+
+					// If user typed the 'bye' command, wait until the server closes
+					// the connection.
+					if ("bye".equals(line.toLowerCase())) {
+						ch.closeFuture().sync();
+						break;
+					}
+				}
+			}
+			// Wait until all messages are flushed before closing the channel.
+			if (lastWriteFuture != null) {
+				lastWriteFuture.sync();
+			}
 
 			System.out.println(channel.channel().localAddress() + " -> open: " + channel.channel().isOpen()
 					+ ", write: " + channel.channel().isWritable() + ", reg: " + channel.channel().isRegistered());
@@ -182,7 +224,42 @@ public class CommConnection {
 		worker.setDaemon(true);
 		worker.start();
 	}
+	public static void loginUser(String name){
+        uname = name;
+    }
 
+    public static Route writeMessage(String message,String destination_id){
+        Message.Builder msg=Message.newBuilder();
+        msg.setType(Message.Type.SINGLE);
+        msg.setSenderId(uname);
+        msg.setPayload(message);
+        msg.setReceiverId(destination_id);
+        msg.setTimestamp("10:01");
+        msg.setAction(Message.ActionType.POST);
+        
+        Route.Builder route= Route.newBuilder();
+        route.setId(123);
+        route.setPath(Route.Path.MESSAGE);
+        route.setMessage(msg);
+        Route routeMessage= route.build();
+        return routeMessage;
+    }
+    public static Route getMessages(String destination_id){
+        Message.Builder msg=Message.newBuilder();
+        msg.setType(Message.Type.SINGLE);
+        msg.setSenderId(destination_id);
+		msg.setPayload("");
+        msg.setReceiverId(uname);
+        msg.setTimestamp("10:01");
+        msg.setAction(Message.ActionType.POST);
+
+        Route.Builder route= Route.newBuilder();
+        route.setId(123);
+        route.setPath(Route.Path.MESSAGES_REQUEST);
+        route.setMessage(msg);
+        Route routeMessage= route.build();
+        return routeMessage;
+    }
 	/**
 	 * create connection to remote server
 	 * 
