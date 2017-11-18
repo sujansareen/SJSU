@@ -70,6 +70,8 @@ public class TestClient {
 				if(uname == null){
 					loginUser(line);
 					System.out.println("+++++++++++++++++++++++++");
+					Route message = getMessages(uname);
+					lastWriteFuture = ch.writeAndFlush(message);
 				} else {
 					// Sends the received line to the server.
 					Route message = writeMessage(line,"client1");
@@ -125,12 +127,11 @@ public class TestClient {
 		Route routeMessage= route.build();
 		return routeMessage;
 	}
-	public static Route getMessages(String message,String destination_id){
+	public static Route getMessages(String destination_id){
 		Message.Builder msg=Message.newBuilder();
 		msg.setType(Message.Type.SINGLE);
-		msg.setSenderId(uname);
-		msg.setPayload(message);
-		msg.setReceiverId(destination_id);
+		msg.setSenderId(destination_id);
+		msg.setReceiverId(uname);
 		msg.setTimestamp("10:01");
 		msg.setAction(Message.ActionType.POST);
 
