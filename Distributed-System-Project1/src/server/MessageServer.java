@@ -235,11 +235,9 @@ public class MessageServer {
 			
 			//LEADER ELECTION
 			NodeState.getInstance().setServerState(state);
-			
-			
 
-		//	TaskList tasks = new TaskList(new NoOpBalancer());
-		//	state.setTasks(tasks);
+			// TaskList tasks = new TaskList(new NoOpBalancer());
+			// state.setTasks(tasks);
 
 			EdgeMonitor emon = new EdgeMonitor(state);
 			//state.setEmon(emon);
