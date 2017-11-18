@@ -38,9 +38,9 @@ public class MessageApp implements CommListener {
 	}
 
 	private void init(MessageClient mc) {
+		uname = "arturo";
 		this.mc = mc;
 		this.mc.addListener(this);
-		uname = "arturo";
 	}
 	
 	static String host;
@@ -98,19 +98,49 @@ public class MessageApp implements CommListener {
 	
 
 	public static void main(String[] args) {
-
+		String uname = null;
 		String host = "127.0.0.1";
 		int port = 4168;
 
 		try {
 			MessageClient mc = new MessageClient(host, port);
 			MessageApp da = new MessageApp(mc);
-
+			Thread.sleep(1 * 1000);
 			// do stuff w/ the connection
-			da.sendMessage("Hello", "testUser");
+			ChannelFuture lastWriteFuture = null;
+			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+			System.out.print("Username: ");
+			for (;;) {
+
+				String line = in.readLine();
+				if (line == null) {
+					break;
+				}
+
+				if(uname == null){
+					uname = line;
+					System.out.println("+++++++++++++++++++++++++");
+					// TODO: Team - get messages
+				} else {
+					// TODO: Team - more conditions like "groupid".equals(line.toLowerCase())
+
+					// Sends the received line to the server.
+					da.sendMessage(line, "testUser");
+
+					// If user typed the 'bye' command, wait until the server closes
+					// the connection.
+				}
+				if ("bye".equals(line.toLowerCase())) {
+					break;
+				}
+			}
+			// Wait until all messages are flushed before closing the channel.
+			if (lastWriteFuture != null) {
+				lastWriteFuture.sync();
+			}
 
 			System.out.flush();
-			Thread.sleep(5 * 1000);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

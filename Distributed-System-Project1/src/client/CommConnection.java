@@ -162,7 +162,7 @@ public class CommConnection {
 
 		group = new NioEventLoopGroup();
 		try {
-			CommandInit si = new CommandInit(null, null, false);
+			CommInit si = new CommInit(false);
 			Bootstrap b = new Bootstrap();
 			b.group(group).channel(NioSocketChannel.class).handler(si);
 			b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000);
@@ -170,46 +170,13 @@ public class CommConnection {
 			b.option(ChannelOption.SO_KEEPALIVE, true);
 
 			// Make the connection attempt.
-			//channel = b.connect(host, port).syncUninterruptibly();
+			//channel = b.connect(host, port).sync().channel();
+			channel = b.connect(host, port).syncUninterruptibly();
 
 			// want to monitor the connection to the server s.t. if we loose the
 			// connection, we can try to re-establish it.
-			//ClientClosedListener ccl = new ClientClosedListener(this);
-			//channel.channel().closeFuture().addListener(ccl);
-						// Start the connection attempt.
-			Channel ch = b.connect(host, port).sync().channel();
-			//
-			ChannelFuture lastWriteFuture = null;
-			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-			System.out.print("Username: ");
-			for (;;) {
-
-				String line = in.readLine();
-				if (line == null) {
-					break;
-				}
-				if(uname == null){
-					loginUser(line);
-					System.out.println("+++++++++++++++++++++++++");
-					Route message = getMessages(uname);
-					lastWriteFuture = ch.writeAndFlush(message);
-				} else {
-					// Sends the received line to the server.
-					Route message = writeMessage(line,"client1");
-					lastWriteFuture = ch.writeAndFlush(message);
-
-					// If user typed the 'bye' command, wait until the server closes
-					// the connection.
-				}
-				if ("bye".equals(line.toLowerCase())) {
-					ch.closeFuture().sync();
-					break;
-				}
-			}
-			// Wait until all messages are flushed before closing the channel.
-			if (lastWriteFuture != null) {
-				lastWriteFuture.sync();
-			}
+//			ClientClosedListener ccl = new ClientClosedListener(this);
+//			channel.channel().closeFuture().addListener(ccl);
 
 			System.out.println(channel.channel().localAddress() + " -> open: " + channel.channel().isOpen()
 					+ ", write: " + channel.channel().isWritable() + ", reg: " + channel.channel().isRegistered());

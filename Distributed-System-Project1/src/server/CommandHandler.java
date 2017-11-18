@@ -63,6 +63,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<Route> {
 		MsgInterface.Message.Builder msg= MsgInterface.Message.newBuilder();
 		msg.setType(MsgInterface.Message.Type.SINGLE);
 		msg.setSenderId("");
+		msg.setPayload("sdfsdf");
 		msg.setReceiverId("");
 		msg.setTimestamp("10:01");
 		msg.setAction(MsgInterface.Message.ActionType.POST);
@@ -91,9 +92,10 @@ public class CommandHandler extends SimpleChannelInboundHandler<Route> {
 		//PrintUtil.printCommand(msg);
          
 		try {
-			System.out.println("Hello: content - " + msg.toString() );
-			channel.write(sendMessageBack());
-			// if (msg.hasPing()) {
+			if (msg.hasMessage()) {
+				channel.writeAndFlush(sendMessageBack());
+				// TODO: Team - handle messages 
+			}
 		} catch (Exception e) {
 			// TODO add logging
 			Failure.Builder eb = Failure.newBuilder();
