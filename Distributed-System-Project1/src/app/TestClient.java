@@ -31,6 +31,7 @@ public class TestClient {
 
 	
 	static String host;
+	static String uname;
 	static int port;
 	static ChannelFuture channel;
 	
@@ -59,21 +60,27 @@ public class TestClient {
 			//
 			ChannelFuture lastWriteFuture = null;
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+			System.out.print("Username: ");
 			for (;;) {
+
 				String line = in.readLine();
 				if (line == null) {
 					break;
 				}
+				if(uname == null){
+					loginUser(line);
+					System.out.println("+++++++++++++++++++++++++");
+				} else {
+					// Sends the received line to the server.
+					Route message = writeMessage(line,"client1");
+					lastWriteFuture = ch.writeAndFlush(message);
 
-				// Sends the received line to the server.
-				Route message = writeMessage(line,"client1");
-				lastWriteFuture = ch.writeAndFlush(message);
-
-				// If user typed the 'bye' command, wait until the server closes
-				// the connection.
-				if ("bye".equals(line.toLowerCase())) {
-					ch.closeFuture().sync();
-					break;
+					// If user typed the 'bye' command, wait until the server closes
+					// the connection.
+					if ("bye".equals(line.toLowerCase())) {
+						ch.closeFuture().sync();
+						break;
+					}
 				}
 			}
 
@@ -97,13 +104,15 @@ public class TestClient {
 		}
 
 	}
-	
+	public static void loginUser(String name){
+		uname = name;
+	}
 	/* TODO: Group	*/
 
 	public static Route writeMessage(String message,String destination_id){
 		Message.Builder msg=Message.newBuilder();
 		msg.setType(Message.Type.SINGLE);
-		msg.setSenderId("dhanashree");
+		msg.setSenderId(uname);
 		msg.setPayload(message);
 		msg.setReceiverId(destination_id);
 		msg.setTimestamp("10:01");
@@ -119,7 +128,7 @@ public class TestClient {
 	public static Route getMessages(String message,String destination_id){
 		Message.Builder msg=Message.newBuilder();
 		msg.setType(Message.Type.SINGLE);
-		msg.setSenderId("dhanashree");
+		msg.setSenderId(uname);
 		msg.setPayload(message);
 		msg.setReceiverId(destination_id);
 		msg.setTimestamp("10:01");
@@ -131,25 +140,15 @@ public class TestClient {
 		route.setMessage(msg);
 		Route routeMessage= route.build();
 		return routeMessage;
-//		channel.channel().writeAndFlush(routeMessage);
-//		if (channel.isDone() && channel.isSuccess()) {
-//			System.out.println("Msg sent succesfully:");
-//		}
 	}
 	
 
 	public static void main(String[] args) {
-		
+
 		String host = "127.0.0.1";
 		int port = 4167;
-		
-		System.out.println("Sent the message");
 		TestClient.init(host, port);
-//		File file = new File("runtime/log.txt");
-		//TestClient.writeMessage("Hello Dhanashree","client1");
-		//TestClient.getMessages("Hello Dhanashree","client1");
-		// TODO Auto-generated method stub
-		
+
 	}
 
 
