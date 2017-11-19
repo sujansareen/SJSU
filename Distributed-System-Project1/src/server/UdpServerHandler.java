@@ -30,8 +30,8 @@ public class UdpServerHandler extends SimpleChannelInboundHandler<Route> {
 		System.out.println("Recieved a datagram packet " + route);
 		NetworkDiscoveryPacket request = route.getNetworkDiscoveryPacket();
 		System.out.println("Recieved a packet from " + request.getNodeAddress());
-		// Dont do anything when you are yourself sending the broadcast
-		if (MyConstants.NODE_IP.equals(request.getNodeAddress())) {
+		// Do nothing when the received packet is your own udp request packet bearing your own IP
+		if (MyConstants.SERVER_NODE_IP.equals(request.getNodeAddress())) {
 			return;
 		}
 
@@ -49,8 +49,8 @@ public class UdpServerHandler extends SimpleChannelInboundHandler<Route> {
 				NetworkDiscoveryPacket.Builder toSend = NetworkDiscoveryPacket.newBuilder();
 				toSend.setGroupTag(MyConstants.GROUP_NAME);
 
-				toSend.setNodeId(MyConstants.NODE_NAME);
-				toSend.setNodeAddress(MyConstants.NODE_IP);
+				toSend.setNodeId("testServer");
+				toSend.setNodeAddress("127.0.0.1");
 				toSend.setMode(Mode.RESPONSE);
 				toSend.setNodePort(Integer.parseInt(MyConstants.NODE_PORT));
 				toSend.setSender(Sender.EXTERNAL_SERVER_NODE);
@@ -58,7 +58,9 @@ public class UdpServerHandler extends SimpleChannelInboundHandler<Route> {
 
 				rb.setNetworkDiscoveryPacket(toSend);
 				rb.setId(1);
-				UdpClient.sendUDPMessage(rb.build(), request.getNodeAddress(), MyConstants.UDP_PORT);
+				Route response = rb.build();
+				//UdpClient.sendUDPMessage(response, request.getNodeAddress(), MyConstants.UDP_PORT);
+				UdpClient.sendUDPMessage(response, MyConstants.UDP_IP_BROADCAST, MyConstants.TEST_PORT);
 			} catch (Exception e) {
 				System.err.println("Exception received");
 				e.printStackTrace();
