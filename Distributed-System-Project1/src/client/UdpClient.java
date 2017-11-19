@@ -12,13 +12,18 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.DatagramChannel;
 import io.netty.channel.socket.DatagramPacket;
 import io.netty.channel.socket.nio.NioDatagramChannel;
+import io.netty.handler.codec.DatagramPacketDecoder;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import routing.MsgInterface.NetworkDiscoveryPacket;
 import routing.MsgInterface.Route;
+import server.UdpServer;
+import server.UdpServerHandler;
 import io.netty.util.internal.SocketUtils;
 import app.MyConstants;
 
 
-public final class UdpClient {
+public final class UdpClient implements Runnable {
 
 	/*
 	 * static final int PORT = Integer.parseInt(System.getProperty("port",
@@ -69,7 +74,9 @@ public final class UdpClient {
 					});
 
 			Channel ch = b.bind(0).sync().channel();
-
+			System.out.println("******************");
+			System.out.println(request);
+			System.out.println("******************");
 			ByteBuf buf = Unpooled.copiedBuffer(request.toByteArray());
 
 			ch.writeAndFlush(new DatagramPacket(buf, SocketUtils.socketAddress(IP, port))).sync();
@@ -81,16 +88,44 @@ public final class UdpClient {
 			// response is received. If the channel is not closed within 5
 			// seconds,
 			// print an error message and quit.
-			if (!ch.closeFuture().await(5000)) {
+			/*if (!ch.closeFuture().await(5000)) {
 				System.err.println("request timed out.");
-			}
+			}*/
 		} finally {
 			group.shutdownGracefully();
 		}
 		
 	}
 	
+	public void run() {
+    	System.out.println("response server from client running at port ");
+    	EventLoopGroup group = new NioEventLoopGroup();
+        try {
+            Bootstrap b = new Bootstrap();
+            b.group(group)
+                    .channel(NioDatagramChannel.class)
+                    .option(ChannelOption.SO_BROADCAST, true)
+                    .handler(new ChannelInitializer<DatagramChannel>(){
+                        @Override
+                        public void initChannel(DatagramChannel ch) throws Exception {
+                            ChannelPipeline pipeline = ch.pipeline();
+                             pipeline.addLast("protobufDecoder", new DatagramPacketDecoder(new ProtobufDecoder(Route.getDefaultInstance())));
+                             pipeline.addLast("protobufEncoder", new ProtobufEncoder());
+                             pipeline.addLast("handler", new NewUdpClientHandler());
+
+                        }});
+
+            b.bind(MyConstants.TEST_PORT).sync().channel().closeFuture().await();
+        } catch(Exception e){
+        	e.printStackTrace();
+        }
+        finally {
+            group.shutdownGracefully();
+        }
+    }
 	public static void main(String []args) throws Exception{
+		Thread responseThread = new Thread(new UdpClient());
+		responseThread.start();
 		UdpClient.broadcast();
 	}
 }
