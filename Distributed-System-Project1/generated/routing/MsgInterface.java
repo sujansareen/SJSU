@@ -141,31 +141,6 @@ public final class MsgInterface {
      * <code>optional .Response response = 10;</code>
      */
     routing.MsgInterface.ResponseOrBuilder getResponseOrBuilder();
-
-    /**
-     * <code>optional .WorkMessage workMessage = 11;</code>
-     *
-     * <pre>
-     *Attention :   Only For our team
-     * </pre>
-     */
-    boolean hasWorkMessage();
-    /**
-     * <code>optional .WorkMessage workMessage = 11;</code>
-     *
-     * <pre>
-     *Attention :   Only For our team
-     * </pre>
-     */
-    pipe.work.Work.WorkMessage getWorkMessage();
-    /**
-     * <code>optional .WorkMessage workMessage = 11;</code>
-     *
-     * <pre>
-     *Attention :   Only For our team
-     * </pre>
-     */
-    pipe.work.Work.WorkMessageOrBuilder getWorkMessageOrBuilder();
   }
   /**
    * Protobuf type {@code Route}
@@ -337,19 +312,6 @@ public final class MsgInterface {
                 response_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000200;
-              break;
-            }
-            case 90: {
-              pipe.work.Work.WorkMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000400) == 0x00000400)) {
-                subBuilder = workMessage_.toBuilder();
-              }
-              workMessage_ = input.readMessage(pipe.work.Work.WorkMessage.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(workMessage_);
-                workMessage_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000400;
               break;
             }
           }
@@ -800,39 +762,6 @@ public final class MsgInterface {
       return response_;
     }
 
-    public static final int WORKMESSAGE_FIELD_NUMBER = 11;
-    private pipe.work.Work.WorkMessage workMessage_;
-    /**
-     * <code>optional .WorkMessage workMessage = 11;</code>
-     *
-     * <pre>
-     *Attention :   Only For our team
-     * </pre>
-     */
-    public boolean hasWorkMessage() {
-      return ((bitField0_ & 0x00000400) == 0x00000400);
-    }
-    /**
-     * <code>optional .WorkMessage workMessage = 11;</code>
-     *
-     * <pre>
-     *Attention :   Only For our team
-     * </pre>
-     */
-    public pipe.work.Work.WorkMessage getWorkMessage() {
-      return workMessage_;
-    }
-    /**
-     * <code>optional .WorkMessage workMessage = 11;</code>
-     *
-     * <pre>
-     *Attention :   Only For our team
-     * </pre>
-     */
-    public pipe.work.Work.WorkMessageOrBuilder getWorkMessageOrBuilder() {
-      return workMessage_;
-    }
-
     private void initFields() {
       id_ = 0L;
       path_ = routing.MsgInterface.Route.Path.PING;
@@ -841,7 +770,6 @@ public final class MsgInterface {
       messagesResponse_ = routing.MsgInterface.MessagesResponse.getDefaultInstance();
       header_ = routing.MsgInterface.Header.getDefaultInstance();
       response_ = routing.MsgInterface.Response.getDefaultInstance();
-      workMessage_ = pipe.work.Work.WorkMessage.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -905,12 +833,6 @@ public final class MsgInterface {
           return false;
         }
       }
-      if (hasWorkMessage()) {
-        if (!getWorkMessage().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -947,9 +869,6 @@ public final class MsgInterface {
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeMessage(10, response_);
-      }
-      if (((bitField0_ & 0x00000400) == 0x00000400)) {
-        output.writeMessage(11, workMessage_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -999,10 +918,6 @@ public final class MsgInterface {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(10, response_);
-      }
-      if (((bitField0_ & 0x00000400) == 0x00000400)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(11, workMessage_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1118,7 +1033,6 @@ public final class MsgInterface {
           getMessagesResponseFieldBuilder();
           getHeaderFieldBuilder();
           getResponseFieldBuilder();
-          getWorkMessageFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1161,12 +1075,6 @@ public final class MsgInterface {
           responseBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000200);
-        if (workMessageBuilder_ == null) {
-          workMessage_ = pipe.work.Work.WorkMessage.getDefaultInstance();
-        } else {
-          workMessageBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000400);
         payloadCase_ = 0;
         payload_ = null;
         return this;
@@ -1266,14 +1174,6 @@ public final class MsgInterface {
         } else {
           result.response_ = responseBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
-          to_bitField0_ |= 0x00000400;
-        }
-        if (workMessageBuilder_ == null) {
-          result.workMessage_ = workMessage_;
-        } else {
-          result.workMessage_ = workMessageBuilder_.build();
-        }
         result.bitField0_ = to_bitField0_;
         result.payloadCase_ = payloadCase_;
         onBuilt();
@@ -1311,9 +1211,6 @@ public final class MsgInterface {
         }
         if (other.hasResponse()) {
           mergeResponse(other.getResponse());
-        }
-        if (other.hasWorkMessage()) {
-          mergeWorkMessage(other.getWorkMessage());
         }
         switch (other.getPayloadCase()) {
           case NETWORKDISCOVERYPACKET: {
@@ -1389,12 +1286,6 @@ public final class MsgInterface {
         }
         if (hasResponse()) {
           if (!getResponse().isInitialized()) {
-            
-            return false;
-          }
-        }
-        if (hasWorkMessage()) {
-          if (!getWorkMessage().isInitialized()) {
             
             return false;
           }
@@ -2502,158 +2393,6 @@ public final class MsgInterface {
           response_ = null;
         }
         return responseBuilder_;
-      }
-
-      private pipe.work.Work.WorkMessage workMessage_ = pipe.work.Work.WorkMessage.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          pipe.work.Work.WorkMessage, pipe.work.Work.WorkMessage.Builder, pipe.work.Work.WorkMessageOrBuilder> workMessageBuilder_;
-      /**
-       * <code>optional .WorkMessage workMessage = 11;</code>
-       *
-       * <pre>
-       *Attention :   Only For our team
-       * </pre>
-       */
-      public boolean hasWorkMessage() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
-      }
-      /**
-       * <code>optional .WorkMessage workMessage = 11;</code>
-       *
-       * <pre>
-       *Attention :   Only For our team
-       * </pre>
-       */
-      public pipe.work.Work.WorkMessage getWorkMessage() {
-        if (workMessageBuilder_ == null) {
-          return workMessage_;
-        } else {
-          return workMessageBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>optional .WorkMessage workMessage = 11;</code>
-       *
-       * <pre>
-       *Attention :   Only For our team
-       * </pre>
-       */
-      public Builder setWorkMessage(pipe.work.Work.WorkMessage value) {
-        if (workMessageBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          workMessage_ = value;
-          onChanged();
-        } else {
-          workMessageBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000400;
-        return this;
-      }
-      /**
-       * <code>optional .WorkMessage workMessage = 11;</code>
-       *
-       * <pre>
-       *Attention :   Only For our team
-       * </pre>
-       */
-      public Builder setWorkMessage(
-          pipe.work.Work.WorkMessage.Builder builderForValue) {
-        if (workMessageBuilder_ == null) {
-          workMessage_ = builderForValue.build();
-          onChanged();
-        } else {
-          workMessageBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000400;
-        return this;
-      }
-      /**
-       * <code>optional .WorkMessage workMessage = 11;</code>
-       *
-       * <pre>
-       *Attention :   Only For our team
-       * </pre>
-       */
-      public Builder mergeWorkMessage(pipe.work.Work.WorkMessage value) {
-        if (workMessageBuilder_ == null) {
-          if (((bitField0_ & 0x00000400) == 0x00000400) &&
-              workMessage_ != pipe.work.Work.WorkMessage.getDefaultInstance()) {
-            workMessage_ =
-              pipe.work.Work.WorkMessage.newBuilder(workMessage_).mergeFrom(value).buildPartial();
-          } else {
-            workMessage_ = value;
-          }
-          onChanged();
-        } else {
-          workMessageBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000400;
-        return this;
-      }
-      /**
-       * <code>optional .WorkMessage workMessage = 11;</code>
-       *
-       * <pre>
-       *Attention :   Only For our team
-       * </pre>
-       */
-      public Builder clearWorkMessage() {
-        if (workMessageBuilder_ == null) {
-          workMessage_ = pipe.work.Work.WorkMessage.getDefaultInstance();
-          onChanged();
-        } else {
-          workMessageBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000400);
-        return this;
-      }
-      /**
-       * <code>optional .WorkMessage workMessage = 11;</code>
-       *
-       * <pre>
-       *Attention :   Only For our team
-       * </pre>
-       */
-      public pipe.work.Work.WorkMessage.Builder getWorkMessageBuilder() {
-        bitField0_ |= 0x00000400;
-        onChanged();
-        return getWorkMessageFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>optional .WorkMessage workMessage = 11;</code>
-       *
-       * <pre>
-       *Attention :   Only For our team
-       * </pre>
-       */
-      public pipe.work.Work.WorkMessageOrBuilder getWorkMessageOrBuilder() {
-        if (workMessageBuilder_ != null) {
-          return workMessageBuilder_.getMessageOrBuilder();
-        } else {
-          return workMessage_;
-        }
-      }
-      /**
-       * <code>optional .WorkMessage workMessage = 11;</code>
-       *
-       * <pre>
-       *Attention :   Only For our team
-       * </pre>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          pipe.work.Work.WorkMessage, pipe.work.Work.WorkMessage.Builder, pipe.work.Work.WorkMessageOrBuilder> 
-          getWorkMessageFieldBuilder() {
-        if (workMessageBuilder_ == null) {
-          workMessageBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              pipe.work.Work.WorkMessage, pipe.work.Work.WorkMessage.Builder, pipe.work.Work.WorkMessageOrBuilder>(
-                  getWorkMessage(),
-                  getParentForChildren(),
-                  isClean());
-          workMessage_ = null;
-        }
-        return workMessageBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:Route)
@@ -11024,54 +10763,53 @@ public final class MsgInterface {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\023msg_interface.proto\032\nwork.proto\"\222\004\n\005Ro" +
-      "ute\022\n\n\002id\030\001 \002(\003\022\031\n\004path\030\002 \002(\0162\013.Route.Pa" +
-      "th\0229\n\026networkDiscoveryPacket\030\003 \001(\0132\027.Net" +
-      "workDiscoveryPacketH\000\022\025\n\004user\030\004 \001(\0132\005.Us" +
-      "erH\000\022\033\n\007message\030\005 \001(\0132\010.MessageH\000\022\025\n\005gro" +
-      "up\030\006 \001(\0132\006.Group\022)\n\017messagesRequest\030\007 \001(" +
-      "\0132\020.MessagesRequest\022+\n\020messagesResponse\030" +
-      "\010 \001(\0132\021.MessagesResponse\022\027\n\006header\030\t \001(\013" +
-      "2\007.Header\022\033\n\010response\030\n \001(\0132\t.Response\022!" +
-      "\n\013workMessage\030\013 \001(\0132\014.WorkMessage\"\237\001\n\004Pa",
-      "th\022\010\n\004PING\020\000\022\025\n\021NETWORK_DISCOVERY\020\001\022\010\n\004U" +
-      "SER\020\002\022\013\n\007MESSAGE\020\003\022\t\n\005GROUP\020\004\022\024\n\020MESSAGE" +
-      "S_REQUEST\020\005\022\025\n\021MESSAGES_RESPONSE\020\006\022\n\n\006HE" +
-      "ADER\020\007\022\014\n\010RESPONSE\020\010\022\r\n\tREPLICATE\020\tB\t\n\007p" +
-      "ayload\"\246\001\n\004User\022\r\n\005uname\030\001 \002(\t\022\r\n\005email\030" +
-      "\002 \001(\t\022\020\n\010password\030\003 \001(\t\022\030\n\020recentActiveT" +
-      "ime\030\004 \001(\t\022 \n\006action\030\005 \002(\0162\020.User.ActionT" +
-      "ype\"2\n\nActionType\022\014\n\010REGISTER\020\000\022\n\n\006ACCES" +
-      "S\020\001\022\n\n\006DELETE\020\002\"\213\001\n\005Group\022\r\n\005gname\030\001 \002(\t" +
-      "\022\013\n\003gid\030\002 \001(\003\022!\n\006action\030\003 \002(\0162\021.Group.Ac",
-      "tionType\022\020\n\010username\030\004 \001(\t\"1\n\nActionType" +
-      "\022\n\n\006CREATE\020\000\022\n\n\006DELETE\020\001\022\013\n\007ADDUSER\020\002\"\246\002" +
-      "\n\007Message\022\033\n\004type\030\001 \002(\0162\r.Message.Type\022\020" +
-      "\n\010senderId\030\002 \002(\t\022\017\n\007payload\030\003 \002(\t\022\022\n\nrec" +
-      "eiverId\030\004 \002(\t\022\021\n\ttimestamp\030\005 \002(\t\022\037\n\006stat" +
-      "us\030\006 \001(\0162\017.Message.Status\022#\n\006action\030\007 \002(" +
-      "\0162\023.Message.ActionType\".\n\nActionType\022\010\n\004" +
-      "POST\020\000\022\n\n\006UPDATE\020\001\022\n\n\006DELETE\020\002\"\035\n\004Type\022\n" +
-      "\n\006SINGLE\020\000\022\t\n\005GROUP\020\001\"\037\n\006Status\022\n\n\006ACTIV" +
-      "E\020\000\022\t\n\005STALE\020\001\"_\n\017MessagesRequest\022#\n\004typ",
-      "e\030\001 \002(\0162\025.MessagesRequest.Type\022\n\n\002id\030\002 \002" +
-      "(\t\"\033\n\004Type\022\010\n\004USER\020\000\022\t\n\005GROUP\020\001\"}\n\020Messa" +
-      "gesResponse\022$\n\004type\030\001 \002(\0162\026.MessagesResp" +
-      "onse.Type\022\n\n\002id\030\002 \002(\t\022\032\n\010messages\030\003 \003(\0132" +
-      "\010.Message\"\033\n\004Type\022\010\n\004USER\020\000\022\t\n\005GROUP\020\001\"\331" +
-      "\002\n\026NetworkDiscoveryPacket\022*\n\004mode\030\001 \002(\0162" +
-      "\034.NetworkDiscoveryPacket.Mode\022D\n\006sender\030" +
-      "\002 \002(\0162\036.NetworkDiscoveryPacket.Sender:\024I" +
-      "NTERNAL_SERVER_NODE\022\020\n\010groupTag\030\003 \001(\t\022\016\n" +
-      "\006nodeId\030\004 \001(\t\022\023\n\013nodeAddress\030\005 \002(\t\022\020\n\010no",
-      "dePort\030\006 \002(\003\022\016\n\006secret\030\007 \002(\t\"Q\n\006Sender\022\030" +
-      "\n\024EXTERNAL_SERVER_NODE\020\000\022\030\n\024INTERNAL_SER" +
-      "VER_NODE\020\001\022\023\n\017END_USER_CLIENT\020\002\"!\n\004Mode\022" +
-      "\013\n\007REQUEST\020\000\022\014\n\010RESPONSE\020\001\"Y\n\006Header\022\032\n\004" +
-      "type\030\001 \002(\0162\014.Header.Type\"3\n\004Type\022\014\n\010INTE" +
-      "RNAL\020\000\022\021\n\rINTER_CLUSTER\020\001\022\n\n\006CLIENT\020\002\"?\n" +
-      "\010Response\022\017\n\007success\030\001 \002(\010\022\017\n\007message\030\002 " +
-      "\001(\t\022\021\n\terrorCode\030\003 \001(\tB\013\n\007routingH\001"
+      "\n\023msg_interface.proto\"\357\003\n\005Route\022\n\n\002id\030\001 " +
+      "\002(\003\022\031\n\004path\030\002 \002(\0162\013.Route.Path\0229\n\026networ" +
+      "kDiscoveryPacket\030\003 \001(\0132\027.NetworkDiscover" +
+      "yPacketH\000\022\025\n\004user\030\004 \001(\0132\005.UserH\000\022\033\n\007mess" +
+      "age\030\005 \001(\0132\010.MessageH\000\022\025\n\005group\030\006 \001(\0132\006.G" +
+      "roup\022)\n\017messagesRequest\030\007 \001(\0132\020.Messages" +
+      "Request\022+\n\020messagesResponse\030\010 \001(\0132\021.Mess" +
+      "agesResponse\022\027\n\006header\030\t \001(\0132\007.Header\022\033\n" +
+      "\010response\030\n \001(\0132\t.Response\"\237\001\n\004Path\022\010\n\004P" +
+      "ING\020\000\022\025\n\021NETWORK_DISCOVERY\020\001\022\010\n\004USER\020\002\022\013",
+      "\n\007MESSAGE\020\003\022\t\n\005GROUP\020\004\022\024\n\020MESSAGES_REQUE" +
+      "ST\020\005\022\025\n\021MESSAGES_RESPONSE\020\006\022\n\n\006HEADER\020\007\022" +
+      "\014\n\010RESPONSE\020\010\022\r\n\tREPLICATE\020\tB\t\n\007payload\"" +
+      "\246\001\n\004User\022\r\n\005uname\030\001 \002(\t\022\r\n\005email\030\002 \001(\t\022\020" +
+      "\n\010password\030\003 \001(\t\022\030\n\020recentActiveTime\030\004 \001" +
+      "(\t\022 \n\006action\030\005 \002(\0162\020.User.ActionType\"2\n\n" +
+      "ActionType\022\014\n\010REGISTER\020\000\022\n\n\006ACCESS\020\001\022\n\n\006" +
+      "DELETE\020\002\"\213\001\n\005Group\022\r\n\005gname\030\001 \002(\t\022\013\n\003gid" +
+      "\030\002 \001(\003\022!\n\006action\030\003 \002(\0162\021.Group.ActionTyp" +
+      "e\022\020\n\010username\030\004 \001(\t\"1\n\nActionType\022\n\n\006CRE",
+      "ATE\020\000\022\n\n\006DELETE\020\001\022\013\n\007ADDUSER\020\002\"\246\002\n\007Messa" +
+      "ge\022\033\n\004type\030\001 \002(\0162\r.Message.Type\022\020\n\010sende" +
+      "rId\030\002 \002(\t\022\017\n\007payload\030\003 \002(\t\022\022\n\nreceiverId" +
+      "\030\004 \002(\t\022\021\n\ttimestamp\030\005 \002(\t\022\037\n\006status\030\006 \001(" +
+      "\0162\017.Message.Status\022#\n\006action\030\007 \002(\0162\023.Mes" +
+      "sage.ActionType\".\n\nActionType\022\010\n\004POST\020\000\022" +
+      "\n\n\006UPDATE\020\001\022\n\n\006DELETE\020\002\"\035\n\004Type\022\n\n\006SINGL" +
+      "E\020\000\022\t\n\005GROUP\020\001\"\037\n\006Status\022\n\n\006ACTIVE\020\000\022\t\n\005" +
+      "STALE\020\001\"_\n\017MessagesRequest\022#\n\004type\030\001 \002(\016" +
+      "2\025.MessagesRequest.Type\022\n\n\002id\030\002 \002(\t\"\033\n\004T",
+      "ype\022\010\n\004USER\020\000\022\t\n\005GROUP\020\001\"}\n\020MessagesResp" +
+      "onse\022$\n\004type\030\001 \002(\0162\026.MessagesResponse.Ty" +
+      "pe\022\n\n\002id\030\002 \002(\t\022\032\n\010messages\030\003 \003(\0132\010.Messa" +
+      "ge\"\033\n\004Type\022\010\n\004USER\020\000\022\t\n\005GROUP\020\001\"\331\002\n\026Netw" +
+      "orkDiscoveryPacket\022*\n\004mode\030\001 \002(\0162\034.Netwo" +
+      "rkDiscoveryPacket.Mode\022D\n\006sender\030\002 \002(\0162\036" +
+      ".NetworkDiscoveryPacket.Sender:\024INTERNAL" +
+      "_SERVER_NODE\022\020\n\010groupTag\030\003 \001(\t\022\016\n\006nodeId" +
+      "\030\004 \001(\t\022\023\n\013nodeAddress\030\005 \002(\t\022\020\n\010nodePort\030" +
+      "\006 \002(\003\022\016\n\006secret\030\007 \002(\t\"Q\n\006Sender\022\030\n\024EXTER",
+      "NAL_SERVER_NODE\020\000\022\030\n\024INTERNAL_SERVER_NOD" +
+      "E\020\001\022\023\n\017END_USER_CLIENT\020\002\"!\n\004Mode\022\013\n\007REQU" +
+      "EST\020\000\022\014\n\010RESPONSE\020\001\"Y\n\006Header\022\032\n\004type\030\001 " +
+      "\002(\0162\014.Header.Type\"3\n\004Type\022\014\n\010INTERNAL\020\000\022" +
+      "\021\n\rINTER_CLUSTER\020\001\022\n\n\006CLIENT\020\002\"?\n\010Respon" +
+      "se\022\017\n\007success\030\001 \002(\010\022\017\n\007message\030\002 \001(\t\022\021\n\t" +
+      "errorCode\030\003 \001(\tB\013\n\007routingH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -11084,14 +10822,13 @@ public final class MsgInterface {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-          pipe.work.Work.getDescriptor(),
         }, assigner);
     internal_static_Route_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Route_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Route_descriptor,
-        new java.lang.String[] { "Id", "Path", "NetworkDiscoveryPacket", "User", "Message", "Group", "MessagesRequest", "MessagesResponse", "Header", "Response", "WorkMessage", "Payload", });
+        new java.lang.String[] { "Id", "Path", "NetworkDiscoveryPacket", "User", "Message", "Group", "MessagesRequest", "MessagesResponse", "Header", "Response", "Payload", });
     internal_static_User_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_User_fieldAccessorTable = new
@@ -11140,7 +10877,6 @@ public final class MsgInterface {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Response_descriptor,
         new java.lang.String[] { "Success", "Message", "ErrorCode", });
-    pipe.work.Work.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)
