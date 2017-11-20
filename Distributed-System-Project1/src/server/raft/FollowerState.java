@@ -10,13 +10,15 @@ import pipe.work.Work.WorkMessage;
 import routing.MsgInterface.Route;
 import routing.MsgInterface.User;
 import routing.MsgInterface.Group;
+import routing.MsgInterface.MessagesRequest;
 import routing.MsgInterface.Message;
 import pipe.common.Common.WriteBody;
 import pipe.work.AppendEntriesRPC.AppendEntries.RequestType;
 import pipe.work.VoteRPC.ResponseVoteRPC;
 
+import java.util.List;
 
-
+import static server.raft.ServerMessageUtils.prepareMessagesResponseBuilder;
 
 
 public class FollowerState extends State implements Runnable{
@@ -162,17 +164,27 @@ public class FollowerState extends State implements Runnable{
 	}
 	@Override
 	public void handleMessageEntries(Route msg) {
+		//TODO: add return or pass channel to responsed
 		Message.ActionType type = msg.getMessage().getAction();
-		System.out.println("handleMessageEntries: " + type.toString() + " : " + Message.ActionType.POST);
-		if (type == Message.ActionType.POST) {
-			//For testing without Leader -  DatabaseService.getInstance().getDb().postMessage(msg.getMessage().getPayload(), msg.getMessage().getReceiverId(),msg.getMessage().getSenderId());
-			handleReplicationMessage(msg);
-		} else if (type == Message.ActionType.UPDATE) {
+		if( msg.hasMessagesRequest() ){
+			//TODO: get values for message
+			List test = DatabaseService.getInstance().getDb().getMessages("test","test2");
+			Route route = prepareMessagesResponseBuilder("test","test2", test);
+			//TODO: respond with route
+			System.out.println("getMessages: " + test);
+		} else {
+			System.out.println("handleMessageEntries: " + type.toString() + " : " + Message.ActionType.POST);
+			if (type == Message.ActionType.POST) {
+				DatabaseService.getInstance().getDb().postMessage(msg.getMessage().getPayload(), msg.getMessage().getReceiverId(),msg.getMessage().getSenderId());
+				handleReplicationMessage(msg);
+			} else if (type == Message.ActionType.UPDATE) {
 
-		} else if (type == Message.ActionType.DELETE) {
+			} else if (type == Message.ActionType.DELETE) {
 
+			}
 		}
 	}
+
 
 	
 	

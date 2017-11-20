@@ -107,8 +107,9 @@ public class CommandHandler extends SimpleChannelInboundHandler<Route> {
 				} else if( path.equals("user")){ //msg.hasMessage()
 					NodeState.getInstance().getState().handleUserEntries(msg);
 				} else if( path.equals("messages_request")){ //msg.hasMessage()
-					Route routeMessage = msg.toBuilder().setPath(Route.Path.MESSAGES_RESPONSE).build();
-					channel.writeAndFlush(routeMessage);
+					NodeState.getInstance().getState().handleMessageEntries(msg);
+//					Route routeMessage = msg.toBuilder().setPath(Route.Path.MESSAGES_RESPONSE).build();
+//					channel.writeAndFlush(routeMessage);
 				} else if( path.equals("messages_response")){
 					System.out.println("hasPath:  " + msg.toString());
 				}
@@ -150,9 +151,3 @@ public class CommandHandler extends SimpleChannelInboundHandler<Route> {
 	}
 
 }
-/*
-	if (msg.hasMessage()) {
-		channel.writeAndFlush(sendMessageBack());
-				// TODO: Team - handle messages
-	}
-*/
