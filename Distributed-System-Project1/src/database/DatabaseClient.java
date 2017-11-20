@@ -1,5 +1,6 @@
 package database;
 
+import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.List;
 
@@ -24,6 +25,9 @@ public interface DatabaseClient {
 	void post(String key, byte[] image, long timestamp);
 
 	ResultSetMetaData getMessage(String key);
+
+	List getMessages(String fromId, String destId );
+
 	void postMessage(String message, String toId,String fromId);
 
 	void createDb();

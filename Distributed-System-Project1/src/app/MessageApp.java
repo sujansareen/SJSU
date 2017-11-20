@@ -23,8 +23,10 @@ import pipe.common.Common.Node;
 import pipe.common.Common.Request;
 import pipe.common.Common.TaskType;
 import pipe.common.Common.WriteBody;
+import routing.MsgInterface;
 import routing.MsgInterface.Message;
 import routing.MsgInterface.Route;
+import routing.MsgInterface.MessagesRequest;
 import routing.Pipe.CommandMessage;
 import client.CommListener;
 import client.MessageClient;
@@ -93,6 +95,7 @@ public class MessageApp implements CommListener {
 		route.setMessage(msg);
 		return route.build();
 	}
+	//TODO: more response builders
 	public static Route getMessagesBuilder(){
 		Message.Builder msg = Message.newBuilder();
 		msg.setType(Message.Type.SINGLE);
@@ -102,10 +105,16 @@ public class MessageApp implements CommListener {
 		msg.setAction(Message.ActionType.POST);
 		msg.setPayload("");
 
+		MessagesRequest.Builder msgRqt = MessagesRequest.newBuilder();
+		msgRqt.setType(MessagesRequest.Type.USER);
+		msgRqt.setId(uname);
+
 		Route.Builder route= Route.newBuilder();
 		route.setId(123);
 		route.setPath(Route.Path.MESSAGES_REQUEST);
+
 		route.setMessage(msg);
+		route.setMessagesRequest(msgRqt);
 		return route.build();
 	}
 	
