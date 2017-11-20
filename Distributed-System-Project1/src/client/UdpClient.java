@@ -25,21 +25,13 @@ import app.MyConstants;
 
 public final class UdpClient implements Runnable {
 
-	/*
-	 * static final int PORT = Integer.parseInt(System.getProperty("port",
-	 * "8080"));
-	 */
-
 	public static void broadcast() throws Exception {
 		Route.Builder rb = Route.newBuilder();
 		rb.setPath(Route.Path.NETWORK_DISCOVERY);
-	
-	
 		
 		NetworkDiscoveryPacket.Builder builder = NetworkDiscoveryPacket.newBuilder();
 		
 		builder.setGroupTag(MyConstants.GROUP_NAME);
-		// builder.setSender(NetworkDiscoveryPacket.Sender.END_USER_CLIENT);
 		builder.setSender(NetworkDiscoveryPacket.Sender.EXTERNAL_SERVER_NODE);
 		builder.setMode(NetworkDiscoveryPacket.Mode.REQUEST);
 		builder.setNodeId(MyConstants.NODE_NAME);
@@ -47,16 +39,10 @@ public final class UdpClient implements Runnable {
 		builder.setNodePort(Integer.parseInt(MyConstants.NODE_PORT));
 		builder.setSecret(MyConstants.SECRET);
 
-		// builder.setIp(InetAddress.getLocalHost().getHostAddress());
-		// System.out.println("******"+InetAddress.getLocalHost().getHostAddress());
 		rb.setNetworkDiscoveryPacket(builder);
 		rb.setId(1);
-		Route request = rb.build();// build() builds the
-															// stream,
-															// transitioning
-															// this builder to
-															// the built state.
-
+		Route request = rb.build();
+		
 		sendUDPMessage(request, MyConstants.UDP_IP_BROADCAST, MyConstants.UDP_PORT);
 	}
 
@@ -98,7 +84,7 @@ public final class UdpClient implements Runnable {
 	}
 	
 	public void run() {
-    	System.out.println("response server from client running at port ");
+    	System.out.println("response server from client running at port " +MyConstants.TEST_PORT);
     	EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();
