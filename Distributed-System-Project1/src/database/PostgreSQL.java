@@ -264,8 +264,14 @@ public class PostgreSQL implements DatabaseClient {
 			MigrationsPostgreSQL migrationSql = new MigrationsPostgreSQL();
 			stmt = conn.createStatement();
 
-			//stmt.executeUpdate(migrationSql.seqMessageTable());
+			stmt.executeUpdate(migrationSql.seqMessageTable());
 			stmt.executeUpdate(migrationSql.createMessageTable());
+
+			stmt.executeUpdate(migrationSql.seqGroupTable());
+			stmt.executeUpdate(migrationSql.createGroupTable());
+
+			stmt.executeUpdate(migrationSql.seqUserTable());
+			stmt.executeUpdate(migrationSql.createUserTable());
 
 		} catch (Exception e) {
 			e.printStackTrace();
