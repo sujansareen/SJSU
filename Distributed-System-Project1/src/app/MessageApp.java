@@ -60,12 +60,18 @@ public class MessageApp implements CommListener {
 
 	@Override
 	public void onMessage(Route msg) {
-		System.out.println("---> " + msg);
+		if(msg.hasMessage()){
+			Message message = msg.getMessage();
+			//TODO: Handle Different cases
+			System.out.println("[" + message.getSenderId() + "] " + message.getPayload() + '\n');
+			//System.out.println("[you] " + message + '\n');
+		}
 	}
 
 	public void sendMessage(String message) {
 		Route msg = sendMessageBuilder(message);
 		mc.sendMessage(msg);
+		System.out.println("[you] " + message + '\n');
 	}
 	public void getMessages() {
 		Route msg = getMessagesBuilder();
@@ -125,6 +131,7 @@ public class MessageApp implements CommListener {
 					da = new MessageApp(mc, line);
 					Thread.sleep(1 * 1000);
 					// do stuff w/ the connection
+					System.out.println( "Welcome to " + line + " chat service!\n");
 					da.getMessages();
 					System.out.println("+++++++++++++++++++++++++");
 					Thread.sleep(1 * 1000);
