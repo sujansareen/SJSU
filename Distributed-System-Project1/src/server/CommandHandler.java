@@ -69,7 +69,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<Route> {
 		msg.setAction(MsgInterface.Message.ActionType.POST);
 
 		Route.Builder route= Route.newBuilder();
-		route.setId(123);
+		route.setId(123);//Todo: ReceiverId
 		route.setPath(Route.Path.MESSAGES_REQUEST);
 		route.setMessage(msg);
 		return route.build();
