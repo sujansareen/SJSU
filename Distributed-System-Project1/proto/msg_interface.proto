@@ -1,7 +1,6 @@
 syntax = "proto2";
 option optimize_for = SPEED;
 option java_package = "routing";
-import "work.proto";
 
 message Route {
 
@@ -32,8 +31,7 @@ message Route {
     optional MessagesResponse messagesResponse = 8;
     optional Header header = 9;
     optional Response response=10;
-    optional WorkMessage workMessage = 11; //Attention :   Only For our team
-    
+
 }
 
 message User {

@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import container.RoutingConf;
+import routing.Pipe;
 import server.CommandInit;
 import server.QueueCommandInit;
 import server.ServerState;
@@ -44,6 +45,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import routing.MsgInterface.Route;
+import routing.Pipe.CommandMessage;
 
 import java.util.Queue;
 import java.util.LinkedList;
@@ -58,8 +60,8 @@ public class QueueServer {
 
 	protected RoutingConf conf;
 	protected boolean background = false;
-	protected static Queue<Route> leaderMessageQue = new LinkedList<Route>();
-	protected static Queue<Route> nonLeaderMessageQue = new LinkedList<Route>();
+	protected static Queue<CommandMessage> leaderMessageQue = new LinkedList<CommandMessage>();
+	protected static Queue<CommandMessage> nonLeaderMessageQue = new LinkedList<CommandMessage>();
 
 	/**
 	 * initialize the server with a configuration of it's resources
@@ -72,8 +74,8 @@ public class QueueServer {
 
 	public QueueServer(RoutingConf conf) {
 		this.conf = conf;
-		QueueServer.leaderMessageQue = new LinkedList<Route>();
-		QueueServer.nonLeaderMessageQue = new LinkedList<Route>();
+		QueueServer.leaderMessageQue = new LinkedList<CommandMessage>();
+		QueueServer.nonLeaderMessageQue = new LinkedList<CommandMessage>();
 	}
 
 	public void release() {
@@ -174,10 +176,10 @@ public class QueueServer {
 	 */
 	private static class StartCommandCommunication implements Runnable {
 		RoutingConf conf;
-		Queue<Route> leaderMessageQue; 
-		Queue<Route> nonLeaderMessageQue; 
+		Queue<CommandMessage> leaderMessageQue; 
+		Queue<CommandMessage> nonLeaderMessageQue; 
 		
-		public StartCommandCommunication(RoutingConf conf, Queue<Route> leaderMessageQue, Queue<Route> nonLeaderMessageQue) {
+		public StartCommandCommunication(RoutingConf conf, Queue<CommandMessage> leaderMessageQue, Queue<CommandMessage> nonLeaderMessageQue) {
 			this.conf = conf;
 			this.leaderMessageQue = leaderMessageQue;
 			this.nonLeaderMessageQue = nonLeaderMessageQue;
