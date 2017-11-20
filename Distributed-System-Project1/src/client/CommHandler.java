@@ -27,7 +27,10 @@ import org.slf4j.LoggerFactory;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import routing.Pipe.CommandMessage;
-
+import routing.MsgInterface.Route;
+import io.netty.util.concurrent.GlobalEventExecutor;
+import io.netty.channel.group.ChannelGroup;
+import io.netty.channel.group.DefaultChannelGroup;
 /**
  * A client-side netty pipeline send/receive.
  * 
@@ -37,7 +40,7 @@ import routing.Pipe.CommandMessage;
  * @author gash
  * 
  */
-public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
+public class CommHandler extends SimpleChannelInboundHandler<Route> {
 	protected static Logger logger = LoggerFactory.getLogger("connect");
 	protected ConcurrentMap<String, CommListener> listeners = new ConcurrentHashMap<String, CommListener>();
 	//private volatile Channel channel;
@@ -73,7 +76,7 @@ public class CommHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	 *            The message
 	 */
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, CommandMessage msg) throws Exception {
+	protected void channelRead0(ChannelHandlerContext ctx, Route msg) throws Exception {
 		System.out.println("--> got incoming message");
 		for (String id : listeners.keySet()) {
 			CommListener cl = listeners.get(id);

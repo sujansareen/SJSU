@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import routing.Pipe.CommandMessage;
+import routing.MsgInterface.Route;
 
 
 /**
@@ -33,7 +34,7 @@ public class TaskList {
 	
 	protected static Logger logger = LoggerFactory.getLogger("work");
 
-	private LinkedBlockingDeque<CommandMessage> inbound;
+	private LinkedBlockingDeque<Route> inbound;
 	private int processed;
 	private int balanced;
 	private Rebalancer rebalance;
@@ -46,7 +47,7 @@ public class TaskList {
 		rebalance = rb;
 	}
 
-	public void addTask(CommandMessage t) {
+	public void addTask(Route t) {
 		inbound.add(t);
 	}
 
@@ -62,8 +63,8 @@ public class TaskList {
 		return balanced;
 	}
 	
-	public CommandMessage dequeue() {
-		CommandMessage t = null;
+	public Route dequeue() {
+		Route t = null;
 		try {
 			t = inbound.take();
 			processed++;

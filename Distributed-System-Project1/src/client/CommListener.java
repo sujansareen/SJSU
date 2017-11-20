@@ -15,6 +15,7 @@
  */
 package client;
 
+import routing.MsgInterface;
 import routing.Pipe.CommandMessage;
 
 public interface CommListener {
@@ -32,5 +33,5 @@ public interface CommListener {
 	 *            Both requests and responses are held in the same message
 	 *            structure
 	 */
-	public abstract void onMessage(CommandMessage msg);
+	public abstract void onMessage(MsgInterface.Route msg);
 }
