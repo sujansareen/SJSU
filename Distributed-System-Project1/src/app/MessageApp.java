@@ -33,18 +33,20 @@ import client.CommConnection;
 public class MessageApp implements CommListener {
 	private MessageClient mc;
 
-	public MessageApp(MessageClient mc) {
-		init(mc);
+	public MessageApp(MessageClient mc, String uname) {
+		destination_id = "destination_id_test";
+		init(mc, uname);
 	}
 
-	private void init(MessageClient mc) {
-		uname = "arturo";
+	private void init(MessageClient mc, String uname) {
+		this.uname = uname;
 		this.mc = mc;
 		this.mc.addListener(this);
 	}
 	
 	static String host;
 	static String uname;
+	static String destination_id;
 	static int port;
 	static ChannelFuture channel;
 	
@@ -58,15 +60,25 @@ public class MessageApp implements CommListener {
 
 	@Override
 	public void onMessage(Route msg) {
-		System.out.println("---> " + msg);
+		if(msg.hasMessage()){
+			Message message = msg.getMessage();
+			//TODO: Handle Different cases
+			System.out.println("[" + message.getSenderId() + "] " + message.getPayload() + '\n');
+			//System.out.println("[you] " + message + '\n');
+		}
 	}
 
-	public void sendMessage(String message,String destination_id) {
-		Route test = writeMessage(message, destination_id);
-		mc.sendMessage(test);
+	public void sendMessage(String message) {
+		Route msg = sendMessageBuilder(message);
+		mc.sendMessage(msg);
+		System.out.println("[you] " + message + '\n');
+	}
+	public void getMessages() {
+		Route msg = getMessagesBuilder();
+		mc.sendMessage(msg);
 	}
 
-	public static Route writeMessage(String message,String destination_id){
+	public static Route sendMessageBuilder(String message){
 		Message.Builder msg=Message.newBuilder();
 		msg.setType(Message.Type.SINGLE);
 		msg.setSenderId(uname);
@@ -81,13 +93,14 @@ public class MessageApp implements CommListener {
 		route.setMessage(msg);
 		return route.build();
 	}
-	public static Route getMessages(String destination_id){
+	public static Route getMessagesBuilder(){
 		Message.Builder msg = Message.newBuilder();
 		msg.setType(Message.Type.SINGLE);
-		msg.setSenderId(destination_id);
-		msg.setReceiverId(uname);
+		msg.setSenderId(uname);
+		msg.setReceiverId(destination_id);
 		msg.setTimestamp("10:01");
 		msg.setAction(Message.ActionType.POST);
+		msg.setPayload("");
 
 		Route.Builder route= Route.newBuilder();
 		route.setId(123);
@@ -98,15 +111,11 @@ public class MessageApp implements CommListener {
 	
 
 	public static void main(String[] args) {
-		String uname = null;
 		String host = "127.0.0.1";
 		int port = 4168;
-
+		MessageClient mc;
+		MessageApp da = null;
 		try {
-			MessageClient mc = new MessageClient(host, port);
-			MessageApp da = new MessageApp(mc);
-			Thread.sleep(1 * 1000);
-			// do stuff w/ the connection
 			ChannelFuture lastWriteFuture = null;
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 			System.out.print("Username: ");
@@ -117,15 +126,21 @@ public class MessageApp implements CommListener {
 					break;
 				}
 
-				if(uname == null){
-					uname = line;
+				if(da == null){
+					mc = new MessageClient(host, port);
+					da = new MessageApp(mc, line);
+					Thread.sleep(1 * 1000);
+					// do stuff w/ the connection
+					System.out.println( "Welcome to " + line + " chat service!\n");
+					da.getMessages();
 					System.out.println("+++++++++++++++++++++++++");
-					// TODO: Team - get messages
+					Thread.sleep(1 * 1000);
+
 				} else {
 					// TODO: Team - more conditions like "groupid".equals(line.toLowerCase())
 
 					// Sends the received line to the server.
-					da.sendMessage(line, "testUser");
+					da.sendMessage(line);
 
 					// If user typed the 'bye' command, wait until the server closes
 					// the connection.

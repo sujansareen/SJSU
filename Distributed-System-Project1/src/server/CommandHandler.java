@@ -69,7 +69,7 @@ public class CommandHandler extends SimpleChannelInboundHandler<Route> {
 		msg.setAction(MsgInterface.Message.ActionType.POST);
 
 		Route.Builder route= Route.newBuilder();
-		route.setId(123);
+		route.setId(123);//Todo: ReceiverId
 		route.setPath(Route.Path.MESSAGES_REQUEST);
 		route.setMessage(msg);
 		return route.build();
@@ -92,9 +92,26 @@ public class CommandHandler extends SimpleChannelInboundHandler<Route> {
 		//PrintUtil.printCommand(msg);
          
 		try {
-			if (msg.hasMessage()) {
-				channel.writeAndFlush(sendMessageBack());
-				// TODO: Team - handle messages 
+			if(msg.hasPath()){
+				String path = msg.getPath().toString().toLowerCase();
+
+				System.out.println("hasPath:  " + path);
+				System.out.println("message:  " + msg.toString());
+
+				if(msg.hasNetworkDiscoveryPacket()) {
+					NodeState.getInstance().getState().handleNetworkDiscoveryPacketEntries(msg);
+				} else if( path.equals("message") ) { //msg.hasUser()
+					NodeState.getInstance().getState().handleMessageEntries(msg);
+					Route routeMessage = msg;
+					channel.writeAndFlush(routeMessage);
+				} else if( path.equals("user")){ //msg.hasMessage()
+					NodeState.getInstance().getState().handleUserEntries(msg);
+				} else if( path.equals("messages_request")){ //msg.hasMessage()
+					Route routeMessage = msg.toBuilder().setPath(Route.Path.MESSAGES_RESPONSE).build();
+					channel.writeAndFlush(routeMessage);
+				} else if( path.equals("messages_response")){
+					System.out.println("hasPath:  " + msg.toString());
+				}
 			}
 		} catch (Exception e) {
 			// TODO add logging
@@ -133,3 +150,9 @@ public class CommandHandler extends SimpleChannelInboundHandler<Route> {
 	}
 
 }
+/*
+	if (msg.hasMessage()) {
+		channel.writeAndFlush(sendMessageBack());
+				// TODO: Team - handle messages
+	}
+*/

@@ -34,8 +34,9 @@ import pipe.common.Common.Response.Status;
 import pipe.common.Common.TaskType;
 import pipe.common.Common.WriteBody;
 import pipe.common.Common.WriteResponse;
-import routing.MsgInterface.Route;
+import routing.Pipe.CommandMessage;
 import routing.Pipe.WorkStealingRequest;
+import routing.MsgInterface.Route;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,20 +52,20 @@ import java.util.Queue;
  * @author gash
  * 
  */
-public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
+public class QueueCommandHandler extends SimpleChannelInboundHandler<CommandMessage> {
 	protected static Logger logger = LoggerFactory.getLogger("cmd");
 	protected RoutingConf conf;
-	protected static Queue<Route> leaderMessageQue;
-	protected static Queue<Route> nonLeaderMessageQue;
-	private static HashMap<String, List<Route>> map = new HashMap<>();
+	protected static Queue<CommandMessage> leaderMessageQue;
+	protected static Queue<CommandMessage> nonLeaderMessageQue;
+	private static HashMap<String, List<CommandMessage>> map = new HashMap<>();
 	private static EdgeList outbound = new EdgeList();
 	private static Node client;
 	
 	//static ChannelFuture cf;
 	static EventLoopGroup group = new NioEventLoopGroup();
 	
-	public QueueCommandHandler(RoutingConf conf, Queue<Route> leaderMessageQue, 
-			Queue<Route> nonLeaderMessageQue) {
+	public QueueCommandHandler(RoutingConf conf, Queue<CommandMessage> leaderMessageQue, 
+			Queue<CommandMessage> nonLeaderMessageQue) {
 		if (conf != null) {
 			this.conf = conf;
 			QueueCommandHandler.leaderMessageQue = leaderMessageQue;
@@ -113,90 +114,13 @@ public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
 
 	}
 	
-	/* public void handleWSRRequest(Route msg, Channel channel){
+	/* public void handleWSRRequest(CommandMessage msg, Channel channel){
 		TODO: Group 
 	*/
 	
-	
-	
-	
-	public void handleMessage(Route msg, Channel channel) {
-		logger.info("Get message for replication from "+msg.getMessage().getSenderId()+" : "+msg.getMessage().getPayload());
-		leaderMessageQue.offer(msg);
-	}
-	public void handleMessage(WorkStealingRequest msg, Channel channel) {
-		WorkStealingRequest request = msg;
+	public void handleMessage(CommandMessage msg, Channel channel) {
 		
-		request.getNodeState();
-		logger.info("WSR received from : " + request.getNodeState());
-		
-		 // Send requests to Leader if leaderQueue is not empty !
-		 
-		
-		if(leaderMessageQue.size() > 0 && Integer.parseInt(request.getNodeState()) == (NodeState.LEADER)){
-			logger.info("... inside leaderMessagequeSize() > 0 && node state leader... leader queue size" + leaderMessageQue.size());
-			String host = request.getHost();
-			int port = request.getPort();
-			int nodeId = msg.getNodeId();
-			
-			Route task = leaderMessageQue.poll();
-			
-			 // Create Connection to host and port and write task to the channel
-			 
-			
-			if(!outbound.getMap().containsKey(nodeId)){
-				logger.info("Before init");
-				init(outbound.addNode(nodeId, host, port));
-				logger.info("After Init");
-				logger.info("Before writing to channel ");
-				outbound.getMap().get(nodeId).getChannel().writeAndFlush(task);
-			}
-			
-			else if(outbound.getMap().get(nodeId).isActive() && outbound.getMap().get(nodeId).getChannel() != null){
-				logger.info("Before writing to channel ");
-				ChannelFuture cf = outbound.getMap().get(nodeId).getChannel().writeAndFlush(task);
-				if (cf.isDone() && cf.isSuccess()) {
-					System.out.println("Work Stealing task sent succesfully to Leader:");
-				}
-			}
-			
-		}
-		else if(nonLeaderMessageQue.size() > 0){
-			logger.info("... inside Non Leader Request ... non laeader queue size : " + nonLeaderMessageQue.size());
-			String host = request.getHost();
-			int port = request.getPort();
-			int nodeId = msg.getNodeId();
-			Route task = nonLeaderMessageQue.poll();
-			
-			 // Create Connection to host and port and write task to the channel
-			 
-			if(!outbound.getMap().containsKey(nodeId)){
-				logger.info("Before init");
-				init(outbound.addNode(nodeId, host, port));
-				logger.info("After Init");
-				logger.info("Before writing to channel ");
-				outbound.getMap().get(nodeId).getChannel().writeAndFlush(task);
-			}
-			
-			else if(outbound.getMap().get(nodeId).isActive() && outbound.getMap().get(nodeId).getChannel() != null){
-				logger.info("Before writing to channel ");
-				ChannelFuture cf = outbound.getMap().get(nodeId).getChannel().writeAndFlush(task);
-				if (cf.isDone() && cf.isSuccess()) {
-					System.out.println("Work Stealing task sent succesfully to Node:");
-				}
-			}
-
-		}
-		else{
-			logger.info("Queues are empty ! NO Task !!");
-		}
-	}
-	
-	
-	
-	/*public void handleMessage(Route msg, Channel channel) {
-		
-		 For Write Requests :
+		/* For Write Requests :
 		 * 
 		 * 
 		 * When QS receives a chunk from the client; it creates a key with filename
@@ -206,7 +130,7 @@ public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
 		 * If true; push all the chunks to leaderQueue
 		 * else create connection back to client and send acknowledgement for missing chunks
 		 * and again set a timer !
-		 
+		 */
 		logger.info("Handling msg in handleMessage()");
 		logger.info("WSR request is : " + msg.hasWsr());
 		
@@ -220,9 +144,9 @@ public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
 				if(req.hasRequestType()){
 					logger.info("... inside Message.HasrequestType() ... ");
 					if(req.getRequestType().getNumber() == TaskType.WRITEFILE_VALUE){
-						
+						/*
 						 * Handling Write Requests
-						 
+						 */
 						logger.info("... inside Message.getRequest() == WRITE_FILE... ");
 						if(req.hasRwb()){
 							logger.info("... inside request.HasRWB() ... ");
@@ -231,7 +155,7 @@ public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
 							logger.info("number of chunks: " + wb.getNumOfChunks());
 							String fileName = wb.getFilename();
 							if(!map.containsKey(fileName)){
-								ArrayList<Route> list = new ArrayList<>(wb.getNumOfChunks());
+								ArrayList<CommandMessage> list = new ArrayList<>(wb.getNumOfChunks());
 								list.add(wb.getChunk().getChunkId(), msg);
 								map.put(fileName, list);
 								NodeTimer timer = new NodeTimer();
@@ -251,9 +175,9 @@ public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
 				
 			
 					else if(req.getRequestType().getNumber() == TaskType.READFILE_VALUE){
-								
+								/*
 								 * Handling Read Requests
-								 
+								 */
 						logger.info("... inside req.getRequest() == READ_FILE ... ");
 						nonLeaderMessageQue.offer(msg);
 					}
@@ -261,9 +185,9 @@ public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
 			}
 			
 			else if(msg.hasAnr()){
-					
+					/*
 					 * Handling Add Node requests
-					 
+					 */
 					logger.info("... inside Message.HasANR() node addtion... ");
 					leaderMessageQue.offer(msg);
 			}
@@ -278,9 +202,9 @@ public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
 					
 					request.getNodeState();
 					logger.info("WSR received from : " + request.getNodeState());
-					
+					/*
 					 * Send requests to Leader if leaderQueue is not empty !
-					 
+					 */
 					
 					if(leaderMessageQue.size() > 0 && Integer.parseInt(request.getNodeState()) == (NodeState.LEADER)){
 						logger.info("... inside leaderMessagequeSize() > 0 && node state leader... leader queue size" + leaderMessageQue.size());
@@ -288,10 +212,10 @@ public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
 						int port = request.getPort();
 						int nodeId = msg.getHeader().getNodeId();
 						
-						Route task = leaderMessageQue.poll();
-						
+						CommandMessage task = leaderMessageQue.poll();
+						/*
 						 * Create Connection to host and port and write task to the channel
-						 
+						 */
 						
 						if(!outbound.getMap().containsKey(nodeId)){
 							logger.info("Before init");
@@ -315,10 +239,10 @@ public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
 						String host = request.getHost();
 						int port = request.getPort();
 						int nodeId = msg.getHeader().getNodeId();
-						Route task = nonLeaderMessageQue.poll();
-						
+						CommandMessage task = nonLeaderMessageQue.poll();
+						/*
 						 * Create Connection to host and port and write task to the channel
-						 
+						 */
 						if(!outbound.getMap().containsKey(nodeId)){
 							logger.info("Before init");
 							init(outbound.addNode(nodeId, host, port));
@@ -354,14 +278,14 @@ public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
 			eb.setId(conf.getNodeId());
 			eb.setRefId(msg.getHeader().getNodeId());
 			eb.setMessage(e.getMessage());
-			Route.Builder rb = Route.newBuilder(msg);
+			CommandMessage.Builder rb = CommandMessage.newBuilder(msg);
 			rb.setErr(eb);
 			channel.write(rb.build());
 		}
 
 		System.out.flush();
 	}
-*/
+
 	/**
 	 * a message was received from the server. Here we dispatch the message to
 	 * the client's thread pool to minimize the time it takes to process other
@@ -373,15 +297,9 @@ public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
 	 *            The message
 	 */
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, Route msg) throws Exception {
+	protected void channelRead0(ChannelHandlerContext ctx, CommandMessage msg) throws Exception {
 		
-		logger.info("Request arrived from : " + msg.getMessage().getSenderId());
-		handleMessage(msg, ctx.channel());
-		
-	}
-	protected void channelRead0(ChannelHandlerContext ctx, WorkStealingRequest msg) throws Exception {
-		
-		logger.info("Request arrived from : " + msg.getHost());
+		logger.info("Request arrived from : " + msg.getHeader().getNodeId());
 		handleMessage(msg, ctx.channel());
 		
 	}
@@ -406,7 +324,7 @@ public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
 		public void run() {
 			// TODO Auto-generated method stub
 			
-			ArrayList<Route> list = (ArrayList<Route>) getMapInstance().get(fileName);
+			ArrayList<CommandMessage> list = (ArrayList<CommandMessage>) getMapInstance().get(fileName);
 			if(list.size() == numberOfChunks){
 				/*
 				 * Push the message to the leader Queue
@@ -462,12 +380,12 @@ public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
 	
 	public static void sendAcknowledgement(Response response){
 		
-		Route.Builder command = Route.newBuilder();
+		CommandMessage.Builder command = CommandMessage.newBuilder();
 		Header.Builder header = Header.newBuilder();
 		header.setNodeId(0);
 		header.setTime(System.currentTimeMillis());
-		//command.setHeader(header);
-		//command.setResponse(response);
+		command.setHeader(header);
+		command.setResponse(response);
 		ChannelFuture channel = null;
 		EventLoopGroup group = new NioEventLoopGroup();
 		try {
@@ -495,7 +413,7 @@ public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
 			System.out.println("failed to initialize the client connection " + ex.toString());
 			ex.printStackTrace();
 		}
-		Route cmd = command.build();
+		CommandMessage cmd = command.build();
 		channel.channel().writeAndFlush(cmd);
 		if (channel.isDone() && channel.isSuccess()) {
 			System.out.println("Msg sent succesfully:");
@@ -504,10 +422,10 @@ public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
 	}
 	
 	public static void enqueue(String fileName){
-		ArrayList<Route> list = (ArrayList<Route>) getMapInstance().get(fileName);
-		for(Route msg : list){
+		ArrayList<CommandMessage> list = (ArrayList<CommandMessage>) getMapInstance().get(fileName);
+		for(CommandMessage msg : list){
 			/*
-			 * Build Route 
+			 * Build CommandMessage 
 			 */
 			leaderMessageQue.offer(msg);
 			
@@ -515,7 +433,7 @@ public class QueueCommandHandler extends SimpleChannelInboundHandler<Route> {
 		logger.info("Added file chunks to leaderQueue");
 	}
 	
-	public static HashMap<String, List<Route>> getMapInstance(){
+	public static HashMap<String, List<CommandMessage>> getMapInstance(){
 		return map;
 	}
 	

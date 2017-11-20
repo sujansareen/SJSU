@@ -13,7 +13,6 @@ import io.netty.handler.codec.compression.ZlibCodecFactory;
 import io.netty.handler.codec.compression.ZlibWrapper;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
-import routing.MsgInterface.Route;
 import routing.Pipe.CommandMessage;
 
 /**
@@ -24,8 +23,8 @@ import routing.Pipe.CommandMessage;
 public class QueueCommandInit extends ChannelInitializer<SocketChannel> {
 	boolean compress = false;
 	RoutingConf conf;
-	Queue<Route> leaderMessageQue; 
-	Queue<Route> nonLeaderMessageQue; 
+	Queue<CommandMessage> leaderMessageQue; 
+	Queue<CommandMessage> nonLeaderMessageQue; 
 	
 	public QueueCommandInit(RoutingConf conf, boolean enableCompression) {
 		super();
@@ -34,7 +33,7 @@ public class QueueCommandInit extends ChannelInitializer<SocketChannel> {
 	}
 
 	
-	public QueueCommandInit(RoutingConf conf, boolean enableCompression, Queue<Route> leaderMessageQue, Queue<Route> nonLeaderMessageQue) {
+	public QueueCommandInit(RoutingConf conf, boolean enableCompression, Queue<CommandMessage> leaderMessageQue, Queue<CommandMessage> nonLeaderMessageQue) {
 		super();
 		compress = enableCompression;
 		this.conf = conf;
@@ -62,7 +61,7 @@ public class QueueCommandInit extends ChannelInitializer<SocketChannel> {
 		pipeline.addLast("frameDecoder", new LengthFieldBasedFrameDecoder(67108864, 0, 4, 0, 4));
 
 		// decoder must be first
-		pipeline.addLast("protobufDecoder", new ProtobufDecoder(Route.getDefaultInstance()));
+		pipeline.addLast("protobufDecoder", new ProtobufDecoder(CommandMessage.getDefaultInstance()));
 		pipeline.addLast("frameEncoder", new LengthFieldPrepender(4));
 		pipeline.addLast("protobufEncoder", new ProtobufEncoder());
 

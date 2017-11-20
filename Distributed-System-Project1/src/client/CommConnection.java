@@ -175,8 +175,8 @@ public class CommConnection {
 
 			// want to monitor the connection to the server s.t. if we loose the
 			// connection, we can try to re-establish it.
-//			ClientClosedListener ccl = new ClientClosedListener(this);
-//			channel.channel().closeFuture().addListener(ccl);
+			// ClientClosedListener ccl = new ClientClosedListener(this);
+			// channel.channel().closeFuture().addListener(ccl);
 
 			System.out.println(channel.channel().localAddress() + " -> open: " + channel.channel().isOpen()
 					+ ", write: " + channel.channel().isWritable() + ", reg: " + channel.channel().isRegistered());
@@ -191,42 +191,6 @@ public class CommConnection {
 		worker.setDaemon(true);
 		worker.start();
 	}
-	public static void loginUser(String name){
-        uname = name;
-    }
-
-    public static Route writeMessage(String message,String destination_id){
-        Message.Builder msg=Message.newBuilder();
-        msg.setType(Message.Type.SINGLE);
-        msg.setSenderId(uname);
-        msg.setPayload(message);
-        msg.setReceiverId(destination_id);
-        msg.setTimestamp("10:01");
-        msg.setAction(Message.ActionType.POST);
-        
-        Route.Builder route= Route.newBuilder();
-        route.setId(123);
-        route.setPath(Route.Path.MESSAGE);
-        route.setMessage(msg);
-        Route routeMessage= route.build();
-        return routeMessage;
-    }
-    public static Route getMessages(String destination_id){
-        Message.Builder msg=Message.newBuilder();
-        msg.setType(Message.Type.SINGLE);
-        msg.setSenderId(destination_id);
-		msg.setPayload("");
-        msg.setReceiverId(uname);
-        msg.setTimestamp("10:01");
-        msg.setAction(Message.ActionType.POST);
-
-        Route.Builder route= Route.newBuilder();
-        route.setId(123);
-        route.setPath(Route.Path.MESSAGES_REQUEST);
-        route.setMessage(msg);
-        Route routeMessage= route.build();
-        return routeMessage;
-    }
 	/**
 	 * create connection to remote server
 	 * 

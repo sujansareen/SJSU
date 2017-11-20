@@ -40,7 +40,7 @@ import routing.MsgInterface.Route;
  * @author gash
  * 
  */
-public class WorkHandler extends SimpleChannelInboundHandler<Route> {
+public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 //	protected static Logger logger = LoggerFactory.getLogger("work");
 	protected ServerState state;
 	protected boolean debug = false;
@@ -53,107 +53,10 @@ public class WorkHandler extends SimpleChannelInboundHandler<Route> {
 
 	/**
 	 * override this method to provide processing behavior. T
-	 *This method will be called when workhandler will receive route message from client
+	 * 
 	 * @param msg
 	 */
-	
-	public void handleMessage(Route msg, Channel channel) {
-		if (msg == null) {
-			// TODO add logging
-			System.out.println("ERROR: Unexpected content - " + msg);
-			return;
-		}
-		if(msg.hasPath()){
-			String path = msg.getPath().toString().toLowerCase();
-			System.out.println("hasPath:  " + path);
-			if(msg.hasNetworkDiscoveryPacket()) {
-				NodeState.getInstance().getState().handleNetworkDiscoveryPacketEntries(msg);
-			} else if( path.equals("message") ) { //msg.hasUser()
-				NodeState.getInstance().getState().handleMessageEntries(msg);
-			} else if( path.equals("user")){ //msg.hasMessage()
-				NodeState.getInstance().getState().handleUserEntries(msg);
-			} else if( path.equals("messages_request")){ //msg.hasMessage()
-				System.out.println("hasPath:  " + msg.toString());
-				Route routeMessage= msg.toBuilder().setPath(Route.Path.MESSAGES_RESPONSE).build();
-				channel.write(routeMessage);
-			} else if( path.equals("messages_response")){
-				System.out.println("hasPath:  " + msg.toString());
-			}
-		} else if (msg.hasWorkMessage()) {
-			System.out.println("Raft Stuff");
-			WorkMessage wm = msg.getWorkMessage();
-			if (wm.hasTrivialPing()) {
-				Logger.DEBUG(" The node: " + wm.getTrivialPing().getNodeId() + " Is Active to this IP: "
-						+ wm.getTrivialPing().getIP());
-				Logger.DEBUG("Currrent Term " + NodeState.currentTerm);
-
-				NodeState.getInstance().getServerState().getEmon().getOutboundEdges()
-						.getNode(wm.getTrivialPing().getNodeId()).setChannel(channel);
-
-			} else if (wm.hasHeartBeatPacket() && wm.getHeartBeatPacket().hasHeartbeat()) {
-				System.out.println(
-						"Heart Beat Packet recieved from " + wm.getHeartBeatPacket().getHeartbeat().getLeaderId());
-
-				WorkMessage.Builder work = WorkMessage.newBuilder();
-				work.setUnixTimeStamp(ServerUtils.getCurrentUnixTimeStamp());
-				NodeState.getInstance().getState().handleHeartBeat(wm);
-
-				// channel.write(work.build());
-
-			} else if (wm.hasHeartBeatPacket() && wm.getHeartBeatPacket().hasHeartBeatResponse()) {
-				Logger.DEBUG(
-						"Response is Received from " + wm.getHeartBeatPacket().getHeartBeatResponse().getNodeId());
-				NodeState.getState().handleHeartBeatResponse(wm);
-			}
-
-			else if (wm.hasVoteRPCPacket() && wm.getVoteRPCPacket().hasRequestVoteRPC()) {
-				Logger.DEBUG("Vote Request recieved");
-				WorkMessage voteResponse = NodeState.getInstance().getState().handleRequestVoteRPC(wm);
-				channel.write(voteResponse);
-			} else if (wm.hasVoteRPCPacket() && wm.getVoteRPCPacket().hasResponseVoteRPC()) {
-				//todo
-			} else if (wm.hasAppendEntriesPacket() && wm.getAppendEntriesPacket().hasAppendEntries()) {
-
-				NodeState.getInstance().getState().handleAppendEntries(wm);
-			}
-			else if (wm.hasTrivialPing()) {
-				Logger.DEBUG(" The node: " + wm.getTrivialPing().getNodeId() + " Is Active to this IP: "
-						+ wm.getTrivialPing().getIP());
-				Logger.DEBUG("Currrent Term " + NodeState.currentTerm);
-
-				NodeState.getInstance().getServerState().getEmon().getOutboundEdges()
-						.getNode(wm.getTrivialPing().getNodeId()).setChannel(channel);
-
-			}
-
-
-
-
-
-
-		}
-
-
-
-
-//		else if(msg.getPath().toString().toLowerCase().equals("user") || msg.getPath().toString().toLowerCase().equals("message") ){
-//			if(NodeState.getNodestate()==NodeState.FOLLOWER){
-//				NodeState.getInstance().getState().handleReplicationMessage(msg);
-//			}else if(NodeState.getNodestate()==NodeState.LEADER){
-//			//TODO Make db call for replicating data on leader.
-//
-//				//NodeState.getState().sendReplicationMessage(msg);
-//				//if leader don do db call and replicate
-//
-//			}
-//		}
-	}
-/*	public void handleMessage(WorkMessage msg, Channel channel) {
-		
-		
-		
-		
-		/*
+	public void handleMessage(WorkMessage msg, Channel channel) {
 		 
 		if (msg == null) {
 			// TODO add logging
@@ -223,7 +126,7 @@ public class WorkHandler extends SimpleChannelInboundHandler<Route> {
 			
 			
 	}
-	*/
+	
 	
 
 	/**
@@ -237,7 +140,7 @@ public class WorkHandler extends SimpleChannelInboundHandler<Route> {
 	 *            The message
 	 */
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, Route msg) throws Exception {
+	protected void channelRead0(ChannelHandlerContext ctx, WorkMessage msg) throws Exception {
 		
 		handleMessage(msg, ctx.channel());
 	}
@@ -249,3 +152,23 @@ public class WorkHandler extends SimpleChannelInboundHandler<Route> {
 	}
 
 }
+/*
+		if(msg.hasPath()){
+			String path = msg.getPath().toString().toLowerCase();
+			System.out.println("hasPath:  " + path);
+			if(msg.hasNetworkDiscoveryPacket()) {
+				NodeState.getInstance().getState().handleNetworkDiscoveryPacketEntries(msg);
+			} else if( path.equals("message") ) { //msg.hasUser()
+				NodeState.getInstance().getState().handleMessageEntries(msg);
+			} else if( path.equals("user")){ //msg.hasMessage()
+				NodeState.getInstance().getState().handleUserEntries(msg);
+			} else if( path.equals("messages_request")){ //msg.hasMessage()
+				System.out.println("hasPath:  " + msg.toString());
+				Route routeMessage= msg.toBuilder().setPath(Route.Path.MESSAGES_RESPONSE).build();
+				channel.write(routeMessage);
+			} else if( path.equals("messages_response")){
+				System.out.println("hasPath:  " + msg.toString());
+			}
+		} else if (msg.hasWorkMessage()) {
+
+*/
