@@ -94,18 +94,21 @@ public class CommandHandler extends SimpleChannelInboundHandler<Route> {
 		try {
 			if(msg.hasPath()){
 				String path = msg.getPath().toString().toLowerCase();
+
 				System.out.println("hasPath:  " + path);
+				System.out.println("message:  " + msg.toString());
 
 				if(msg.hasNetworkDiscoveryPacket()) {
 					NodeState.getInstance().getState().handleNetworkDiscoveryPacketEntries(msg);
 				} else if( path.equals("message") ) { //msg.hasUser()
 					NodeState.getInstance().getState().handleMessageEntries(msg);
+					Route routeMessage = msg;
+					channel.writeAndFlush(routeMessage);
 				} else if( path.equals("user")){ //msg.hasMessage()
 					NodeState.getInstance().getState().handleUserEntries(msg);
 				} else if( path.equals("messages_request")){ //msg.hasMessage()
-					System.out.println("hasPath:  " + msg.toString());
-					Route routeMessage= msg.toBuilder().setPath(Route.Path.MESSAGES_RESPONSE).build();
-					channel.write(routeMessage);
+					Route routeMessage = msg.toBuilder().setPath(Route.Path.MESSAGES_RESPONSE).build();
+					channel.writeAndFlush(routeMessage);
 				} else if( path.equals("messages_response")){
 					System.out.println("hasPath:  " + msg.toString());
 				}
