@@ -92,9 +92,23 @@ public class CommandHandler extends SimpleChannelInboundHandler<Route> {
 		//PrintUtil.printCommand(msg);
          
 		try {
-			if (msg.hasMessage()) {
-				channel.writeAndFlush(sendMessageBack());
-				// TODO: Team - handle messages 
+			if(msg.hasPath()){
+				String path = msg.getPath().toString().toLowerCase();
+				System.out.println("hasPath:  " + path);
+
+				if(msg.hasNetworkDiscoveryPacket()) {
+					NodeState.getInstance().getState().handleNetworkDiscoveryPacketEntries(msg);
+				} else if( path.equals("message") ) { //msg.hasUser()
+					NodeState.getInstance().getState().handleMessageEntries(msg);
+				} else if( path.equals("user")){ //msg.hasMessage()
+					NodeState.getInstance().getState().handleUserEntries(msg);
+				} else if( path.equals("messages_request")){ //msg.hasMessage()
+					System.out.println("hasPath:  " + msg.toString());
+					Route routeMessage= msg.toBuilder().setPath(Route.Path.MESSAGES_RESPONSE).build();
+					channel.write(routeMessage);
+				} else if( path.equals("messages_response")){
+					System.out.println("hasPath:  " + msg.toString());
+				}
 			}
 		} catch (Exception e) {
 			// TODO add logging
@@ -133,3 +147,9 @@ public class CommandHandler extends SimpleChannelInboundHandler<Route> {
 	}
 
 }
+/*
+	if (msg.hasMessage()) {
+		channel.writeAndFlush(sendMessageBack());
+				// TODO: Team - handle messages
+	}
+*/
