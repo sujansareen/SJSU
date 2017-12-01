@@ -13,15 +13,15 @@ public final class Pipe {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     boolean hasHeader();
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     pipe.common.Common.Header getHeader();
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     pipe.common.Common.HeaderOrBuilder getHeaderOrBuilder();
 
@@ -346,19 +346,19 @@ public final class Pipe {
     public static final int HEADER_FIELD_NUMBER = 1;
     private pipe.common.Common.Header header_;
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     public boolean hasHeader() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     public pipe.common.Common.Header getHeader() {
       return header_;
     }
     /**
-     * <code>required .Header header = 1;</code>
+     * <code>optional .Header header = 1;</code>
      */
     public pipe.common.Common.HeaderOrBuilder getHeaderOrBuilder() {
       return header_;
@@ -577,13 +577,11 @@ public final class Pipe {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasHeader()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!getHeader().isInitialized()) {
-        memoizedIsInitialized = 0;
-        return false;
+      if (hasHeader()) {
+        if (!getHeader().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       if (hasRequest()) {
         if (!getRequest().isInitialized()) {
@@ -952,13 +950,11 @@ public final class Pipe {
       }
 
       public final boolean isInitialized() {
-        if (!hasHeader()) {
-          
-          return false;
-        }
-        if (!getHeader().isInitialized()) {
-          
-          return false;
+        if (hasHeader()) {
+          if (!getHeader().isInitialized()) {
+            
+            return false;
+          }
         }
         if (hasRequest()) {
           if (!getRequest().isInitialized()) {
@@ -1031,13 +1027,13 @@ public final class Pipe {
       private com.google.protobuf.SingleFieldBuilder<
           pipe.common.Common.Header, pipe.common.Common.Header.Builder, pipe.common.Common.HeaderOrBuilder> headerBuilder_;
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public boolean hasHeader() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public pipe.common.Common.Header getHeader() {
         if (headerBuilder_ == null) {
@@ -1047,7 +1043,7 @@ public final class Pipe {
         }
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public Builder setHeader(pipe.common.Common.Header value) {
         if (headerBuilder_ == null) {
@@ -1063,7 +1059,7 @@ public final class Pipe {
         return this;
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public Builder setHeader(
           pipe.common.Common.Header.Builder builderForValue) {
@@ -1077,7 +1073,7 @@ public final class Pipe {
         return this;
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public Builder mergeHeader(pipe.common.Common.Header value) {
         if (headerBuilder_ == null) {
@@ -1096,7 +1092,7 @@ public final class Pipe {
         return this;
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public Builder clearHeader() {
         if (headerBuilder_ == null) {
@@ -1109,7 +1105,7 @@ public final class Pipe {
         return this;
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public pipe.common.Common.Header.Builder getHeaderBuilder() {
         bitField0_ |= 0x00000001;
@@ -1117,7 +1113,7 @@ public final class Pipe {
         return getHeaderFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       public pipe.common.Common.HeaderOrBuilder getHeaderOrBuilder() {
         if (headerBuilder_ != null) {
@@ -1127,7 +1123,7 @@ public final class Pipe {
         }
       }
       /**
-       * <code>required .Header header = 1;</code>
+       * <code>optional .Header header = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           pipe.common.Common.Header, pipe.common.Common.Header.Builder, pipe.common.Common.HeaderOrBuilder> 
@@ -2008,6 +2004,15 @@ public final class Pipe {
      */
     com.google.protobuf.ByteString
         getNodeStateBytes();
+
+    /**
+     * <code>required int32 nodeId = 5;</code>
+     */
+    boolean hasNodeId();
+    /**
+     * <code>required int32 nodeId = 5;</code>
+     */
+    int getNodeId();
   }
   /**
    * Protobuf type {@code WorkStealingRequest}
@@ -2076,6 +2081,11 @@ public final class Pipe {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
               nodeState_ = bs;
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000008;
+              nodeId_ = input.readInt32();
               break;
             }
           }
@@ -2217,10 +2227,26 @@ public final class Pipe {
       }
     }
 
+    public static final int NODEID_FIELD_NUMBER = 5;
+    private int nodeId_;
+    /**
+     * <code>required int32 nodeId = 5;</code>
+     */
+    public boolean hasNodeId() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 nodeId = 5;</code>
+     */
+    public int getNodeId() {
+      return nodeId_;
+    }
+
     private void initFields() {
       host_ = "";
       port_ = 0;
       nodeState_ = "";
+      nodeId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2240,6 +2266,10 @@ public final class Pipe {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasNodeId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -2255,6 +2285,9 @@ public final class Pipe {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(4, getNodeStateBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(5, nodeId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2276,6 +2309,10 @@ public final class Pipe {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(4, getNodeStateBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, nodeId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2400,6 +2437,8 @@ public final class Pipe {
         bitField0_ = (bitField0_ & ~0x00000002);
         nodeState_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        nodeId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -2440,6 +2479,10 @@ public final class Pipe {
           to_bitField0_ |= 0x00000004;
         }
         result.nodeState_ = nodeState_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.nodeId_ = nodeId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2469,6 +2512,9 @@ public final class Pipe {
           nodeState_ = other.nodeState_;
           onChanged();
         }
+        if (other.hasNodeId()) {
+          setNodeId(other.getNodeId());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -2483,6 +2529,10 @@ public final class Pipe {
           return false;
         }
         if (!hasNodeState()) {
+          
+          return false;
+        }
+        if (!hasNodeId()) {
           
           return false;
         }
@@ -2688,6 +2738,38 @@ public final class Pipe {
   }
   bitField0_ |= 0x00000004;
         nodeState_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int nodeId_ ;
+      /**
+       * <code>required int32 nodeId = 5;</code>
+       */
+      public boolean hasNodeId() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 nodeId = 5;</code>
+       */
+      public int getNodeId() {
+        return nodeId_;
+      }
+      /**
+       * <code>required int32 nodeId = 5;</code>
+       */
+      public Builder setNodeId(int value) {
+        bitField0_ |= 0x00000008;
+        nodeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 nodeId = 5;</code>
+       */
+      public Builder clearNodeId() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        nodeId_ = 0;
         onChanged();
         return this;
       }
@@ -3298,15 +3380,16 @@ public final class Pipe {
   static {
     java.lang.String[] descriptorData = {
       "\n\npipe.proto\032\014common.proto\"\361\001\n\016CommandMe" +
-      "ssage\022\027\n\006header\030\001 \002(\0132\007.Header\022\016\n\004ping\030\003" +
+      "ssage\022\027\n\006header\030\001 \001(\0132\007.Header\022\016\n\004ping\030\003" +
       " \001(\010H\000\022\021\n\007message\030\004 \001(\tH\000\022\033\n\007request\030\006 \001" +
       "(\0132\010.RequestH\000\022\027\n\003err\030\005 \001(\0132\010.FailureH\000\022" +
       "#\n\003wsr\030\007 \001(\0132\024.WorkStealingRequestH\000\022\036\n\003" +
       "anr\030\010 \001(\0132\017.AddNodeRequestH\000\022\035\n\010response" +
-      "\030\t \001(\0132\t.ResponseH\000B\t\n\007payload\"D\n\023WorkSt" +
+      "\030\t \001(\0132\t.ResponseH\000B\t\n\007payload\"T\n\023WorkSt" +
       "ealingRequest\022\014\n\004host\030\002 \002(\t\022\014\n\004port\030\003 \002(" +
-      "\005\022\021\n\tnodeState\030\004 \002(\t\",\n\016AddNodeRequest\022\014" +
-      "\n\004host\030\002 \002(\t\022\014\n\004port\030\003 \002(\005B\013\n\007routingH\001"
+      "\005\022\021\n\tnodeState\030\004 \002(\t\022\016\n\006nodeId\030\005 \002(\005\",\n\016" +
+      "AddNodeRequest\022\014\n\004host\030\002 \002(\t\022\014\n\004port\030\003 \002",
+      "(\005B\013\n\007routingH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3332,7 +3415,7 @@ public final class Pipe {
     internal_static_WorkStealingRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_WorkStealingRequest_descriptor,
-        new java.lang.String[] { "Host", "Port", "NodeState", });
+        new java.lang.String[] { "Host", "Port", "NodeState", "NodeId", });
     internal_static_AddNodeRequest_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_AddNodeRequest_fieldAccessorTable = new

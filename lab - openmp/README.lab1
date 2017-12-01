@@ -1,0 +1,15 @@
+ You are provided five sets of code. Please solve each of these sets in the following order:
+
+1. hello
+2. round
+5. nesting
+3. pi
+4. matrix
+
+In working through these codes:
+
+1. write a swig interface for hello and matrix
+2. test performance of execution see c++ chrono or boost chrono
+3. modify pi to use targets
+4. explore teams (as time permits)
+5. be prepared to discuss your findings.

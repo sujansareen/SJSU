@@ -19,6 +19,7 @@ package server;
 
 
 import logger.Logger;
+import server.raft.FollowerState;
 import server.raft.NodeState;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -27,6 +28,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 //import pipe.common.Common.Failure;
 
 import pipe.work.Work.WorkMessage;
+import routing.MsgInterface.Route;
 
 
 
@@ -150,3 +152,23 @@ public class WorkHandler extends SimpleChannelInboundHandler<WorkMessage> {
 	}
 
 }
+/*
+		if(msg.hasPath()){
+			String path = msg.getPath().toString().toLowerCase();
+			System.out.println("hasPath:  " + path);
+			if(msg.hasNetworkDiscoveryPacket()) {
+				NodeState.getInstance().getState().handleNetworkDiscoveryPacketEntries(msg);
+			} else if( path.equals("message") ) { //msg.hasUser()
+				NodeState.getInstance().getState().handleMessageEntries(msg);
+			} else if( path.equals("user")){ //msg.hasMessage()
+				NodeState.getInstance().getState().handleUserEntries(msg);
+			} else if( path.equals("messages_request")){ //msg.hasMessage()
+				System.out.println("hasPath:  " + msg.toString());
+				Route routeMessage= msg.toBuilder().setPath(Route.Path.MESSAGES_RESPONSE).build();
+				channel.write(routeMessage);
+			} else if( path.equals("messages_response")){
+				System.out.println("hasPath:  " + msg.toString());
+			}
+		} else if (msg.hasWorkMessage()) {
+
+*/

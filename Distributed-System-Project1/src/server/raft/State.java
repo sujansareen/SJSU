@@ -4,6 +4,14 @@ package server.raft;
 import pipe.common.Common.Request;
 import pipe.common.Common.WriteBody;
 import pipe.work.Work.WorkMessage;
+import routing.MsgInterface.Route;
+
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -22,8 +30,6 @@ public class State {
 	}
 
 	public void stopService() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void handleResponseVoteRPCs(WorkMessage workMessage) {
@@ -51,9 +57,17 @@ public class State {
 	public void handleAppendEntries(WorkMessage wm) {
 
 	}
+	public void handleMessageEntries(Route rm) {
+
+	}
+	public void handleUserEntries(Route rm) {
+
+	}
+	public void handleNetworkDiscoveryPacketEntries(Route rm) {
+
+	}
 	
-	
-	
+	/* Images */
 	public byte[] handleGetMessage(String key) {
 		return new byte[1];
 	}
@@ -63,21 +77,22 @@ public class State {
 	}
 
 	public void handlePutMessage(String key, byte[] image, long timestamp) {
-		
 	}
 	
 	public void handleDelete(String key) {
-		
 	}
-	
+	/*  */
 	public void sendAppendEntries(WriteBody wm) {
-		
 	}
-	
 
 	public void handleWriteFile(WriteBody msg) {
+	}
+	
+	public void handleReplicationMessage(Route msg) {
 		
 	}
-
-
+	
+	public void sendReplicationMessage() {
+		
+	}
 }

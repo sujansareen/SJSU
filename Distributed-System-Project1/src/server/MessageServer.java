@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
+import database.DatabaseService;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,6 +89,9 @@ public class MessageServer {
 	*/
 	
 	public void startServer() {
+		DatabaseService dbs= DatabaseService.getInstance();
+		dbs.dbConfiguration("postgresql","jdbc:postgresql://127.0.0.1:5432/postgres", "postgres", "test");
+
 		StartWorkCommunication comm = new StartWorkCommunication(conf);
 		
 		if(state != null){
@@ -95,7 +99,7 @@ public class MessageServer {
 		}
 		logger.info("Work starting");
 		//startWorkWatcher();
-		// We always start the worker in the background
+		// We always start the worker in the background 
 		Thread cthread = new Thread(comm);
 		cthread.start();
 
@@ -231,11 +235,9 @@ public class MessageServer {
 			
 			//LEADER ELECTION
 			NodeState.getInstance().setServerState(state);
-			
-			
 
-		//	TaskList tasks = new TaskList(new NoOpBalancer());
-		//	state.setTasks(tasks);
+			// TaskList tasks = new TaskList(new NoOpBalancer());
+			// state.setTasks(tasks);
 
 			EdgeMonitor emon = new EdgeMonitor(state);
 			//state.setEmon(emon);

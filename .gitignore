@@ -1,6 +1,6 @@
 *.idea/
-
 *trash/
+*build
 # Compiled class file
 *.class
 

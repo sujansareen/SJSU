@@ -2,6 +2,7 @@ package server.raft;
 
 import database.DatabaseService;
 import logger.Logger;
+import routing.MsgInterface.Route;
 import server.ServerState;
 
 
@@ -127,9 +128,9 @@ public class NodeState {
 		
 	}
 	
-	
-	
-	
+	public void handleReplicationMessage(Route msg) {
+		
+	}
 	
 	
 }

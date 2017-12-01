@@ -12,9 +12,10 @@ public class Logger {
 	static FileWriter out;
 	public static void init() {
 		 try {
-			 out = new FileWriter("debug.log",false); 
-	
-				 out.write("----------DEBUG----------");
+				//out = new FileWriter("debug.log",false);
+
+
+				// out.write("----------DEBUG----------");
 			}catch (Exception	 e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -37,16 +38,16 @@ public class Logger {
 	}
 
 	public static void writeDEBUG(String debug) {
-		try {
-			 out = new FileWriter("debug.log",true); 
-			 out.write(debug);
-
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			 out = new FileWriter("debug.log",true);
+//			 out.write(debug);
+//
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
 	}
 

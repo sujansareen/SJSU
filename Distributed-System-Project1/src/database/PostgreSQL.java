@@ -7,10 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.UUID;
+import java.util.*;
 
 public class PostgreSQL implements DatabaseClient {
 	Connection conn = null;
@@ -48,29 +45,6 @@ public class PostgreSQL implements DatabaseClient {
 		}
 		return image;		
 	}
-
-	@Override
-	public ResultSetMetaData getMessage(String key) {
-		ResultSetMetaData rsmd=null;
-		Statement stmt = null;
-		byte[] image=null; 
-		System.out.println(key);
-		try {
-			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("Select * FROM messages WHERE \"id\" = 1");
-			rsmd=rs.getMetaData();
-			
-			rs.close();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-		}
-		
-		return rsmd;		
-	}
-
-	
 	
 	@Override
 	public List<Record> getNewEntries(long staleTimestamp) {
@@ -216,7 +190,7 @@ public class PostgreSQL implements DatabaseClient {
 		try {
 			stmt = conn.createStatement();
 			StringBuilder sql = new StringBuilder();
-			sql.append("DELETE FROM testtable WHERE key LIKE '"+key+"';");			
+			sql.append("DELETE FROM messages WHERE key LIKE '"+key+"';");
 			stmt.executeUpdate(sql.toString());
 			
 		} catch (Exception e) {
@@ -224,6 +198,100 @@ public class PostgreSQL implements DatabaseClient {
 		} finally {
 			// initiate new everytime
 		}
+	}
+	@Override
+	public ResultSetMetaData getMessage(String key) {
+		ResultSetMetaData rsmd = null;
+		Statement stmt = null;
+		System.out.println("getMessage: " + key);
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("Select * FROM messages WHERE \"id\" ='"+key+"';") ;
+			rsmd=rs.getMetaData();
+
+			rs.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+		}
+
+		return rsmd;
+	}
+	@Override
+	public List getMessages(String fromId, String destId) {
+		List list = null;
+		Statement stmt = null;
+		System.out.println("getMessage: " + fromId);
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("Select * FROM messages WHERE \"from_id\" ='"+fromId+"';") ;
+			list = resultSetToArrayList(rs);
+			rs.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+		}
+
+		return list;
+	}
+	@Override
+	public void postMessage(String message, String toId,String fromId){
+		PreparedStatement ps = null;
+		try {
+			ps = conn.prepareStatement("INSERT INTO messages (message, to_id, from_id) VALUES ( ?, ?, ?)");
+			ps.setString(1, message);
+			ps.setString(2, toId);
+			ps.setString(3, fromId);
+			ResultSet set = ps.executeQuery();
+
+		} catch (SQLException e) {
+
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	@Override
+	public void createDb(){
+		Statement stmt = null;
+		try {
+			MigrationsPostgreSQL migrationSql = new MigrationsPostgreSQL();
+			stmt = conn.createStatement();
+
+			stmt.executeUpdate(migrationSql.seqMessageTable());
+			stmt.executeUpdate(migrationSql.createMessageTable());
+
+			stmt.executeUpdate(migrationSql.seqGroupTable());
+			stmt.executeUpdate(migrationSql.createGroupTable());
+
+			stmt.executeUpdate(migrationSql.seqUserTable());
+			stmt.executeUpdate(migrationSql.createUserTable());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// initiate new everytime
+		}
+	}
+	public List<HashMap> resultSetToArrayList(ResultSet rs) throws SQLException {
+		ResultSetMetaData md = rs.getMetaData();
+		int columns = md.getColumnCount();
+		ArrayList list = new ArrayList();
+		while (rs.next()){
+			HashMap row = new HashMap(columns);
+			for(int i=1; i<=columns; ++i){
+				row.put(md.getColumnName(i),rs.getObject(i));
+			}
+			list.add(row);
+		}
+
+		return list;
 	}
 
 }

@@ -32,6 +32,13 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import routing.Pipe.CommandMessage;
+import routing.MsgInterface.Route;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import routing.MsgInterface.Message;
+
 
 /**
  * provides an abstraction of the communication to the remote server.
@@ -43,7 +50,8 @@ public class CommConnection {
 	protected static Logger logger = LoggerFactory.getLogger("connect");
 
 	protected static AtomicReference<CommConnection> instance = new AtomicReference<CommConnection>();
-
+	
+	static String uname;
 	private String host;
 	private int port;
 	private ChannelFuture channel; // do not use directly call
@@ -52,7 +60,7 @@ public class CommConnection {
 	private EventLoopGroup group;
 
 	// our surge protection using a in-memory cache for messages
-	LinkedBlockingDeque<CommandMessage> outbound;
+	LinkedBlockingDeque<Route> outbound;
 
 	// message processing is delegated to a threading model
 	private CommWorker worker;
@@ -100,7 +108,7 @@ public class CommConnection {
 	 * @exception An
 	 *                exception is raised if the message cannot be enqueued.
 	 */
-	public void enqueue(CommandMessage req) throws Exception {
+	public void enqueue(Route req) throws Exception {
 		// enqueue message
 		outbound.put(req);
 	}
@@ -118,7 +126,7 @@ public class CommConnection {
 	 * @param msg
 	 * @return
 	 */
-	public boolean write(CommandMessage msg) {
+	public boolean write(Route msg) {
 		if (msg == null)
 			return false;
 		else if (channel == null)
@@ -150,11 +158,11 @@ public class CommConnection {
 		System.out.println("--> initializing connection to " + host + ":" + port);
 
 		// the queue to support client-side surging
-		outbound = new LinkedBlockingDeque<CommandMessage>();
+		outbound = new LinkedBlockingDeque<Route>();
 
 		group = new NioEventLoopGroup();
 		try {
-			CommandInit si = new CommandInit(null, null, false);
+			CommInit si = new CommInit(false);
 			Bootstrap b = new Bootstrap();
 			b.group(group).channel(NioSocketChannel.class).handler(si);
 			b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000);
@@ -162,12 +170,13 @@ public class CommConnection {
 			b.option(ChannelOption.SO_KEEPALIVE, true);
 
 			// Make the connection attempt.
+			//channel = b.connect(host, port).sync().channel();
 			channel = b.connect(host, port).syncUninterruptibly();
 
 			// want to monitor the connection to the server s.t. if we loose the
 			// connection, we can try to re-establish it.
-			ClientClosedListener ccl = new ClientClosedListener(this);
-			channel.channel().closeFuture().addListener(ccl);
+			// ClientClosedListener ccl = new ClientClosedListener(this);
+			// channel.channel().closeFuture().addListener(ccl);
 
 			System.out.println(channel.channel().localAddress() + " -> open: " + channel.channel().isOpen()
 					+ ", write: " + channel.channel().isWritable() + ", reg: " + channel.channel().isRegistered());
@@ -182,7 +191,6 @@ public class CommConnection {
 		worker.setDaemon(true);
 		worker.start();
 	}
-
 	/**
 	 * create connection to remote server
 	 * 

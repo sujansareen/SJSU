@@ -17,6 +17,7 @@ package client;
 
 import pipe.common.Common.Header;
 import routing.Pipe.CommandMessage;
+import routing.MsgInterface;
 
 /**
  * front-end (proxy) to our service - functional-based
@@ -40,31 +41,9 @@ public class MessageClient {
 		CommConnection.getInstance().addListener(listener);
 	}
 
-	public void ping() {
-		// construct the message to send
-		Header.Builder hb = Header.newBuilder();
-		hb.setNodeId(999);
-		hb.setTime(System.currentTimeMillis());
-		hb.setDestination(-1);
-
-		CommandMessage.Builder rb = CommandMessage.newBuilder();
-		rb.setHeader(hb);
-		rb.setPing(true);
-		
-		
-
-		try {
-			// direct no queue
-			// CommConnection.getInstance().write(rb.build());
-
-			// using queue
-			CommConnection.getInstance().enqueue(rb.build());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	public void ping() { }
 	
-	public void sendMessage(CommandMessage msg) {
+	public void sendMessage(MsgInterface.Route msg) {
 	
 		try {
 			// direct no queue

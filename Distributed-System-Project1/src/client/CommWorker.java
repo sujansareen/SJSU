@@ -3,6 +3,7 @@ package client;
 import io.netty.channel.Channel;
 
 import routing.Pipe.CommandMessage;
+import routing.MsgInterface;
 
 /**
  * queues outgoing messages - this provides surge protection if the client
@@ -40,7 +41,7 @@ public class CommWorker extends Thread {
 			try {
 				// block until a message is enqueued AND the outgoing
 				// channel is active
-				CommandMessage msg = conn.outbound.take();
+				MsgInterface.Route msg = conn.outbound.take();
 				if (ch.isWritable()) {
 					if (!conn.write(msg)) {
 						conn.outbound.putFirst(msg);

@@ -72,6 +72,19 @@ public final class Work {
      * <code>optional .PingMessage trivialPing = 5;</code>
      */
     pipe.work.Ping.PingMessageOrBuilder getTrivialPingOrBuilder();
+
+    /**
+     * <code>optional .Route route = 6;</code>
+     */
+    boolean hasRoute();
+    /**
+     * <code>optional .Route route = 6;</code>
+     */
+    routing.MsgInterface.Route getRoute();
+    /**
+     * <code>optional .Route route = 6;</code>
+     */
+    routing.MsgInterface.RouteOrBuilder getRouteOrBuilder();
   }
   /**
    * Protobuf type {@code WorkMessage}
@@ -186,6 +199,19 @@ public final class Work {
               payloadCase_ = 5;
               break;
             }
+            case 50: {
+              routing.MsgInterface.Route.Builder subBuilder = null;
+              if (payloadCase_ == 6) {
+                subBuilder = ((routing.MsgInterface.Route) payload_).toBuilder();
+              }
+              payload_ = input.readMessage(routing.MsgInterface.Route.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((routing.MsgInterface.Route) payload_);
+                payload_ = subBuilder.buildPartial();
+              }
+              payloadCase_ = 6;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -234,6 +260,7 @@ public final class Work {
       HEARTBEATPACKET(3),
       VOTERPCPACKET(4),
       TRIVIALPING(5),
+      ROUTE(6),
       PAYLOAD_NOT_SET(0);
       private int value = 0;
       private PayloadCase(int value) {
@@ -245,6 +272,7 @@ public final class Work {
           case 3: return HEARTBEATPACKET;
           case 4: return VOTERPCPACKET;
           case 5: return TRIVIALPING;
+          case 6: return ROUTE;
           case 0: return PAYLOAD_NOT_SET;
           default: throw new java.lang.IllegalArgumentException(
             "Value is undefined for this oneof enum.");
@@ -380,6 +408,32 @@ public final class Work {
       return pipe.work.Ping.PingMessage.getDefaultInstance();
     }
 
+    public static final int ROUTE_FIELD_NUMBER = 6;
+    /**
+     * <code>optional .Route route = 6;</code>
+     */
+    public boolean hasRoute() {
+      return payloadCase_ == 6;
+    }
+    /**
+     * <code>optional .Route route = 6;</code>
+     */
+    public routing.MsgInterface.Route getRoute() {
+      if (payloadCase_ == 6) {
+         return (routing.MsgInterface.Route) payload_;
+      }
+      return routing.MsgInterface.Route.getDefaultInstance();
+    }
+    /**
+     * <code>optional .Route route = 6;</code>
+     */
+    public routing.MsgInterface.RouteOrBuilder getRouteOrBuilder() {
+      if (payloadCase_ == 6) {
+         return (routing.MsgInterface.Route) payload_;
+      }
+      return routing.MsgInterface.Route.getDefaultInstance();
+    }
+
     private void initFields() {
       unixTimeStamp_ = 0L;
     }
@@ -417,6 +471,12 @@ public final class Work {
           return false;
         }
       }
+      if (hasRoute()) {
+        if (!getRoute().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -438,6 +498,9 @@ public final class Work {
       }
       if (payloadCase_ == 5) {
         output.writeMessage(5, (pipe.work.Ping.PingMessage) payload_);
+      }
+      if (payloadCase_ == 6) {
+        output.writeMessage(6, (routing.MsgInterface.Route) payload_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -467,6 +530,10 @@ public final class Work {
       if (payloadCase_ == 5) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, (pipe.work.Ping.PingMessage) payload_);
+      }
+      if (payloadCase_ == 6) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, (routing.MsgInterface.Route) payload_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -653,6 +720,13 @@ public final class Work {
             result.payload_ = trivialPingBuilder_.build();
           }
         }
+        if (payloadCase_ == 6) {
+          if (routeBuilder_ == null) {
+            result.payload_ = payload_;
+          } else {
+            result.payload_ = routeBuilder_.build();
+          }
+        }
         result.bitField0_ = to_bitField0_;
         result.payloadCase_ = payloadCase_;
         onBuilt();
@@ -690,6 +764,10 @@ public final class Work {
             mergeTrivialPing(other.getTrivialPing());
             break;
           }
+          case ROUTE: {
+            mergeRoute(other.getRoute());
+            break;
+          }
           case PAYLOAD_NOT_SET: {
             break;
           }
@@ -723,6 +801,12 @@ public final class Work {
         }
         if (hasTrivialPing()) {
           if (!getTrivialPing().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasRoute()) {
+          if (!getRoute().isInitialized()) {
             
             return false;
           }
@@ -1336,6 +1420,141 @@ public final class Work {
         return trivialPingBuilder_;
       }
 
+      private com.google.protobuf.SingleFieldBuilder<
+          routing.MsgInterface.Route, routing.MsgInterface.Route.Builder, routing.MsgInterface.RouteOrBuilder> routeBuilder_;
+      /**
+       * <code>optional .Route route = 6;</code>
+       */
+      public boolean hasRoute() {
+        return payloadCase_ == 6;
+      }
+      /**
+       * <code>optional .Route route = 6;</code>
+       */
+      public routing.MsgInterface.Route getRoute() {
+        if (routeBuilder_ == null) {
+          if (payloadCase_ == 6) {
+            return (routing.MsgInterface.Route) payload_;
+          }
+          return routing.MsgInterface.Route.getDefaultInstance();
+        } else {
+          if (payloadCase_ == 6) {
+            return routeBuilder_.getMessage();
+          }
+          return routing.MsgInterface.Route.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .Route route = 6;</code>
+       */
+      public Builder setRoute(routing.MsgInterface.Route value) {
+        if (routeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          payload_ = value;
+          onChanged();
+        } else {
+          routeBuilder_.setMessage(value);
+        }
+        payloadCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>optional .Route route = 6;</code>
+       */
+      public Builder setRoute(
+          routing.MsgInterface.Route.Builder builderForValue) {
+        if (routeBuilder_ == null) {
+          payload_ = builderForValue.build();
+          onChanged();
+        } else {
+          routeBuilder_.setMessage(builderForValue.build());
+        }
+        payloadCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>optional .Route route = 6;</code>
+       */
+      public Builder mergeRoute(routing.MsgInterface.Route value) {
+        if (routeBuilder_ == null) {
+          if (payloadCase_ == 6 &&
+              payload_ != routing.MsgInterface.Route.getDefaultInstance()) {
+            payload_ = routing.MsgInterface.Route.newBuilder((routing.MsgInterface.Route) payload_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            payload_ = value;
+          }
+          onChanged();
+        } else {
+          if (payloadCase_ == 6) {
+            routeBuilder_.mergeFrom(value);
+          }
+          routeBuilder_.setMessage(value);
+        }
+        payloadCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>optional .Route route = 6;</code>
+       */
+      public Builder clearRoute() {
+        if (routeBuilder_ == null) {
+          if (payloadCase_ == 6) {
+            payloadCase_ = 0;
+            payload_ = null;
+            onChanged();
+          }
+        } else {
+          if (payloadCase_ == 6) {
+            payloadCase_ = 0;
+            payload_ = null;
+          }
+          routeBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .Route route = 6;</code>
+       */
+      public routing.MsgInterface.Route.Builder getRouteBuilder() {
+        return getRouteFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .Route route = 6;</code>
+       */
+      public routing.MsgInterface.RouteOrBuilder getRouteOrBuilder() {
+        if ((payloadCase_ == 6) && (routeBuilder_ != null)) {
+          return routeBuilder_.getMessageOrBuilder();
+        } else {
+          if (payloadCase_ == 6) {
+            return (routing.MsgInterface.Route) payload_;
+          }
+          return routing.MsgInterface.Route.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .Route route = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          routing.MsgInterface.Route, routing.MsgInterface.Route.Builder, routing.MsgInterface.RouteOrBuilder> 
+          getRouteFieldBuilder() {
+        if (routeBuilder_ == null) {
+          if (!(payloadCase_ == 6)) {
+            payload_ = routing.MsgInterface.Route.getDefaultInstance();
+          }
+          routeBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              routing.MsgInterface.Route, routing.MsgInterface.Route.Builder, routing.MsgInterface.RouteOrBuilder>(
+                  (routing.MsgInterface.Route) payload_,
+                  getParentForChildren(),
+                  isClean());
+          payload_ = null;
+        }
+        payloadCase_ = 6;
+        return routeBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:WorkMessage)
     }
 
@@ -1363,13 +1582,14 @@ public final class Work {
     java.lang.String[] descriptorData = {
       "\n\nwork.proto\032\026AppendEntriesRPC.proto\032\022He" +
       "artBeatRPC.proto\032\rVoteRPC.proto\032\nPing.pr" +
-      "oto\"\337\001\n\013WorkMessage\022\025\n\runixTimeStamp\030\001 \002" +
-      "(\003\0223\n\023appendEntriesPacket\030\002 \001(\0132\024.Append" +
-      "EntriesPacketH\000\022+\n\017heartBeatPacket\030\003 \001(\013" +
-      "2\020.HeartBeatPacketH\000\022\'\n\rvoteRPCPacket\030\004 " +
-      "\001(\0132\016.VoteRPCPacketH\000\022#\n\013trivialPing\030\005 \001" +
-      "(\0132\014.PingMessageH\000B\t\n\007payloadB\013\n\tpipe.wo" +
-      "rk"
+      "oto\032\023msg_interface.proto\"\370\001\n\013WorkMessage" +
+      "\022\025\n\runixTimeStamp\030\001 \002(\003\0223\n\023appendEntries" +
+      "Packet\030\002 \001(\0132\024.AppendEntriesPacketH\000\022+\n\017" +
+      "heartBeatPacket\030\003 \001(\0132\020.HeartBeatPacketH" +
+      "\000\022\'\n\rvoteRPCPacket\030\004 \001(\0132\016.VoteRPCPacket" +
+      "H\000\022#\n\013trivialPing\030\005 \001(\0132\014.PingMessageH\000\022" +
+      "\027\n\005route\030\006 \001(\0132\006.RouteH\000B\t\n\007payloadB\013\n\tp" +
+      "ipe.work"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1386,17 +1606,19 @@ public final class Work {
           pipe.work.HeartBeatRPC.getDescriptor(),
           pipe.work.VoteRPC.getDescriptor(),
           pipe.work.Ping.getDescriptor(),
+          routing.MsgInterface.getDescriptor(),
         }, assigner);
     internal_static_WorkMessage_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_WorkMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_WorkMessage_descriptor,
-        new java.lang.String[] { "UnixTimeStamp", "AppendEntriesPacket", "HeartBeatPacket", "VoteRPCPacket", "TrivialPing", "Payload", });
+        new java.lang.String[] { "UnixTimeStamp", "AppendEntriesPacket", "HeartBeatPacket", "VoteRPCPacket", "TrivialPing", "Route", "Payload", });
     pipe.work.AppendEntriesRPC.getDescriptor();
     pipe.work.HeartBeatRPC.getDescriptor();
     pipe.work.VoteRPC.getDescriptor();
     pipe.work.Ping.getDescriptor();
+    routing.MsgInterface.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

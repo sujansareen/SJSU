@@ -5,6 +5,7 @@ import java.util.List;
 import database.DatabaseService;
 import database.Record;
 import logger.Logger;
+import routing.MsgInterface;
 import server.edges.EdgeInfo;
 import io.netty.channel.ChannelFuture;
 import pipe.common.Common.Request;
@@ -13,6 +14,7 @@ import pipe.work.AppendEntriesRPC.AppendEntries.RequestType;
 
 import pipe.work.VoteRPC.ResponseVoteRPC;
 import pipe.work.Work.WorkMessage;
+import routing.MsgInterface.Route;
 
 
 
@@ -122,6 +124,34 @@ public class LeaderState extends State implements Runnable {
 		}
 	/** TODO: Group */		
 	}
+
+
+	@Override
+	public void handleUserEntries(Route msg) {
+		MsgInterface.User.ActionType type = msg.getUser().getAction();
+		if (type == MsgInterface.User.ActionType.REGISTER) {
+
+		} else if (type == MsgInterface.User.ActionType.ACCESS) {
+
+		} else if (type == MsgInterface.User.ActionType.DELETE) {
+
+		}
+	}
+	@Override
+	public void handleMessageEntries(Route msg) {
+		MsgInterface.Message message = msg.getMessage();
+		MsgInterface.Message.ActionType type = message.getAction();
+		if (type == MsgInterface.Message.ActionType.POST) {
+			DatabaseService.getInstance().getDb().postMessage(message.getPayload(), message.getReceiverId(),message.getSenderId());
+		} else if (type == MsgInterface.Message.ActionType.UPDATE) {
+
+		} else if (type == MsgInterface.Message.ActionType.DELETE) {
+
+		}
+	}
+	public void sendReplicationMessage(Route msg) {
+		
+	}
 	
 	public void sendClusterMonitor(String host, int port) {
 	/** TODO: Group */
@@ -217,7 +247,14 @@ public class LeaderState extends State implements Runnable {
 
 	public void stopService() {
 		running = Boolean.FALSE;
-
+		if (cthread != null) {
+            try {
+                cthread.join();
+            } catch (InterruptedException e) {
+                Logger.DEBUG("Exception", e);
+            }
+            Logger.DEBUG("cthread successfully stopped.");
+        } 
 	}
 
 }
