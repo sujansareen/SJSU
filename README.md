@@ -1,2 +1,5 @@
-
-# CMPE-275
+# SJSU
+Classes
+CMPE 275
+CMPE 285 
+CMPE 272
