@@ -1,3 +1,6 @@
+<?
+$contents = file("../resources/views/stubData/contacts.txt");
+?>
 @extends('layouts.app')
 @section('content')
     <br />
@@ -53,9 +56,11 @@
                         <div class="card-block text-center">
                             <h4>Address</h4>
                             <div>
-                                1 Washington Sq<br />
-                                San Jose, CA 95192<br />
-                                montoya33@live.com<br />
+                                <?
+                                foreach($contents as $line) {
+                                    echo $line . "\n<br />";
+                                }
+                                ?>
                             </div>
                             <hr />
                             <div id="map1" class="map">
