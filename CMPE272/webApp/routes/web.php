@@ -32,9 +32,9 @@ Route::group([], function () use ($info){
         return view('containers.services');
     });
     Route::get('/news', function () {
-        return view('containers.services');
+        return view('containers.news');
     });
     Route::get('/contacts', function () {
-        return view('containers.services');
+        return view('containers.contact');
     });
 });
