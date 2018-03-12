@@ -1,4 +1,8 @@
 @extends('layouts.app')
+@section('header')
+    @component('components.header')
+    @endcomponent
+@endsection
 @section('content')
     <br />
 
@@ -7,7 +11,7 @@
             @foreach ($contacts as $line)
                 <div class="col-md-6">
                     <div class="card" >
-                        <img class="card-img-top" src="{{ data_get($line, 'image','http://via.placeholder.com/1024x860') }}" alt="Card image cap">
+                        <img class="card-img-top" style="max-height: 400px;" src="{{ data_get($line, 'img','http://via.placeholder.com/1024x860') }}" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">{{ data_get($line, 'full_name') }}</h5>
                             <p class="card-text">{{ data_get($line, 'title') }}</p>
@@ -117,10 +121,6 @@
 
     </style>
 
-@endsection
-@section('header')
-    @component('components.header')
-    @endcomponent
 @endsection
 
 

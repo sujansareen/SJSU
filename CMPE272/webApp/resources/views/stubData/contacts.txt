@@ -1,2 +1,2 @@
-Arturo Montoya,Co-Founder,images/img1.jpeg
-Melissa Vazquez,Co-Founder,images/img2.jpeg
+Arturo Montoya,Co-Founder,images/arturo_montoya.png
+Melissa Vazquez,Co-Founder,images/melissa_vazquez.png
