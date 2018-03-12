@@ -1,11 +1,4 @@
 @extends('layouts.app')
-<?
-    $cards = [
-            ["header"=>"HD Videos", "img"=>"http://via.placeholder.com/350x150", "price"=>"$9.99" ,"list"=>["USB / DVD / SD Cards"]],
-            ["header"=>"Videotapes", "img"=>"http://via.placeholder.com/350x150", "price"=>"$14.99" ,"list"=>["VHS / VHS-C / Hi8"]],
-            ["header"=>"Photos", "img"=>"http://via.placeholder.com/350x150", "price"=>"$19.99" ,"list"=>[]],
-    ];
-?>
 @section('content')
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
         <h1 class="display-4">Digital Transfer Service</h1>

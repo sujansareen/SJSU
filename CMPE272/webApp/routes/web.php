@@ -19,19 +19,29 @@ $info = [
     ["title"=>"Share memories & connect with people", "msg"=>"share home movies and slides with family and friends via email, Web galleries, Facebook"],
     ["title"=>"Instant access anytime, anywhere", "msg"=>"you can view digitized memories on your PC, Mac, iPhone, iPad or Android mobile devices"]
 ];
+
+$cards = [
+    ["header"=>"HD Videos", "img"=>"http://via.placeholder.com/350x150", "price"=>"$9.99" ,"list"=>["USB / DVD / SD Cards"]],
+    ["header"=>"Videotapes", "img"=>"http://via.placeholder.com/350x150", "price"=>"$14.99" ,"list"=>["VHS / VHS-C / Hi8"]],
+    ["header"=>"Photos", "img"=>"http://via.placeholder.com/350x150", "price"=>"$19.99" ,"list"=>[]],
+];
+$data = [
+    "info"=>$info,
+    "cards"=>$cards
+];
 Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::group([], function () use ($info){
+Route::group([], function () use ($data){
     Route::get('/', function () {
         return view('containers.home');
     });
-    Route::get('/about', function () use ($info){
-        return view('containers.about',['info' => $info]);
+    Route::get('/about', function () use ($data){
+        return view('containers.about',$data);
     });
-    Route::get('/services', function () {
-        return view('containers.services');
+    Route::get('/services', function ()  use ($data){
+        return view('containers.services',$data);
     });
     Route::get('/news', function () {
         return view('containers.news');
