@@ -56,11 +56,9 @@ $contents = file("../resources/views/stubData/contacts.txt");
                         <div class="card-block text-center">
                             <h4>Address</h4>
                             <div>
-                                <?
-                                foreach($contents as $line) {
-                                    echo $line . "\n<br />";
-                                }
-                                ?>
+                                @foreach ($contents as $line)
+                                    {{$line}}<br />
+                                @endforeach
                             </div>
                             <hr />
                             <div id="map1" class="map">
