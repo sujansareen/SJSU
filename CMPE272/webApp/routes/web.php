@@ -25,9 +25,12 @@ $cards = [
     ["header"=>"Videotapes", "img"=>"http://via.placeholder.com/350x150", "price"=>"$14.99" ,"list"=>["VHS / VHS-C / Hi8"]],
     ["header"=>"Photos", "img"=>"http://via.placeholder.com/350x150", "price"=>"$19.99" ,"list"=>[]],
 ];
+$contents = file("../resources/views/stubData/contacts.txt");
+
 $data = [
     "info"=>$info,
-    "cards"=>$cards
+    "cards"=>$cards,
+    "contents"=>$contents
 ];
 Route::get('/welcome', function () {
     return view('welcome');
@@ -46,7 +49,7 @@ Route::group([], function () use ($data){
     Route::get('/news', function () {
         return view('containers.news');
     });
-    Route::get('/contacts', function () {
-        return view('containers.contact');
+    Route::get('/contacts', function () use ($data){
+        return view('containers.contact',$data);
     });
 });

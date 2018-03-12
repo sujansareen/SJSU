@@ -1,6 +1,3 @@
-<?
-$contents = file("../resources/views/stubData/contacts.txt");
-?>
 @extends('layouts.app')
 @section('content')
     <br />
