@@ -22,9 +22,9 @@ $info = [
 ];
 
 $cards = [
-    ["header"=>"HD Videos", "img"=>"http://via.placeholder.com/350x150", "price"=>"$9.99" ,"list"=>["USB / DVD / SD Cards"]],
-    ["header"=>"Videotapes", "img"=>"http://via.placeholder.com/350x150", "price"=>"$14.99" ,"list"=>["VHS / VHS-C / Hi8"]],
-    ["header"=>"Photos", "img"=>"http://via.placeholder.com/350x150", "price"=>"$19.99" ,"list"=>[]],
+    ["header"=>"HD Videos", "img"=>"images/usb_sd_card_types.png", "price"=>"$9.99" ,"list"=>["USB / DVD / SD Cards"]],
+    ["header"=>"Videotapes", "img"=>"images/video_types.png", "price"=>"$14.99" ,"list"=>["VHS / VHS-C / Hi8"]],
+    ["header"=>"Photos", "img"=>"images/photo_types.png", "price"=>"$19.99" ,"list"=>[]],
 ];
 $contents = [ "1 Washington Sq","San Jose, CA 95192"," montoya33@live.com]"];
 $contacts_file = file("../resources/views/stubData/contacts.txt");
