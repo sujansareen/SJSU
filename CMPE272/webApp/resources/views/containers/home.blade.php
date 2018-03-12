@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-6 mx-auto col-md-6 order-md-2">
-                <img class="img-fluid mb-3 mb-md-0" src="http://via.placeholder.com/1024x860" alt="" width="1024" height="860">
+                <img class="img-fluid mb-3 mb-md-0" src="images/couple.JPG" alt="" width="1024" height="860">
             </div>
             <div class="col-md-6 order-md-1 text-center text-md-left pr-md-5">
                 <h1 class="mb-3 bd-text-purple-bright">Capture your memories</h1>
