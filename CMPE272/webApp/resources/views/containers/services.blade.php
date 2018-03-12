@@ -11,7 +11,7 @@
                     <div class="card-header">
                         <h4 class="my-0 font-weight-normal">{{ $card["header"] }}</h4>
                     </div>
-                    <img class="card-img-top" src="{{$card['img']}}" alt="Card image cap">
+                    <img class="card-img-top" style="max-height: 250px;" src="{{$card['img']}}" alt="Card image cap">
                     <div class="card-body">
                         <h3 class="card-title pricing-card-title">Starting at {{ $card["price"] }}</h3>
                         <ul class="list-unstyled mt-3 mb-4">
