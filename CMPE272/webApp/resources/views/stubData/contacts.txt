@@ -1,3 +1,2 @@
- 1 Washington Sq
- San Jose, CA 95192
- montoya33@live.com
+Arturo Montoya,Co-Founder,images/img1.jpeg
+Melissa Vazquez,Co-Founder,images/img2.jpeg

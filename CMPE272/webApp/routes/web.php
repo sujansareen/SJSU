@@ -11,6 +11,7 @@
 */
 
 
+//TODO: move to stub data init
 $info = [
     ["title"=>"Duplicates & storage made easy", "msg"=>"you can create inexpensive backups and copies of your irreplaceable memories"],
     ["title"=>"Analog players are obsolete & unavailable", "msg"=>"Old analog equipment can be unreliable and viewing can sometimes damage fragile analog media."],
@@ -25,12 +26,25 @@ $cards = [
     ["header"=>"Videotapes", "img"=>"http://via.placeholder.com/350x150", "price"=>"$14.99" ,"list"=>["VHS / VHS-C / Hi8"]],
     ["header"=>"Photos", "img"=>"http://via.placeholder.com/350x150", "price"=>"$19.99" ,"list"=>[]],
 ];
-$contents = file("../resources/views/stubData/contacts.txt");
+$contents = [ "1 Washington Sq","San Jose, CA 95192"," montoya33@live.com]"];
+$contacts_file = file("../resources/views/stubData/contacts.txt");
+$contacts_collection = collect($contacts_file);
+
+$contacts = $contacts_collection->map(function ($item, $key) {
+    $user_info = explode(",", $item);
+    return [
+        "full_name"=>$user_info[0],
+        "title"=>$user_info[1],
+        "img"=>$user_info[2]
+    ];
+});
+
 
 $data = [
     "info"=>$info,
     "cards"=>$cards,
-    "contents"=>$contents
+    "contents"=>$contents,
+    "contacts"=>$contacts
 ];
 Route::get('/welcome', function () {
     return view('welcome');
