@@ -27,7 +27,12 @@ $cards = [
     ["header"=>"Photos", "img"=>"images/photo_types.png", "price"=>"$19.99" ,"list"=>[]],
 ];
 $contents = [ "1 Washington Sq","San Jose, CA 95192"," montoya33@live.com]"];
-$contacts_file = file("../resources/views/stubData/contacts.txt");
+
+$filename = './resources/views/stubData/contacts.txt';
+if (!file_exists($filename)) {
+    $filename = '.'.'./resources/views/stubData/contacts.txt';
+}
+$contacts_file = file($filename);
 $contacts_collection = collect($contacts_file);
 
 $contacts = $contacts_collection->map(function ($item, $key) {
