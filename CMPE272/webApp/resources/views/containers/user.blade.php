@@ -10,6 +10,22 @@
             Error
         </div>
         <div class="card card-body">
+            <form class="form-inline" id="signinForm"  onsubmit="return false">
+            <div class="form-group mx-sm-3 mb-4">
+                <label for="inputPassword2" class="sr-only">sign in</label>
+                <input type="text" name="search" class="form-control required" id="inputPassword2" placeholder="search">
+            </div>
+            <div class="form-group mx-sm-3 mb-4">
+                <label for="inputPassword2" class="sr-only">password</label>
+                <input type="password" name="password" class="form-control required" id="inputPassword2" placeholder="search">
+            </div>
+            <button type="submit" class="btn btn-primary mb-4">Sign In</button>
+            </form>
+        </div>
+
+        <br />
+        <br />
+        <div class="card card-body" style="display:none">
             <form class="form-inline" id="searchform"  onsubmit="return false">
                 <div class="form-group mx-sm-3 mb-4">
                     <label for="inputPassword2" class="sr-only">search</label>
@@ -77,11 +93,44 @@
             </form>
         </div>
         <script>
-            var $form =  $("#userform")
-            var $searchForm =  $("#searchform")
+            var $form =  $("#userform");
+            var $signinForm =  $("#signinForm");
+            var $searchForm =  $("#searchform");
+
             var $alertSaved =  $("#saveduser");
             var $alertFound =  $("#founduser");
             var $alertError =  $("#erroruser");
+            //==========    Sign in
+            $signinForm.submit(function(e) {
+                var data = $signinForm.serializeArray().reduce(function(acc,curr){acc[curr.name] = curr.value; return acc;},{});
+                console.log("sdfsdf: ",data)
+                axios.post('/api/user/signin', data)
+                        .then(function (response) {
+                            console.log(response);
+                            window.scrollTo(0,0);
+                            $alertSaved.show();
+                            setTimeout(function(){
+                                $alertSaved.hide();
+                            },4000)
+                            $form[0].reset();
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                            $alertError.show();
+                            window.scrollTo(0,0);
+
+                            setTimeout(function(){
+                                $alertError.hide();
+                            },4000)
+                        });
+
+                e.preventDefault(); // avoid to execute the actual submit of the form.
+            });
+            
+
+            //========== 
+
+
             $form.submit(function(e) {
                 var data = $form.serializeArray().reduce(function(acc,curr){acc[curr.name] = curr.value; return acc;},{});
                 console.log("sdfsdf: ",data)
