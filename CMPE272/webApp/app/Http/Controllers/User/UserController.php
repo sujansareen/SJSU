@@ -32,6 +32,23 @@ class UserController extends Controller{
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
+    public function signin(Request $request, $user_id) {
+        $email                  = $request->input("email", "");
+        $password                  = $request->input("password", "");
+        $table = DB::table('users');
+        $data = $table->select('first_name', 'last_name', 'email','cell_phone', 'home_phone')->whereColumn([
+                    ['email', '=', $email],
+                    ['password', '>', $password]
+                ])->get();
+        if($data){
+            return response()->json( $data );
+        }
+        return response("Error", 400);
+    }
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function create(Request $request) {
         $data                  = $request->input();
         $id = DB::table('users')->insertGetId( $data );

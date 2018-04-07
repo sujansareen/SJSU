@@ -20,6 +20,7 @@ Route::group([
     'prefix' => 'user',
 ], function () {
     Route::get('', 'User\UserController@getList');
+    Route::post('/signin', 'User\UserController@signin');
     Route::post('', 'User\UserController@create');
     Route::group([
         'prefix' => '{user_id}',
