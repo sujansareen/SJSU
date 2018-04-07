@@ -18,6 +18,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/contacts">Contacts</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/user">sign in</a>
+            </li>
             {{ $slot }}
         </ul>
         {{--<a class="btn btn-outline-info" href="#">Sign up</a>--}}
