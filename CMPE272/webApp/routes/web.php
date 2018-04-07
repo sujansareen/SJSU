@@ -71,4 +71,7 @@ Route::group([], function () use ($data){
     Route::get('/contacts', function () use ($data){
         return view('containers.contact',$data);
     });
+    Route::get('/user', function () use ($data){
+        return view('containers.user',$data);
+    });
 });
