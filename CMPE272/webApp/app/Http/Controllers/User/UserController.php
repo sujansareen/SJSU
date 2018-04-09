@@ -36,10 +36,7 @@ class UserController extends Controller{
         $email                  = $request->input("email", "");
         $password                  = $request->input("password", "");
         $table = DB::table('users');
-        $data = $table->whereColumn([
-                    ['email', '=', $email],
-                    ['password', '=', $password]
-                ])->get();
+        $data = $table->where('email', '=', $email)->where('password', '=', $password)->get();
         if($data){
             return response()->json( $data );
         }
