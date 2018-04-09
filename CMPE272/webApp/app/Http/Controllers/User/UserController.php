@@ -32,7 +32,7 @@ class UserController extends Controller{
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function signin(Request $request, $user_id) {
+    public function signin(Request $request) {
         $email                  = $request->input("email", "");
         $password                  = $request->input("password", "");
         $table = DB::table('users');
