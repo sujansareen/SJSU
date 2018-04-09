@@ -13,7 +13,7 @@
             <form class="form-inline" id="signinForm"  onsubmit="return false">
             <div class="form-group mx-sm-3 mb-4">
                 <label for="inputPassword2" class="sr-only">sign in</label>
-                <input type="text" name="search" class="form-control required" id="inputPassword2" placeholder="user">
+                <input type="text" name="email" class="form-control required" id="inputPassword2" placeholder="email">
             </div>
             <div class="form-group mx-sm-3 mb-4">
                 <label for="inputPassword2" class="sr-only">password</label>
@@ -108,9 +108,12 @@
                         .then(function (response) {
                             console.log(response);
                             window.scrollTo(0,0);
-                            $alertSaved.show();
+                            $alertFound.show();
+                            $alertFound.text('Signed In');
+                            $signinForm.parent().hide();
+                            $searchForm.parent().show();
                             setTimeout(function(){
-                                $alertSaved.hide();
+                                $alertFound.hide();
                             },4000)
                             $form[0].reset();
                         })
