@@ -38,7 +38,7 @@ class UserController extends Controller{
         $table = DB::table('users');
         $data = $table->select('first_name', 'last_name', 'email','cell_phone', 'home_phone')->whereColumn([
                     ['email', '=', $email],
-                    ['password', '>', $password]
+                    ['password', '=', $password]
                 ])->get();
         if($data){
             return response()->json( $data );
