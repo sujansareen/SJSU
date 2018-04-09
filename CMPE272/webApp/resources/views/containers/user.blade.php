@@ -13,11 +13,11 @@
             <form class="form-inline" id="signinForm"  onsubmit="return false">
             <div class="form-group mx-sm-3 mb-4">
                 <label for="inputPassword2" class="sr-only">sign in</label>
-                <input type="text" name="search" class="form-control required" id="inputPassword2" placeholder="search">
+                <input type="text" name="search" class="form-control required" id="inputPassword2" placeholder="user">
             </div>
             <div class="form-group mx-sm-3 mb-4">
                 <label for="inputPassword2" class="sr-only">password</label>
-                <input type="password" name="password" class="form-control required" id="inputPassword2" placeholder="search">
+                <input type="password" name="password" class="form-control required" id="inputPassword2" placeholder="password">
             </div>
             <button type="submit" class="btn btn-primary mb-4">Sign In</button>
             </form>
