@@ -110,6 +110,8 @@
                             window.scrollTo(0,0);
                             $alertFound.show();
                             $alertFound.text('Signed In');
+                            $signinForm.parent().hide();
+                            $searchForm.parent().show();
                             setTimeout(function(){
                                 $alertFound.hide();
                             },4000)
