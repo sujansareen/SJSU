@@ -108,9 +108,10 @@
                         .then(function (response) {
                             console.log(response);
                             window.scrollTo(0,0);
-                            $alertSaved.show();
+                            $alertFound.show();
+                            $alertFound.text('Signed In');
                             setTimeout(function(){
-                                $alertSaved.hide();
+                                $alertFound.hide();
                             },4000)
                             $form[0].reset();
                         })
