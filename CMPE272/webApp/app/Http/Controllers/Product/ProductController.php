@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Product;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * Class ProductController
@@ -36,9 +37,16 @@ class ProductController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function details(Request $request, $id) {
-        $item = DB::table('products')->where('id', $id);
-        if($item ){
-            return response()->json($item);
+        $item = DB::table('products')->where('id', $id)->first();
+        if($item){
+            $cookie_products = $request->cookie('products');
+            $products = explode(",",$cookie_products);
+            array_unshift($products,$id);
+            $unique = array_unique($products);
+            $products = array_slice($unique, 0, 5, true);
+            $products_string = implode(",", $products);
+            $cookie = cookie('products', $products_string);
+            return response()->json($products_string)->withCookie($cookie);
         }
         return response("Missing Data", 400);
     }

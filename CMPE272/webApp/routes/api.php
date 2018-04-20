@@ -31,7 +31,7 @@ Route::group([
     });
 });
 Route::group([
-    'prefix' => 'user',
+    'prefix' => 'products',
 ], function () {
     Route::get('', 'Product\ProductController@getList');
     Route::post('', 'Product\ProductController@create');
