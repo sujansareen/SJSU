@@ -30,3 +30,15 @@ Route::group([
         Route::delete('', 'User\UserController@archive');
     });
 });
+Route::group([
+    'prefix' => 'user',
+], function () {
+    Route::get('', 'Product\ProductController@getList');
+    Route::post('', 'Product\ProductController@create');
+    Route::group([
+        'prefix' => '{product_id}',
+    ], function (){
+        Route::get('', 'Product\ProductController@details');
+        Route::put('', 'Product\ProductController@update');
+    });
+});
