@@ -46,7 +46,7 @@ class ProductController extends Controller{
             $products = array_slice($unique, 0, 5, true);
             $products_string = implode(",", $products);
             $cookie = cookie('products', $products_string);
-            return response()->json($products_string)->withCookie($cookie);
+            return response()->json($item)->withCookie($cookie);
         }
         return response("Missing Data", 400);
     }
