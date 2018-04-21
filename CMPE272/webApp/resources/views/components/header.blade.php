@@ -18,7 +18,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="/contacts">Contacts</a>
             </li>
-            <li class="nav-item">
+            <li id="sign-in-li" class="nav-item" style="display: none">
                 <a class="nav-link" href="/user">sign in</a>
             </li>
             {{ $slot }}
@@ -26,3 +26,10 @@
         {{--<a class="btn btn-outline-info" href="#">Sign up</a>--}}
     </div>
 </nav>
+<script>
+
+    var user = getCookie("user") || {};
+    if(!user.value){
+        $('#sign-in-li').show();
+    }
+</script>

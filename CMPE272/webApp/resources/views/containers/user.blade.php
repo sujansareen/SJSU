@@ -9,8 +9,9 @@
         <div class="alert alert-danger" id="erroruser" style="display: none;" role="alert">
             Error
         </div>
-        <div class="card card-body">
-            <form class="form-inline" id="signinForm"  onsubmit="return false">
+        <div class="card card-body" style="display:none">
+            <h3>Sign In to Search Users</h3>
+            <form class="form-inline" id="signinForm" onsubmit="return false">
             <div class="form-group mx-sm-3 mb-4">
                 <label for="inputPassword2" class="sr-only">sign in</label>
                 <input type="text" name="email" class="form-control required" id="inputPassword2" placeholder="email">
@@ -23,8 +24,6 @@
             </form>
         </div>
 
-        <br />
-        <br />
         <div class="card card-body" style="display:none">
             <form class="form-inline" id="searchform"  onsubmit="return false">
                 <div class="form-group mx-sm-3 mb-4">
@@ -44,7 +43,27 @@
                 </div>
                 <button type="submit" class="btn btn-primary mb-4">Search</button>
             </form>
-
+            <div class="table-responsive">
+                <table id="user-table" class="table" style="display: none;">
+                    <thead>
+                    <tr>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">email</th>
+                    </tr>
+                    </thead>
+                    <tbody id="user-table-body">
+                    </tbody>
+                </table>
+            </div>
+            {{--   user row template --}}
+            <table class="table" style="display: none;" >
+                <tr id="userRowTemplate" >
+                    <td class="first-name" >Mark</td>
+                    <td class="last-name" >Otto</td>
+                    <td class="email" >@mdomdomdomdomdomdo</td>
+                </tr>
+            </table>
         </div>
 
         <br />
@@ -100,6 +119,14 @@
             var $alertSaved =  $("#saveduser");
             var $alertFound =  $("#founduser");
             var $alertError =  $("#erroruser");
+            var $userTable  =  $('#user-table');
+
+            var user = getCookie("user") || {};
+            if(!user.value){
+                $signinForm.parent().show();
+            } else {
+                $searchForm.parent().show();
+            }
             //==========    Sign in
             $signinForm.submit(function(e) {
                 var data = $signinForm.serializeArray().reduce(function(acc,curr){acc[curr.name] = curr.value; return acc;},{});
@@ -136,11 +163,11 @@
 
             $form.submit(function(e) {
                 var data = $form.serializeArray().reduce(function(acc,curr){acc[curr.name] = curr.value; return acc;},{});
-                console.log("sdfsdf: ",data)
                 axios.post('/api/user', data)
                         .then(function (response) {
                             console.log(response);
                             window.scrollTo(0,0);
+                            $('#sign-in-li').hide();
                             $alertSaved.show();
                             setTimeout(function(){
                                 $alertSaved.hide();
@@ -161,20 +188,36 @@
             });
 
             //=====Search
-
+            function renderUserRow(data){
+                if(data && data.first_name){
+                    var $row = $('#userRowTemplate').clone();
+                    $row.attr('id', '');
+                    $row.attr('data-id', data.id||'');
+                    $row.find('.first-name').text(data.first_name||'');
+                    $row.find('.last-name').text(data.last_name||'');
+                    $row.find('.email').text(data.email||'');
+                    $row.show();
+                }
+                return $row;
+            }
             $searchForm.submit(function(e) {
                 var data = $searchForm.serializeArray().reduce(function(acc,curr){acc[curr.name] = curr.value; return acc;},{});
-                console.log("Search: ",data)
+                console.log("Search: ",data);
+                $('#user-table-body').html('');
                 axios.get('/api/user', { params: data })
                         .then(function (response) {
                             console.log(response);
                             window.scrollTo(0,0);
-                            var user = response.data[0];
-                            if(user){
+                            var users = response.data;
+                            if(users.length){
+                                var $rows = users.map(renderUserRow);
+                                $('#user-table-body').html($rows);
+                                $userTable.show();
                                 $alertFound.show();
-                                $alertFound.text(user.first_name);
+                                $alertFound.text("Found: " + users.length + " users" );
                                 $searchForm[0].reset();
                             } else {
+                                $userTable.hide();
                                 $alertFound.text('No One Found');
 
                             }
