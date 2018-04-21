@@ -16,9 +16,13 @@ class ProductController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function getList(Request $request) {
-        $filter_by_ids = $request->input('ids', false);
+        $filter_by_ids  = $request->input('ids', false);
+        $most_visited   = $request->input('most_visited', 0);
         $table = DB::table('products');
-        if($filter_by_ids && is_array ($filter_by_ids)){
+        if($most_visited){
+            $list = $table->orderBy('visited', 'desc')->take($most_visited)->get();
+            $return_data = $list;
+        } else if($filter_by_ids && is_array ($filter_by_ids)){
             $list = $table->get();
             $return_data = [];
             foreach ($filter_by_ids as $item) {
@@ -62,6 +66,8 @@ class ProductController extends Controller{
             $last_visited = array_slice($unique, 0, 5, true);
             $products_string = implode(",", $last_visited);
             $cookie = cookie('last_visited', $products_string, $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = false);
+            DB::table('products')->where('id', $id)
+                ->update(['visited' => $item->visited+1]);
             return response()->json($item)->withCookie($cookie);
         }
         return response("Missing Data", 400);
