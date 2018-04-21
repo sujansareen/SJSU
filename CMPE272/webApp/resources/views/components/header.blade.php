@@ -31,5 +31,8 @@
     var user = getCookie("user") || {};
     if(!user.value){
         $('#sign-in-li').show();
+    } else {
+        $('#sign-in-li').show();
+        $('#sign-in-li a').text('Users');
     }
 </script>
