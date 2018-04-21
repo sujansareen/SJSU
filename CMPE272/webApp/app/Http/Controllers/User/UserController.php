@@ -39,7 +39,7 @@ class UserController extends Controller{
         $table = DB::table('users');
         $data = $table->where('email', '=', $email)->where('password', '=', $password)->get();
         if($data){
-            $cookie = cookie('user', 'sdfdlksdjflksdfjl;ajkf');
+            $cookie = cookie('user', 'sdfdlksdjflksdfjl;ajkf', $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = false);
             return response()->json($data)->withCookie($cookie);
         }
         return response("Error", 400);
