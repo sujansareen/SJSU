@@ -16,8 +16,12 @@ class ProductController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function getList(Request $request) {
-        $table = DB::table('products')->get();
-        return response()->json( $table );
+        $filter_by_ids = $request->input('ids', false);
+        $table = DB::table('products');
+        if($filter_by_ids && is_array ($filter_by_ids)){
+            $table->whereIn('id', $filter_by_ids);
+        }
+        return response()->json( $table->get() );
     }
     /**
      * @param Request $request
@@ -40,7 +44,7 @@ class ProductController extends Controller{
         $item = DB::table('products')->where('id', $id)->first();
         if($item){
             $cookie_products = $request->cookie('last_visited');
-            $products = explode(",",$cookie_products);
+            $products = $cookie_products ? explode(",",$cookie_products):[];
             array_unshift($products,$id);
             $unique = array_unique($products);
             $last_visited = array_slice($unique, 0, 5, true);

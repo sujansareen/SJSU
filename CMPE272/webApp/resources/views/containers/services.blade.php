@@ -23,6 +23,7 @@
     </div>
 
     <script>
+
         function renderCard(data){
             if(data && data.name){
                 var $card = $('#ProductTemplateCard').clone();
@@ -38,19 +39,19 @@
             return $card;
         }
         axios.get('/api/products')
-                .then(function (response) {
-                    window.products = response.data || [];
-                    var $cards = products.map(renderCard);
-                    $('#card-deck').html($cards);
-                    $('.card').unbind('click').on('click',
-                            function(e) {
-                                var id = e.currentTarget.dataset.id;
-                                window.location = '/products/' + id;
-                            });
-                })
-                .catch(function (error) {
-                    console.log(error);
+        .then(function (response) {
+            window.products = response.data || [];
+            var $cards = products.map(renderCard);
+            $('#card-deck').html($cards);
+            $('.card').unbind('click').on('click',
+                function(e) {
+                    var id = e.currentTarget.dataset.id;
+                    window.location = '/products/' + id;
                 });
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 
     </script>
 @endsection
