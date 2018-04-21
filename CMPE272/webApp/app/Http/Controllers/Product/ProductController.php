@@ -39,14 +39,21 @@ class ProductController extends Controller{
     public function details(Request $request, $id) {
         $item = DB::table('products')->where('id', $id)->first();
         if($item){
-            $cookie_products = $request->cookie('products');
+            $cookie_products = $request->cookie('last_visited');
             $products = explode(",",$cookie_products);
             array_unshift($products,$id);
             $unique = array_unique($products);
-            $products = array_slice($unique, 0, 5, true);
-            $products_string = implode(",", $products);
-            $cookie = cookie('products', $products_string);
-            return response()->json($item)->withCookie($cookie);
+            $last_visited = array_slice($unique, 0, 5, true);
+            $products_string = implode(",", $last_visited);
+            $cookie = cookie('last_visited', $products_string, $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = false);
+            $last_visited_array = [];
+            foreach ($last_visited as $v_product) {
+                $last_visited_array[] = $v_product;
+            }
+            return response()->json([
+                "product"=>$item,
+                "last_visited"=> $last_visited_array,
+            ])->withCookie($cookie);
         }
         return response("Missing Data", 400);
     }

@@ -11,7 +11,7 @@
     {{--   Product Template --}}
     <div id="ProductTemplateCard" class="card box-shadow" style="display: none;min-width: 18rem;" >
 
-        <img class="card-img-top" style="max-height: 250px;" src="" alt="Card image cap">
+        <img class="card-img-top" src="" alt="Card image cap">
         <div class="card-body">
             <h3 class="card-title pricing-card-title"></h3>
             <p class="card-text"></p>
@@ -36,11 +36,13 @@
         }
         axios.get('/api/products/{{$product_id}}')
                 .then(function (response) {
-                    var card = response.data || {};
+                    var card = response.data && response.data.product  || {};
+                    var lastVisited = response.data && response.data.last_visited  || [];
                     var $card = renderCard(card);
                     $('.pricing-header .display-4').text(card.name||'');
                     $('.pricing-header .lead').text('Create a video from your memories at ' + card.name||'');
                     $('#card-deck').html($card);
+
                 })
                 .catch(function (error) {
 

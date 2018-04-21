@@ -5,9 +5,7 @@
         <p class="lead">Your memories to the cloud</p>
     </div>
     <div class="container">
-        <div id="card-deck" class="card-deck text-center">
-
-        </div>
+        <div id="card-deck" class="card-deck text-center"> </div>
     </div>
 
 
@@ -25,7 +23,6 @@
     </div>
 
     <script>
-
         function renderCard(data){
             if(data && data.name){
                 var $card = $('#ProductTemplateCard').clone();
@@ -42,15 +39,13 @@
         }
         axios.get('/api/products')
                 .then(function (response) {
-                    var cards = response.data || [];
-                    var $cards = cards.map(renderCard);
-                    console.log(cards);
+                    window.products = response.data || [];
+                    var $cards = products.map(renderCard);
                     $('#card-deck').html($cards);
                     $('.card').unbind('click').on('click',
                             function(e) {
                                 var id = e.currentTarget.dataset.id;
                                 window.location = '/products/' + id;
-                                console.log(id)
                             });
                 })
                 .catch(function (error) {
