@@ -36,16 +36,13 @@
         }
         axios.get('/api/products/{{$product_id}}')
                 .then(function (response) {
-                    var card = response.data && response.data.product  || {};
-                    var lastVisited = response.data && response.data.last_visited  || [];
+                    var card = response.data && response.data  || {};
                     var $card = renderCard(card);
                     $('.pricing-header .display-4').text(card.name||'');
                     $('.pricing-header .lead').text('Create a video from your memories at ' + card.name||'');
                     $('#card-deck').html($card);
-
                 })
                 .catch(function (error) {
-
                     window.location = '/services';
                 });
 

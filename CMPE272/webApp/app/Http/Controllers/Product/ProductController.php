@@ -25,11 +25,9 @@ class ProductController extends Controller{
                 $first = array_first($list, function ($value, $key) use ($item,$list){
                     return $value->id == $item;
                 });
-
                 if($first){
                     $return_data[] = $first;
                 }
-
             }
 
         } else {
@@ -64,14 +62,7 @@ class ProductController extends Controller{
             $last_visited = array_slice($unique, 0, 5, true);
             $products_string = implode(",", $last_visited);
             $cookie = cookie('last_visited', $products_string, $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = false);
-            $last_visited_array = [];
-            foreach ($last_visited as $v_product) {
-                $last_visited_array[] = $v_product;
-            }
-            return response()->json([
-                "product"=>$item,
-                "last_visited"=> $last_visited_array,
-            ])->withCookie($cookie);
+            return response()->json($item)->withCookie($cookie);
         }
         return response("Missing Data", 400);
     }
