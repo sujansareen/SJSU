@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+    <button id="most-visited-btn" type="button" class="btn btn-primary float-right" style="margin-top:3px;margin-right: 100px;display:none;">View Most Visited</button>
     <button id="last-visited-btn" type="button" class="btn btn-primary float-right" style="margin-top:3px;margin-right: 100px;display:none;">View Last Visited</button>
     <button id="all-btn" type="button" class="btn btn-primary float-right" style="margin-top:3px;margin-right:100px;display:none;">View All</button>
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center"style="margin-top: 40px;">
@@ -28,6 +29,8 @@
     <script>
         $allBtn = $('#all-btn');
         $lastVisitedBtn = $('#last-visited-btn');
+        $mostVisitedBtn = $('#most-visited-btn');
+
         function renderCard(data){
             if(data && data.name){
                 var $card = $('#ProductTemplateCard').clone();
@@ -61,9 +64,18 @@
         if(lastVisited.value){
             $lastVisitedBtn.show();
         }
+        $mostVisitedBtn.show();
+        
         getProducts().catch(function (error) {
             console.log(error);
         });
+        $mostVisitedBtn.unbind('click').on('click',
+                function(e) {
+                        getProducts({most_visited:5}).catch(function (error) {
+                            console.log(error);
+                        });
+                        $mostVisitedBtn.hide();
+                });
         $allBtn.unbind('click').on('click',
                 function(e) {
                     getProducts().catch(function (error) {
@@ -71,6 +83,7 @@
                     });
                     $allBtn.hide();
                     $lastVisitedBtn.show();
+                    $mostVisitedBtn.show();
 
                 });
         $lastVisitedBtn.unbind('click').on('click',
@@ -83,7 +96,7 @@
                         });
                         $allBtn.show();
                         $lastVisitedBtn.hide();
-
+                        $mostVisitedBtn.show();
                     }
                 });
 
