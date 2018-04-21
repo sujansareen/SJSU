@@ -65,6 +65,10 @@ Route::group([], function () use ($data){
     Route::get('/services', function ()  use ($data){
         return view('containers.services',$data);
     });
+    Route::get('/products/{id}', function ($id) use ($data){
+        $data['product_id'] = $id;
+        return view('containers.product',$data);
+    });
     Route::get('/news', function () {
         return view('containers.news');
     });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * Class UserController
@@ -38,7 +39,8 @@ class UserController extends Controller{
         $table = DB::table('users');
         $data = $table->where('email', '=', $email)->where('password', '=', $password)->get();
         if($data){
-            return response()->json( $data );
+            $cookie = cookie('user', 'sdfdlksdjflksdfjl;ajkf');
+            return response()->json($data)->withCookie($cookie);
         }
         return response("Error", 400);
     }
