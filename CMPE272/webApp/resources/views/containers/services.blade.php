@@ -1,9 +1,12 @@
 @extends('layouts.app')
 @section('content')
-    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <button id="last-visited-btn" type="button" class="btn btn-primary float-right" style="margin-top:3px;margin-right: 100px;display:none;">View Last Visited</button>
+    <button id="all-btn" type="button" class="btn btn-primary float-right" style="margin-top:3px;margin-right:100px;display:none;">View All</button>
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center"style="margin-top: 40px;">
         <h1 class="display-4">Digital Transfer Service</h1>
         <p class="lead">Your memories to the cloud</p>
     </div>
+
     <div class="container">
         <div id="card-deck" class="card-deck text-center"> </div>
     </div>
@@ -23,14 +26,15 @@
     </div>
 
     <script>
-
+        $allBtn = $('#all-btn');
+        $lastVisitedBtn = $('#last-visited-btn');
         function renderCard(data){
             if(data && data.name){
                 var $card = $('#ProductTemplateCard').clone();
                 $card.attr('id', '');
                 $card.attr('data-id', data.id||'');
                 $card.find('.card-img-top').attr('src', data.url||'');
-                $card.find('.product-name').text(data.name||'');
+                $card.find('.product-name').text('Video: '+ data.name||'');
                 $card.find('.card-img-top').attr('src', 'images/products/'+ data.img||'');
                 $card.find('.card-body .card-title').text(data.name||'');
                 $card.find('.card-body .card-text').text(data.description||'');
@@ -38,20 +42,50 @@
             }
             return $card;
         }
-        axios.get('/api/products')
-        .then(function (response) {
-            window.products = response.data || [];
-            var $cards = products.map(renderCard);
-            $('#card-deck').html($cards);
-            $('.card').unbind('click').on('click',
-                function(e) {
-                    var id = e.currentTarget.dataset.id;
-                    window.location = '/products/' + id;
-                });
-        })
-        .catch(function (error) {
+        function getProducts(data){
+            var params = data || {};
+            return axios.get('/api/products',{ params: params })
+                    .then(function (response) {
+                    window.products = response.data || [];
+                    var $cards = products.map(renderCard);
+                    $('#card-deck').html($cards);
+                    $('.card').unbind('click').on('click',
+                            function(e) {
+                                var id = e.currentTarget.dataset.id;
+                                window.location = '/products/' + id;
+                            });
+                })
+
+        }
+        var lastVisited = getCookie("last_visited") || {};
+        if(lastVisited.value){
+            $lastVisitedBtn.show();
+        }
+        getProducts().catch(function (error) {
             console.log(error);
         });
+        $allBtn.unbind('click').on('click',
+                function(e) {
+                    getProducts().catch(function (error) {
+                        console.log(error);
+                    });
+                    $allBtn.hide();
+                    $lastVisitedBtn.show();
+
+                });
+        $lastVisitedBtn.unbind('click').on('click',
+                function(e) {
+                    var lastVisited = getCookie("last_visited") || {};
+                    if(lastVisited.value){
+                        var ids = Array.isArray(lastVisited.value)?  lastVisited.value: lastVisited.value.split(',');
+                        getProducts({ids:ids}).catch(function (error) {
+                            console.log(error);
+                        });
+                        $allBtn.show();
+                        $lastVisitedBtn.hide();
+
+                    }
+                });
 
     </script>
 @endsection

@@ -19,9 +19,23 @@ class ProductController extends Controller{
         $filter_by_ids = $request->input('ids', false);
         $table = DB::table('products');
         if($filter_by_ids && is_array ($filter_by_ids)){
-            $table->whereIn('id', $filter_by_ids);
+            $list = $table->get();
+            $return_data = [];
+            foreach ($filter_by_ids as $item) {
+                $first = array_first($list, function ($value, $key) use ($item,$list){
+                    return $value->id == $item;
+                });
+
+                if($first){
+                    $return_data[] = $first;
+                }
+
+            }
+
+        } else {
+            $return_data = $table->get();
         }
-        return response()->json( $table->get() );
+        return response()->json( $return_data );
     }
     /**
      * @param Request $request

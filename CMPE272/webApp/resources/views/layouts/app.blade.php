@@ -31,7 +31,7 @@
             function getCookie(cookieName){
                 var cookies = decodeURIComponent(document.cookie).split(';').map(function(item){
                             var x = item.split('=');
-                            return {name:x[0].trim(),value:[1]};
+                            return {name:x[0].trim(),value:x[1]};
                         }) || [];
                 return cookies.find(function(item){
                     return item.name == cookieName;
