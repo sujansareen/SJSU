@@ -23,7 +23,7 @@ class UserController extends Controller{
         $valid_field = ['first_name', 'last_name', 'email','cell_phone', 'home_phone'];
 
         if(in_array($field, $valid_field)){
-            $data = $table->select('first_name', 'last_name', 'email','cell_phone', 'home_phone')->where($field, 'LIKE', $search."%")->get();
+            $data = $table->select('first_name', 'last_name', 'email','home_address', 'cell_phone', 'home_phone')->where($field, 'LIKE', $search."%")->get();
             return response()->json( $data );
         }
         return response("Error", 400);
