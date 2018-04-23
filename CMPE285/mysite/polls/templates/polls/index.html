@@ -1,0 +1,115 @@
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"  crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js" integrity="sha384-lZmvU/TzxoIQIOD9yQDEpvxp6wEU32Fy0ckUgOH4EIlMOCdR823rg4+3gWRwnX1M" crossorigin="anonymous"></script>
+<div class="alert alert-danger" id="alertError" style="display: none;" role="alert"> Error </div>
+<form id="stockForm" class="container" onsubmit="return false">
+  <div class="form-group row">
+    <label for="input1" class="col-sm-3 col-form-label">Ticker Symbol:</label>
+    <div class="col-sm-9">
+      <input type="text" name="symbol" class="form-control" id="input1" placeholder="Symbol">
+    </div>
+  </div>
+    <div class="form-group row">
+    <label for="input2" class="col-sm-3 col-form-label">Allotment:</label>
+    <div class="col-sm-9">
+      <input type="number" name="allotment" class="form-control" id="input2" placeholder="Allotment">
+    </div>
+  </div>
+    <div class="form-group row">
+    <label for="input3" class="col-sm-3 col-form-label">Final Share Price:</label>
+    <div class="col-sm-9">
+      <input type="number" name="final_share" class="form-control" id="input3" placeholder="Final Share Price">
+    </div>
+  </div>
+    <div class="form-group row">
+    <label for="input4" class="col-sm-3 col-form-label">Sell Commission:</label>
+    <div class="col-sm-9">
+      <input type="number" name="sell_commission" class="form-control" id="input4" placeholder="Sell Commission">
+    </div>
+  </div>
+    <div class="form-group row">
+    <label for="input5" class="col-sm-3 col-form-label">Initial Share Price:</label>
+    <div class="col-sm-9">
+      <input type="number" name="initial_share" class="form-control" id="input5" placeholder="Initial Share Price">
+    </div>
+  </div>
+        <div class="form-group row">
+    <label for="input6" class="col-sm-3 col-form-label">Buy Commission:</label>
+    <div class="col-sm-9">
+      <input type="number" name="buy_commission" class="form-control" id="input6" placeholder="Buy Commission">
+    </div>
+  </div>
+    <div class="form-group row">
+    <label for="input7" class="col-sm-3 col-form-label">Capital Gain Tax Rate (%):</label>
+    <div class="col-sm-9">
+      <input type="number" name="tax_rate" class="form-control" id="input7" placeholder="Capital Gain Tax Rate (%)">
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-9">
+      <button type="submit" class="btn btn-primary">Sign in</button>
+    </div>
+  </div>
+</form>
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">PROFIT REPORT:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5>Proceeds</h5>
+        <p class="proceeds"></p>
+        <h5>Cost</h5>
+        <p class="cost"></p>
+        <hr />
+        <h4>Cost details:</h4>
+        <h5>Total Purchase Price</h5>
+        <p class="total_purchase_price"></p>
+        <h5>Buy Commission</h5>
+        <p class="buy_commission"></p>
+        <h5>Sell Commission</h5>
+        <p class="sell_commission"></p>
+        <h5>Tax on Capital Gain</h5>
+        <p class="taxOnCapitalGain"></p>
+        <h5>Net Profit</h5>
+        <p class="net_profit"></p>
+        <h5>Return on Investment</h5>
+        <p class="return_on_investment"></p>
+        <h5>To break even, you should have a final share price of </h5>
+        <p class="break_even"></p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+   var $alertError = $('#alertError');
+  var $form = $('#stockForm');
+  var $modal = $('#modal');
+  var $modalBody = $('.modal-body');
+  $form.submit(function(e) {
+      var data = $form.serializeArray().reduce(function(acc,curr){acc[curr.name] = curr.value; return acc;},{});
+      $alertError.hide();
+      axios.post('', data)
+              .then(function (response) {
+               var data = response.data || {};
+                Object.keys(data).forEach(function(k){
+                    console.log(k + ' - ' + data[k]);
+                    $modalBody.find('.'+k).text(data[k]);
+                });
+
+                //$modal.modal('show')
+              })
+              .catch(function (error) {
+                $alertError.show();
+                $modal.modal('hide')
+              });
+      e.preventDefault(); // avoid to execute the actual submit of the form.
+  });
+</script>
