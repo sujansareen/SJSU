@@ -28,7 +28,7 @@ class Users extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        DB::table('users')->delete();
     }
     function parseData($data){
         $collection = collect($data)->map(function ($item, $key) {
