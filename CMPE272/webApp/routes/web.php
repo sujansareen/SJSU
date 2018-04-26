@@ -78,4 +78,7 @@ Route::group([], function () use ($data){
     Route::get('/user', function () use ($data){
         return view('containers.user',$data);
     });
+    Route::get('/company', function () use ($data){
+        return view('containers.all_users',$data);
+    });
 });
