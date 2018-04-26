@@ -6,7 +6,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Cookie;
-
+use App\Http\getUrlContent;
 /**
  * Class UserController
  */
@@ -87,6 +87,24 @@ class UserController extends Controller{
 
         $return_data = [];
         return response()->json($return_data);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getListFromAllCompanys(Request $request) {
+        $data                  = $request->input();
+        $field                  = $request->input("field", "first_name");
+        $search                  = $request->input("search", "");
+        $table = DB::table('users');
+        $valid_field = ['first_name', 'last_name', 'email','cell_phone', 'home_phone'];
+        if(in_array($field, $valid_field)){
+            $data = $table->select('first_name', 'last_name', 'email','home_address', 'cell_phone', 'home_phone')->where($field, 'LIKE', $search."%")->get();
+            $data_company_2 = getUrlContent('http://students.engr.scu.edu/~kta/StoryMode/getallusers.php');
+            return response()->json( array_merge($data, $data_company_2) );
+        }
+        return response("Error", 400);
     }
 
 
