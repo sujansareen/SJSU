@@ -1,3 +1,4 @@
+import sys
 
 def calculate_proceeds( allotment, final_share ):
    return int(allotment) * float(final_share);
@@ -18,19 +19,19 @@ def calculate_break_even( total_purchase_price, buy_commission, sell_commission,
 
 # Output
 print("Compute Your Profit: ")
-symbol = raw_input("Ticker Symbol: ")
+symbol = input("Ticker Symbol: ")
 print
-allotment = raw_input("Allotment: ")
+allotment = input("Allotment: ")
 print
-final_share = raw_input("Final Share Price: ")
+final_share = input("Final Share Price: ")
 print
-sell_commission = raw_input("Sell Commission: ")
+sell_commission = input("Sell Commission: ")
 print
-initial_share = raw_input("Initial Share Price: ")
+initial_share = input("Initial Share Price: ")
 print
-buy_commission = raw_input("Buy Commission: ")
+buy_commission = input("Buy Commission: ")
 print
-tax_rate = raw_input("Capital Gain Tax Rate (%): ")
+tax_rate = input("Capital Gain Tax Rate (%): ")
 print
 
 # Calculate
