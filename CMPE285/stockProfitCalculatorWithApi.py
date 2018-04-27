@@ -27,11 +27,14 @@ def getStockData(symbol=""):
 	'Cache-Control': "no-cache",
 	'Postman-Token': "b1fea959-9785-46e4-a7f6-99c93c01fbc9"
 	}
-	response = requests.request("GET", url, headers=headers, params=querystring)
+	try:
+		response = requests.request("GET", url, headers=headers, params=querystring)
+	except requests.exceptions.RequestException as e:  # This is the correct syntax
+		return 'Connection Error'
 	return response.text
 # Output
 def printStockData(data):
-	if data == "Unknown symbol":
+	if data == "Unknown symbol" or data == 'Connection Error':
 		print(data)
 		return
 	obj = json.loads(data)["quote"]
