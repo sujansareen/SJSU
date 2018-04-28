@@ -1,7 +1,7 @@
 import requests
 import sys
 import datetime
-from pytz import timezone    
+import time
 import json
 
 def calculate_proceeds( allotment, final_share ):
@@ -38,11 +38,12 @@ def printStockData(data):
 		print(data)
 		return
 	obj = json.loads(data)["quote"]
+	hasPlus = '+' if obj["change"]>0 else ''
 	now = datetime.datetime.now()
-	print(now.strftime('%a %b %d %H:%M:%S %Z%z %Y'))
+	print(now.strftime('%a %b %d %H:%M:%S '+time.localtime().tm_zone+' %Y'))
 	print(obj["companyName"] +" ("+obj["symbol"]+")")
 	changePercent = "%.2f" % ( float(obj["changePercent"])* 100 ) 
-	print("%.2f" % obj["latestPrice"] + "%.2f" % obj["change"] +" (+" + changePercent+"%)")
+	print("%.2f " % obj["latestPrice"] + hasPlus+"%.2f" % obj["change"] +" (" +hasPlus+ changePercent+"%)")
 
 symbol = " "
 while symbol:
