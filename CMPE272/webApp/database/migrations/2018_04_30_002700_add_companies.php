@@ -15,9 +15,9 @@ class AddCompanies extends Migration {
         $this->createCompaniesTable();
         $this->addGroupCompanies();
     }
-    public function createcompaniesTable() {
+    public function createCompaniesTable() {
         Schema::create('companies', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('company_id');
             $table->string('name');
             $table->string('img')->default('');
             $table->string('url');
@@ -65,7 +65,7 @@ class AddCompanies extends Migration {
             ]
         ];
         foreach ($companies as $key=>$company) {
-            $id     = DB::table('companies')->insertGetId( $company );
+            $id     = DB::table('companies')->insertGetId( $company, "company_id" );
             echo sprintf("Added %s to companies - %s \n", array_get($company,'name','') , $id);
         }
     }
