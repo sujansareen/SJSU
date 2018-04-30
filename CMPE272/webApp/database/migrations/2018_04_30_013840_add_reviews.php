@@ -17,6 +17,7 @@ class AddReviews extends Migration {
         Schema::create('reviews', function (Blueprint $table) {
             $table->increments('review_id');
             $table->string('review');
+            $table->tinyInteger('rating');
             $table->unsignedInteger('product_id');
             $table->foreign('product_id')
                 ->references('id')->on('products')

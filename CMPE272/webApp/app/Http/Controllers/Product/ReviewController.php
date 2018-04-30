@@ -50,7 +50,7 @@ class ReviewController extends Controller{
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $user_id) {
+    public function update(Request $request, $id) {
         return response()->json( [] );
     }
 

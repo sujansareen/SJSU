@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Product;
+namespace App\Http\Controllers\Company;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
@@ -27,9 +27,9 @@ class CompanyController extends Controller{
      */
     public function create(Request $request) {
         $data                  = $request->input();
-        $id = DB::table('companies')->insertGetId( $data );
-        if($id){
-            $return_data = ["id"=>$id ];
+        $company_id = DB::table('companies')->insertGetId( $data );
+        if($company_id){
+            $return_data = ["company_id"=>$company_id ];
             return response()->json($return_data);
         }
         return response("Missing Data", 400);
@@ -38,8 +38,8 @@ class CompanyController extends Controller{
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function details(Request $request, $id) {
-        $item = DB::table('companies')->where('id', $id)->first();
+    public function details(Request $request, $company_id) {
+        $item = DB::table('companies')->where('company_id', $company_id)->first();
         if($item){
             return response()->json($item);
         }
@@ -50,7 +50,7 @@ class CompanyController extends Controller{
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $user_id) {
+    public function update(Request $request, $company_id) {
         return response()->json( [] );
     }
 

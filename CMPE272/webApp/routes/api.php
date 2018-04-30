@@ -41,6 +41,20 @@ Route::group([
     });
 });
 Route::group([
+    'prefix' => 'companies',
+], function () {
+    Route::get('', 'Company\CompanyController@getList');
+    Route::get('/all_companys', 'Company\CompanyController@getListFromAllCompanys');
+    Route::post('', 'Company\CompanyController@create');
+    Route::group([
+        'prefix' => '{company_id}',
+    ], function (){
+        Route::get('', 'Company\CompanyController@details');
+        Route::put('', 'Company\CompanyController@update');
+        Route::delete('', 'Company\CompanyController@archive');
+    });
+});
+Route::group([
     'prefix' => 'products',
 ], function () {
     Route::get('', 'Product\ProductController@getList');
@@ -50,5 +64,17 @@ Route::group([
     ], function (){
         Route::get('', 'Product\ProductController@details');
         Route::put('', 'Product\ProductController@update');
+        Route::group([
+            'prefix' => 'reviews',
+            ], function () {
+            Route::get('', 'Product\ReviewController@getList');
+            Route::post('', 'Product\ReviewController@create');
+            Route::group([
+                'prefix' => '{review_id}',
+            ], function (){
+                Route::get('', 'Product\ReviewController@details');
+                Route::put('', 'Product\ReviewController@update');
+            });
+        });
     });
 });
