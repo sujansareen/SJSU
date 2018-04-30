@@ -16,7 +16,10 @@ class CompanyController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function getList(Request $request) {
-        return response()->json( [] );
+        $table = DB::table('companies');
+        $list = $table->orderBy('company_id')->get();
+        $return_data = $list;
+        return response()->json( $return_data );
     }
     /**
      * @param Request $request

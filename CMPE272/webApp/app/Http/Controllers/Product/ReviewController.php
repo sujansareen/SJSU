@@ -16,7 +16,10 @@ class ReviewController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function getList(Request $request) {
-        return response()->json( [] );
+        $table = DB::table('products');
+        $list = $table->orderBy('company_id', 'created_at')->get();
+        $return_data = $list;
+        return response()->json( $return_data );
     }
     /**
      * @param Request $request
