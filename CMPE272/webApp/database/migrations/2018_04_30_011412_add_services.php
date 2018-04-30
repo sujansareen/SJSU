@@ -11,28 +11,28 @@ class AddServices extends Migration {
      * @return void
      */
     public function up() {
-        $this->createServicesTable();
-    }
-     public function createServicesTable() {
-        Schema::create('services', function (Blueprint $table) {
-            $table->increments('service_id');
-            $table->string('name');
-            $table->string('img')->default('');
-            $table->string('url')->default('');
-            $table->string('description')->default('');
-            $table->unsignedInteger('company_id');
+        Schema::table('products', function (Blueprint $table) {
+            $table->boolean('service')->default(false);
+            $table->unsignedInteger('company_id')->default(0);
+        });
+        DB::table('products')->update(['company_id' => 1]);
+        Schema::table('products', function (Blueprint $table) {
             $table->foreign('company_id')
                 ->references('company_id')->on('companies')
                 ->onDelete('cascade');
-            $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
      *
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('services');
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('service');
+            $table->dropColumn('company_id');
+        });
     }
+    
 }
