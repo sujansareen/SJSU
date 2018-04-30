@@ -22,6 +22,12 @@ Route::group([
     Route::get('', 'User\UserController@getList');
     Route::get('/all_companys', 'User\UserController@getListFromAllCompanys');
     Route::post('/signin', 'User\UserController@signin');
+});
+Route::group([
+    'prefix' => 'users',
+], function () {
+    Route::get('', 'User\UserController@getList');
+    Route::get('/all_companys', 'User\UserController@getListFromAllCompanys');
     Route::post('', 'User\UserController@create');
     Route::group([
         'prefix' => '{user_id}',
