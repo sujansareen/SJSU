@@ -22,6 +22,15 @@ Route::group([
     Route::get('', 'User\UserController@getList');
     Route::get('/all_companys', 'User\UserController@getListFromAllCompanys');
     Route::post('/signin', 'User\UserController@signin');
+    /*TODO: Remove on May 6 , 2018*/
+    Route::post('', 'User\UserController@create');
+    Route::group([
+        'prefix' => '{user_id}',
+    ], function (){
+        Route::get('', 'User\UserController@details');
+        Route::put('', 'User\UserController@update');
+        Route::delete('', 'User\UserController@archive');
+    });
 });
 
 
@@ -44,7 +53,6 @@ Route::group([
     'prefix' => 'companies',
 ], function () {
     Route::get('', 'Company\CompanyController@getList');
-    Route::get('/all_companys', 'Company\CompanyController@getListFromAllCompanys');
     Route::post('', 'Company\CompanyController@create');
     Route::group([
         'prefix' => '{company_id}',
