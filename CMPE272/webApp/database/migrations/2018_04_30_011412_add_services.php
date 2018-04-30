@@ -15,7 +15,7 @@ class AddServices extends Migration {
     }
      public function createServicesTable() {
         Schema::create('services', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('service_id');
             $table->string('name');
             $table->string('img')->default('');
             $table->string('url')->default('');
