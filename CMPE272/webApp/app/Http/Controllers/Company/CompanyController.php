@@ -51,7 +51,9 @@ class CompanyController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $company_id) {
-        return response()->json( [] );
+        $data = $request->input();
+        $item = DB::table('companies')->where('company_id', $company_id)->update($data);
+        return response()->json( $item );
     }
 
 

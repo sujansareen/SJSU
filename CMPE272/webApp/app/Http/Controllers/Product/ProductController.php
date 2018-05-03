@@ -77,11 +77,10 @@ class ProductController extends Controller{
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $user_id) {
-        $data                  = $request->input();
-
-        $return_data = [];
-        return response()->json($return_data);
+    public function update(Request $request, $id) {
+        $data = $request->input();
+        $item = DB::table('products')->where('id', $id)->update($data);
+        return response()->json( $item );
     }
 
 
