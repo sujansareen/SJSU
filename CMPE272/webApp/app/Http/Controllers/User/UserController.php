@@ -62,10 +62,8 @@ class UserController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function details(Request $request, $user_id) {
-        $data                  = $request->input();
-
-        $return_data = [];
-        return response()->json($return_data);
+        $item = DB::table('users')->select('first_name', 'last_name', 'email','home_address', 'cell_phone', 'home_phone')->where('id', $user_id)->first();
+        return response()->json($item);
     }
 
     /**
@@ -83,10 +81,9 @@ class UserController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $user_id) {
-        $data                  = $request->input();
-
-        $return_data = [];
-        return response()->json($return_data);
+        $data = $request->input();
+        $item = DB::table('users')->where('id', $user_id)->update($data);
+        return response()->json( $item );
     }
 
     /**

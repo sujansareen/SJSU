@@ -23,7 +23,9 @@ class AddCompanies extends Migration {
             $table->string('url');
             $table->string('owner')->default('');
             $table->string('description')->default('');
-            $table->timestamps();
+            $table->timestamp('updated_at')->useCurrent();
+            $table->timestamp('created_at')->useCurrent();
+            $table->string('archived')->nullable()->default(null);
         });
     }
 

@@ -51,7 +51,10 @@ class ReviewController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $product_id, $id) {
-        return response()->json( [] );
+        $data = $request->input();
+        $data['product_id'] = array_get($data,'product_id',$product_id);
+        $item = DB::table('reviews')->where('id', $id)->update($data);
+        return response()->json( $item );
     }
 
 

@@ -26,7 +26,9 @@ class AddReviews extends Migration {
             $table->foreign('user_id')
                 ->references('id')->on('users')
                 ->onDelete('cascade');
-            $table->timestamps();
+            $table->timestamp('updated_at')->useCurrent();
+            $table->timestamp('created_at')->useCurrent();
+            $table->string('archived')->nullable()->default(null);
         });
     }
     /**
