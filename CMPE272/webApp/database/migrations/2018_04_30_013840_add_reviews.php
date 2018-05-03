@@ -28,6 +28,7 @@ class AddReviews extends Migration {
                 ->onDelete('cascade');
             $table->timestamp('updated_at')->useCurrent();
             $table->timestamp('created_at')->useCurrent();
+            $table->string('archived')->nullable()->default(null);
         });
     }
     /**
