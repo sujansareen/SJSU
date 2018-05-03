@@ -27,9 +27,9 @@ class ReviewController extends Controller{
      */
     public function create(Request $request, $product_id) {
         $data                  = $request->input();
-        $id = DB::table('reviews')->insertGetId( $data );
+        $id = DB::table('reviews')->insertGetId( $data ,'review_id');
         if($id ){
-            $return_data = ["id"=>$id ];
+            $return_data = ["review_id"=>$id ];
             return response()->json($return_data);
         }
         return response("Missing Data", 400);
@@ -39,7 +39,7 @@ class ReviewController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function details(Request $request, $product_id, $id) {
-        $item = DB::table('reviews')->where('id', $id)->whereNull('archived')->first();
+        $item = DB::table('reviews')->where('review_id', $id)->whereNull('archived')->first();
         if($item){
             return response()->json($item);
         }
@@ -53,7 +53,7 @@ class ReviewController extends Controller{
     public function update(Request $request, $product_id, $id) {
         $data = $request->input();
         $data['product_id'] = array_get($data,'product_id',$product_id);
-        $item = DB::table('reviews')->where('id', $id)->update($data);
+        $item = DB::table('reviews')->where('review_id', $id)->update($data);
         return response()->json( $item );
     }
     /**
@@ -61,7 +61,7 @@ class ReviewController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function archive(Request $request, $product_id, $id) {
-        $item = DB::table('reviews')->where('id', $id)->update(['archived'=>Carbon::now()]);
+        $item = DB::table('reviews')->where('review_id', $id)->update(['archived'=>Carbon::now()]);
         return response()->json( $item );
     }
 

@@ -18,9 +18,13 @@ class ProductController extends Controller{
     public function getList(Request $request) {
         $filter_by_ids  = $request->input('ids', false);
         $most_visited   = $request->input('most_visited', 0);
+        $company_id   = $request->input('company_id', 0);
         $table = DB::table('products');
         if($most_visited){
             $list = $table->whereNull('archived')->orderBy('visited', 'desc')->take($most_visited)->get();
+            $return_data = $list;
+        } else if($company_id){
+            $list = $table->where('company_id',$company_id )->whereNull('archived')->orderBy('updated_at', 'desc')->get();
             $return_data = $list;
         } else if($filter_by_ids && is_array ($filter_by_ids)){
             $list = $table->get();

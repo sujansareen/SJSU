@@ -27,7 +27,7 @@ class CompanyController extends Controller{
      */
     public function create(Request $request) {
         $data                  = $request->input();
-        $company_id = DB::table('companies')->insertGetId( $data );
+        $company_id = DB::table('companies')->insertGetId( $data,'company_id' );
         if($company_id){
             $return_data = ["company_id"=>$company_id ];
             return response()->json($return_data);
