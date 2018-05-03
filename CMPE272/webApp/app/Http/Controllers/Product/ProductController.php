@@ -20,7 +20,7 @@ class ProductController extends Controller{
         $most_visited   = $request->input('most_visited', 0);
         $table = DB::table('products');
         if($most_visited){
-            $list = $table->orderBy('visited', 'desc')->take($most_visited)->get();
+            $list = $table->whereNull('archived')->orderBy('visited', 'desc')->take($most_visited)->get();
             $return_data = $list;
         } else if($filter_by_ids && is_array ($filter_by_ids)){
             $list = $table->get();
@@ -57,7 +57,7 @@ class ProductController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function details(Request $request, $id) {
-        $item = DB::table('products')->where('id', $id)->first();
+        $item = DB::table('products')->where('id', $id)->whereNull('archived')->first();
         if($item){
             $cookie_products = $request->cookie('last_visited');
             $products = $cookie_products ? explode(",",$cookie_products):[];
@@ -66,7 +66,7 @@ class ProductController extends Controller{
             $last_visited = array_slice($unique, 0, 5, true);
             $products_string = implode(",", $last_visited);
             $cookie = cookie('last_visited', $products_string, $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = false);
-            DB::table('products')->where('id', $id)
+            DB::table('products')->where('id', $id)->whereNull('archived')
                 ->update(['visited' => $item->visited+1]);
             return response()->json($item)->withCookie($cookie);
         }
@@ -80,6 +80,14 @@ class ProductController extends Controller{
     public function update(Request $request, $id) {
         $data = $request->input();
         $item = DB::table('products')->where('id', $id)->update($data);
+        return response()->json( $item );
+    }
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function archive(Request $request, $id) {
+        $item = DB::table('products')->where('id', $id)->update(['archived'=>Carbon::now()]);
         return response()->json( $item );
     }
 

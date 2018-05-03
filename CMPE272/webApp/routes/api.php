@@ -72,6 +72,7 @@ Route::group([
     ], function (){
         Route::get('', 'Product\ProductController@details');
         Route::put('', 'Product\ProductController@update');
+        Route::delete('', 'Product\ProductController@archive');
         Route::group([
             'prefix' => 'reviews',
             ], function () {
@@ -82,6 +83,7 @@ Route::group([
             ], function (){
                 Route::get('', 'Product\ReviewController@details');
                 Route::put('', 'Product\ReviewController@update');
+                Route::delete('', 'Product\ReviewController@archive');
             });
         });
     });
