@@ -17,7 +17,7 @@ class CompanyController extends Controller{
      */
     public function getList(Request $request) {
         $table = DB::table('companies');
-        $list = $table->orderBy('company_id')->get();
+        $list = $table->whereNull('archived')->orderBy('company_id')->get();
         $return_data = $list;
         return response()->json( $return_data );
     }
@@ -39,7 +39,7 @@ class CompanyController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function details(Request $request, $company_id) {
-        $item = DB::table('companies')->where('company_id', $company_id)->first();
+        $item = DB::table('companies')->where('company_id', $company_id)->whereNull('archived')->first();
         if($item){
             return response()->json($item);
         }
@@ -53,6 +53,14 @@ class CompanyController extends Controller{
     public function update(Request $request, $company_id) {
         $data = $request->input();
         $item = DB::table('companies')->where('company_id', $company_id)->update($data);
+        return response()->json( $item );
+    }
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function archive(Request $request, $company_id) {
+        $item = DB::table('companies')->where('company_id', $company_id)->update(['archived'=>Carbon::now()]);
         return response()->json( $item );
     }
 

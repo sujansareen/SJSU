@@ -17,7 +17,7 @@ class ReviewController extends Controller{
      */
     public function getList(Request $request, $product_id) {
         $table = DB::table('reviews');
-        $list = $table->orderBy('created_at')->get();
+        $list = $table->where('product_id', $product_id)->whereNull('archived')->orderBy('created_at')->get();
         $return_data = $list;
         return response()->json( $return_data );
     }
@@ -39,7 +39,7 @@ class ReviewController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function details(Request $request, $product_id, $id) {
-        $item = DB::table('reviews')->where('id', $id)->first();
+        $item = DB::table('reviews')->where('id', $id)->whereNull('archived')->first();
         if($item){
             return response()->json($item);
         }
@@ -56,6 +56,13 @@ class ReviewController extends Controller{
         $item = DB::table('reviews')->where('id', $id)->update($data);
         return response()->json( $item );
     }
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function archive(Request $request, $product_id, $id) {
+        $item = DB::table('reviews')->where('id', $id)->update(['archived'=>Carbon::now()]);
+        return response()->json( $item );
+    }
 
 }

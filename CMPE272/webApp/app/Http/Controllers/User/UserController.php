@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Cookie;
 use App\Http\getUrlContent;
+use Carbon\Carbon;
 /**
  * Class UserController
  */
@@ -23,7 +24,7 @@ class UserController extends Controller{
         $valid_field = ['first_name', 'last_name', 'email','cell_phone', 'home_phone'];
 
         if(in_array($field, $valid_field)){
-            $data = $table->select('first_name', 'last_name', 'email','home_address', 'cell_phone', 'home_phone')->where($field, 'LIKE', $search."%")->get();
+            $data = $table->select('first_name', 'last_name', 'email','home_address', 'cell_phone', 'home_phone')->where($field, 'LIKE', $search."%")->whereNull('archived')->get();
             return response()->json( $data );
         }
         return response("Error", 400);
@@ -37,7 +38,7 @@ class UserController extends Controller{
         $email                  = $request->input("email", "");
         $password                  = $request->input("password", "");
         $table = DB::table('users');
-        $data = $table->where('email', '=', $email)->where('password', '=', $password)->get();
+        $data = $table->where('email', '=', $email)->where('password', '=', $password)->whereNull('archived')->get();
         if($data){
             $cookie = cookie('user', 'sdfdlksdjflksdfjl;ajkf', $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = false);
             return response()->json($data)->withCookie($cookie);
@@ -62,7 +63,7 @@ class UserController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function details(Request $request, $user_id) {
-        $item = DB::table('users')->select('first_name', 'last_name', 'email','home_address', 'cell_phone', 'home_phone')->where('id', $user_id)->first();
+        $item = DB::table('users')->select('first_name', 'last_name', 'email','home_address', 'cell_phone', 'home_phone')->where('id', $user_id)->whereNull('archived')->first();
         return response()->json($item);
     }
 
@@ -71,10 +72,8 @@ class UserController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function archive(Request $request, $user_id) {
-        $data                  = $request->input();
-
-        $return_data = [];
-        return response()->json($return_data);
+        $item = DB::table('users')->where('id', $user_id)->update(['archived'=>Carbon::now()]);
+        return response()->json( $item );
     }
     /**
      * @param Request $request
@@ -97,7 +96,7 @@ class UserController extends Controller{
         $table = DB::table('users');
         $valid_field = ['first_name', 'last_name', 'email','cell_phone', 'home_phone'];
         if(in_array($field, $valid_field)){
-            $data = $table->select('first_name', 'last_name', 'email','home_address', 'cell_phone', 'home_phone')->where($field, 'LIKE', $search."%")->get();
+            $data = $table->select('first_name', 'last_name', 'email','home_address', 'cell_phone', 'home_phone')->where($field, 'LIKE', $search."%")->whereNull('archived')->get();
             $data_company_2 = static::getUrlContent('http://students.engr.scu.edu/~kta/StoryMode/getallusers.php');
             return response()->json(  array_merge(static::parseData($data), static::parseData($data_company_2)) );
         }
