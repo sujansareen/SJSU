@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap4',
+    'polls.apps.PollsConfig',
 ]
 
 MIDDLEWARE = [
@@ -124,6 +124,6 @@ STATIC_URL = '/static/'
 BOOTSTRAP4 = {
     'error_css_class': 'bootstrap4-error',
     'required_css_class': 'bootstrap4-required',
-    'javascript_in_head': True,
-    'include_jquery': True,
+    'javascript_in_head': False,
+    'include_jquery': False,
 }

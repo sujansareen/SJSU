@@ -1,0 +1,10 @@
+{% extends 'bootstrap4/bootstrap4.html' %}
+{% block bootstrap4_before_content %}
+	{# Load the tag library #}
+	{% load bootstrap4 %}
+
+	{# Load CSS and JavaScript #}
+	{% bootstrap_css %}
+	{% bootstrap_javascript jquery=True %}
+{% endblock %}
+{% block bootstrap4_title %}{% block title %}{% endblock %}{% endblock %}
