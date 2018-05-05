@@ -119,3 +119,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Settings for django-bootstrap4
+BOOTSTRAP4 = {
+    'error_css_class': 'bootstrap4-error',
+    'required_css_class': 'bootstrap4-required',
+    'javascript_in_head': True,
+    'include_jquery': True,
+}
