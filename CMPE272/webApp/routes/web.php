@@ -40,7 +40,7 @@ $contacts = $contacts_collection->map(function ($item, $key) {
     return [
         "full_name"=>$user_info[0],
         "title"=>$user_info[1],
-        "img"=>$user_info[2]
+        "img"=> trim($user_info[2])
     ];
 });
 
@@ -82,3 +82,6 @@ Route::group([], function () use ($data){
         return view('containers.all_users',$data);
     });
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
