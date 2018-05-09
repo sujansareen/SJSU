@@ -1,0 +1,764 @@
+{
+	"info": {
+		"_postman_id": "a5e437c4-3ad2-4e16-966a-098078c1d3f5",
+		"name": "SJSU",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CMPE272",
+			"description": "Laravel App\n",
+			"item": [
+				{
+					"name": "users",
+					"description": null,
+					"item": [
+						{
+							"name": "Get List",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/users",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/users",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/users/{{user_id}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"{{user_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/users/{{user_id}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"{{user_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "archive",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/users/{{user_id}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"{{user_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "companies",
+					"description": null,
+					"item": [
+						{
+							"name": "Get List",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/companies",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"companies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "google",
+											"type": "text"
+										},
+										{
+											"key": "url",
+											"value": "www.google.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/companies",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"companies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/companies/{{company_id}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"companies",
+										"{{company_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/users/{{company_id}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"{{company_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "archive",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/users/{{company_id}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"{{company_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "products",
+					"description": null,
+					"item": [
+						{
+							"name": "reviews",
+							"description": null,
+							"item": [
+								{
+									"name": "Get List",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/api/products/{{product_id}}/reviews",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"api",
+												"products",
+												"{{product_id}}",
+												"reviews"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "review",
+													"value": "Hello",
+													"type": "text"
+												},
+												{
+													"key": "rating",
+													"value": "2",
+													"type": "text"
+												},
+												{
+													"key": "product_id",
+													"value": "3",
+													"type": "text"
+												},
+												{
+													"key": "user_id",
+													"value": "1",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/api/products/{{product_id}}/reviews",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"api",
+												"products",
+												"{{product_id}}",
+												"reviews"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/api/products/{{product_id}}/reviews/{{review_id}}",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"api",
+												"products",
+												"{{product_id}}",
+												"reviews",
+												"{{review_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "details",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/api/products/{{product_id}}/reviews/{{review_id}}",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"api",
+												"products",
+												"{{product_id}}",
+												"reviews",
+												"{{review_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "archive",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/api/products/{{product_id}}/reviews/{{review_id}}",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"api",
+												"products",
+												"{{product_id}}",
+												"reviews",
+												"{{review_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Get List",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/products",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "name",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "description",
+											"type": "text"
+										},
+										{
+											"key": "img",
+											"value": "img",
+											"type": "text"
+										},
+										{
+											"key": "url",
+											"value": "url",
+											"type": "text"
+										},
+										{
+											"key": "company_id",
+											"value": "2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/products",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/products/{{product_id}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"products",
+										"{{product_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/products/{{product_id}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"products",
+										"{{product_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "archive",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/products/{{product_id}}",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"products",
+										"{{product_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "auth",
+					"description": "",
+					"item": [
+						{
+							"name": "register",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Connection",
+										"value": "keep-alive"
+									},
+									{
+										"key": "Pragma",
+										"value": "no-cache"
+									},
+									{
+										"key": "Cache-Control",
+										"value": "no-cache"
+									},
+									{
+										"key": "Origin",
+										"value": "http://localhost:8000"
+									},
+									{
+										"key": "Upgrade-Insecure-Requests",
+										"value": "1"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+									},
+									{
+										"key": "Accept",
+										"value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"
+									},
+									{
+										"key": "Referer",
+										"value": "http://localhost:8000/register"
+									},
+									{
+										"key": "Accept-Encoding",
+										"value": "gzip, deflate, br"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en-US,en;q=0.9"
+									},
+									{
+										"key": "Cookie",
+										"value": "n-browser-id=f9c9a82d-ecb2-43ff-babc-8761f09d6512; _ga=GA1.1.1622507981.1525131153; n-auth=s%3Aj%3A%7B%22alias%22%3A%22ee15928c-4772-4785-b120-03eb8cfa7f58%22%2C%22psid%22%3A%222187850967921786%22%7D.As%2Fa1NBZUWz2lY6MWM60sOXdM24do%2BiBZMDcuGqXijs; csrftoken=w3AY867Td5ipC6wsFX2KVNKieRHgwirrbJnMyfWIRuaPSdwE18iJ9k8LEL7QP0C9; laravel_session=eyJpdiI6ImkyemFmTnlJT1pWNWZkek9FMzMyaFE9PSIsInZhbHVlIjoiaThDUW9uN1J0Y25tNVpWQlwvYlhueEhnNjRaWFZDcW94MFR2NkhUVlJReDBCRVNDWTFmRlB5UUlEUTVGa0p2OHI0cjVNcmxtaEFFWlZnc3puMDhcL1RpQT09IiwibWFjIjoiMWU0MGVkOGIxMDc4ZGU2YjFkNTkzM2M2MTA0M2FhMzdhZWYzZTAyZTE3N2RjY2FlYTFkMTU1MjA1ZjUyNDYyNCJ9; XSRF-TOKEN=eyJpdiI6InRBRTQ1U28ycGNibjJ0ZzlzT1BJUlE9PSIsInZhbHVlIjoiWlZOSm9zR3RVMVB6bUFYSFhBcFpyXC9XV1pZbFNRTWFYN1ZQWHFiWU1pS2tpK1FXaHMxZmp3VmhPRUxZeDJwR1A2cW5vWm9VcGlHUzRzeENjUkc5aFJ3PT0iLCJtYWMiOiI5Mzc0YjZiYTcwMGZjZmUyMmZiNGYzYTI2NDcxOTQ1ODljZGM3YWZhMmRjOThlNjM1YTI1OWRjMTkyNDE3YTZjIn0%3D; mymemories_session=eyJpdiI6IlZGdU54cXNkYVpQaTFIOUlNREFJZnc9PSIsInZhbHVlIjoiZTdVRUtsNm5hOU5maCt5UVR4cGUwcjM3ZVJDWjM1aHlnRTlUZEZCaFZQeTI2c1dlcXNFWjZMYnh1c1VlNm00QTVCMDdrNjl1Q3crQ2FyMFwvbUE2WkVBPT0iLCJtYWMiOiJiMjc2YTRhZGQwMjc1N2VhODg5OTIyMWEyNzViMTYyNTdmNjZkYzdhNThhNWI0YjY5NDIxOGI5NzYyYTljYmEyIn0%3D"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_token",
+											"value": "HRQ2zQaC6OXd5pfvjabOAttwCXAsiZmVqJDFO3Rr",
+											"type": "text"
+										},
+										{
+											"key": "first_name",
+											"value": "testing123",
+											"type": "text"
+										},
+										{
+											"key": "last_name",
+											"value": "testing123",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "testing123",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "testing123@testing123.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "testing123",
+											"type": "text"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "testing123",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/register",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"register"
+									]
+								},
+								"description": "Generated from a curl request: \ncurl 'http://localhost:8000/register' -H 'Connection: keep-alive' -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Origin: http://localhost:8000' -H 'Upgrade-Insecure-Requests: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8' -H 'Referer: http://localhost:8000/register' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.9' -H 'Cookie: n-browser-id=f9c9a82d-ecb2-43ff-babc-8761f09d6512; _ga=GA1.1.1622507981.1525131153; n-auth=s%3Aj%3A%7B%22alias%22%3A%22ee15928c-4772-4785-b120-03eb8cfa7f58%22%2C%22psid%22%3A%222187850967921786%22%7D.As%2Fa1NBZUWz2lY6MWM60sOXdM24do%2BiBZMDcuGqXijs; csrftoken=w3AY867Td5ipC6wsFX2KVNKieRHgwirrbJnMyfWIRuaPSdwE18iJ9k8LEL7QP0C9; laravel_session=eyJpdiI6ImkyemFmTnlJT1pWNWZkek9FMzMyaFE9PSIsInZhbHVlIjoiaThDUW9uN1J0Y25tNVpWQlwvYlhueEhnNjRaWFZDcW94MFR2NkhUVlJReDBCRVNDWTFmRlB5UUlEUTVGa0p2OHI0cjVNcmxtaEFFWlZnc3puMDhcL1RpQT09IiwibWFjIjoiMWU0MGVkOGIxMDc4ZGU2YjFkNTkzM2M2MTA0M2FhMzdhZWYzZTAyZTE3N2RjY2FlYTFkMTU1MjA1ZjUyNDYyNCJ9; XSRF-TOKEN=eyJpdiI6InRBRTQ1U28ycGNibjJ0ZzlzT1BJUlE9PSIsInZhbHVlIjoiWlZOSm9zR3RVMVB6bUFYSFhBcFpyXC9XV1pZbFNRTWFYN1ZQWHFiWU1pS2tpK1FXaHMxZmp3VmhPRUxZeDJwR1A2cW5vWm9VcGlHUzRzeENjUkc5aFJ3PT0iLCJtYWMiOiI5Mzc0YjZiYTcwMGZjZmUyMmZiNGYzYTI2NDcxOTQ1ODljZGM3YWZhMmRjOThlNjM1YTI1OWRjMTkyNDE3YTZjIn0%3D; mymemories_session=eyJpdiI6IlZGdU54cXNkYVpQaTFIOUlNREFJZnc9PSIsInZhbHVlIjoiZTdVRUtsNm5hOU5maCt5UVR4cGUwcjM3ZVJDWjM1aHlnRTlUZEZCaFZQeTI2c1dlcXNFWjZMYnh1c1VlNm00QTVCMDdrNjl1Q3crQ2FyMFwvbUE2WkVBPT0iLCJtYWMiOiJiMjc2YTRhZGQwMjc1N2VhODg5OTIyMWEyNzViMTYyNTdmNjZkYzdhNThhNWI0YjY5NDIxOGI5NzYyYTljYmEyIn0%3D' --data '_token=HRQ2zQaC6OXd5pfvjabOAttwCXAsiZmVqJDFO3Rr&first_name=testing123&last_name=testing123&name=testing123&email=testing123%40testing123.com&password=testing123&password_confirmation=testing123' --compressed"
+							},
+							"response": []
+						},
+						{
+							"name": "login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Connection",
+										"value": "keep-alive"
+									},
+									{
+										"key": "Pragma",
+										"value": "no-cache"
+									},
+									{
+										"key": "Cache-Control",
+										"value": "no-cache"
+									},
+									{
+										"key": "Origin",
+										"value": "http://localhost:8000"
+									},
+									{
+										"key": "Upgrade-Insecure-Requests",
+										"value": "1"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+									},
+									{
+										"key": "Accept",
+										"value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"
+									},
+									{
+										"key": "Referer",
+										"value": "http://localhost:8000/login"
+									},
+									{
+										"key": "Accept-Encoding",
+										"value": "gzip, deflate, br"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en-US,en;q=0.9"
+									},
+									{
+										"key": "Cookie",
+										"value": "n-browser-id=f9c9a82d-ecb2-43ff-babc-8761f09d6512; _ga=GA1.1.1622507981.1525131153; n-auth=s%3Aj%3A%7B%22alias%22%3A%22ee15928c-4772-4785-b120-03eb8cfa7f58%22%2C%22psid%22%3A%222187850967921786%22%7D.As%2Fa1NBZUWz2lY6MWM60sOXdM24do%2BiBZMDcuGqXijs; csrftoken=w3AY867Td5ipC6wsFX2KVNKieRHgwirrbJnMyfWIRuaPSdwE18iJ9k8LEL7QP0C9; XSRF-TOKEN=eyJpdiI6IktaQzdXSW1cL0trMmR5dzdDYVhmM1ZRPT0iLCJ2YWx1ZSI6ImZxQ1d3VEY4XC9cL08wQUd0XC9sZVpYUnBXZVZHRW9MdUNJbTlFY3Bnd1dVU244cDBtU2JvWVpwWk9xalQwRHRHeHlxRUVUc1V5TDBaQzBDZGEzWUlBVUl3PT0iLCJtYWMiOiJmNTk3MDc1ZGVlOWJmYmViZGU5YWY0YzVlMTIxYjBlOGIyY2VjOGY4NjBiZWM0ZWUzNWIyNDA0ZTcxYjEzM2VhIn0%3D; mymemories_session=eyJpdiI6IlkyWmhNam1pSGo0WFV5U2pWRVZJS2c9PSIsInZhbHVlIjoiaXVaYVR4WHFqcjArU2VFRUV6bXNISXVJK29DaXZFVng5c25cL1o1VjlqQ3I0Nk1neExCbXZrRTJaOUtJY0tIaHpWTUVWR1J5WGJZRUlDeVJ5QzNSTmJnPT0iLCJtYWMiOiJmNGIwNjdjZmE1MTkwZjVjNjE1N2VmOTY1OTM1M2I1NzkwM2U5ZDkxOWNkMzI2MGUwODIyYmExMmM2YWRiODBjIn0%3D"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_token",
+											"value": "rmOXdRxK1v6ELtg4jHCXD8GngXYOGF5SHyKJ7yjm",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "testing123%40testing123.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "testing123",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/login",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"login"
+									]
+								},
+								"description": "Generated from a curl request: \ncurl 'http://localhost:8000/login' -H 'Connection: keep-alive' -H 'Pragma: no-cache' -H 'Cache-Control: no-cache' -H 'Origin: http://localhost:8000' -H 'Upgrade-Insecure-Requests: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8' -H 'Referer: http://localhost:8000/login' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.9' -H 'Cookie: n-browser-id=f9c9a82d-ecb2-43ff-babc-8761f09d6512; _ga=GA1.1.1622507981.1525131153; n-auth=s%3Aj%3A%7B%22alias%22%3A%22ee15928c-4772-4785-b120-03eb8cfa7f58%22%2C%22psid%22%3A%222187850967921786%22%7D.As%2Fa1NBZUWz2lY6MWM60sOXdM24do%2BiBZMDcuGqXijs; csrftoken=w3AY867Td5ipC6wsFX2KVNKieRHgwirrbJnMyfWIRuaPSdwE18iJ9k8LEL7QP0C9; XSRF-TOKEN=eyJpdiI6IktaQzdXSW1cL0trMmR5dzdDYVhmM1ZRPT0iLCJ2YWx1ZSI6ImZxQ1d3VEY4XC9cL08wQUd0XC9sZVpYUnBXZVZHRW9MdUNJbTlFY3Bnd1dVU244cDBtU2JvWVpwWk9xalQwRHRHeHlxRUVUc1V5TDBaQzBDZGEzWUlBVUl3PT0iLCJtYWMiOiJmNTk3MDc1ZGVlOWJmYmViZGU5YWY0YzVlMTIxYjBlOGIyY2VjOGY4NjBiZWM0ZWUzNWIyNDA0ZTcxYjEzM2VhIn0%3D; mymemories_session=eyJpdiI6IlkyWmhNam1pSGo0WFV5U2pWRVZJS2c9PSIsInZhbHVlIjoiaXVaYVR4WHFqcjArU2VFRUV6bXNISXVJK29DaXZFVng5c25cL1o1VjlqQ3I0Nk1neExCbXZrRTJaOUtJY0tIaHpWTUVWR1J5WGJZRUlDeVJ5QzNSTmJnPT0iLCJtYWMiOiJmNGIwNjdjZmE1MTkwZjVjNjE1N2VmOTY1OTM1M2I1NzkwM2U5ZDkxOWNkMzI2MGUwODIyYmExMmM2YWRiODBjIn0%3D' --data '_token=rmOXdRxK1v6ELtg4jHCXD8GngXYOGF5SHyKJ7yjm&email=testing123%40testing123.com&password=testing123' --compressed"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		}
+	]
+}
