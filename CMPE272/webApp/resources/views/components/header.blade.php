@@ -16,9 +16,20 @@
             <ul class="navbar-nav ml-auto">
                 <!-- Authentication Links -->
                 @guest
-                    <li><a class="dropdown-item" href="{{ route('login') }}">{{ __('Login') }}</a></li>
+                    <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                     <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
                 @else
+                <!-- Medium and below View -->
+                    <div class="d-lg-none">
+                        <li><a class="nav-link" href="{{ url('/about') }}">About</a></li>
+                        <li><a class="nav-link" href="{{ url('/services') }}">Services</a></li>
+                        <li><a class="nav-link" href="{{ url('/news') }}">News</a></li>
+                        <li><a class="nav-link" href="{{ url('/contacts') }}">Contacts</a></li>
+                        <li><a class="nav-link" href="{{ route('logout') }}"
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a></li>
+                    </div>
                     <!-- Large View -->
                     <li class="dropdown d-none d-lg-block">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -26,23 +37,17 @@
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
                             <a class="dropdown-item" href="{{ url('/about') }}">About</a>
                             <a class="dropdown-item" href="{{ url('/services') }}">Services</a>
                             <a class="dropdown-item" href="{{ url('/news') }}">News</a>
                             <a class="dropdown-item" href="{{ url('/contacts') }}">Contacts</a>
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
                         </div>
                     </li>
-                    <!-- Medium and below View -->
-                    <div class="d-lg-none">
-                        <li><a class="dropdown-item" href="{{ url('/about') }}">About</a></li>
-                        <li><a class="dropdown-item" href="{{ url('/services') }}">Services</a></li>
-                        <li><a class="dropdown-item" href="{{ url('/news') }}">News</a></li>
-                        <li><a class="dropdown-item" href="{{ url('/contacts') }}">Contacts</a></li>
-                    </div>
+
                     <!-- Logout form -->
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
@@ -54,6 +59,7 @@
         </div>
     </div>
 </nav>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script>
     function getCookie(cookieName){
         var cookies = decodeURIComponent(document.cookie).split(';').map(function(item){
