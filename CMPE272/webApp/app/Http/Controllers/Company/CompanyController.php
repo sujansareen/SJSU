@@ -24,7 +24,7 @@ class CompanyController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function create(Request $request) {
-        $data                  = $request->input();
+        $data = $request->input();
         return Model::create($data);
     }
     /**
@@ -41,7 +41,8 @@ class CompanyController extends Controller{
      */
     public function update(Request $request, $company_id) {
         $data = $request->input();
-        $item = Model::where('company_id', $company_id)->update($data);
+        $item = Model::findOrFail($company_id);
+        $item = $item->fill($data);
         return response()->json( $item );
     }
     /**
