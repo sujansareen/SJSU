@@ -12,11 +12,42 @@ use App\Models\Product as Model;
  * Class ProductController
  */
 class ProductController extends Controller{
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getList(Request $request) {
+    public function getList() {
+        $list = Model::all();
+        return $list;
+    }
+    public function create($data = []) {
+        return Model::create($data);
+    }
+    public function details($id) {
+        return Model::findOrFail($id);
+    }
+    public function update($id, $data = []) {
+        $item = Model::findOrFail($id);
+        $item = $item->fill($data);
+        $item->save();
+        return $item;
+    }
+    public function archive($id) {
+        return Model::findOrFail($id)->delete();
+    }
+
+    /*
+    * 
+    * Api Handlers 
+    * 
+    */
+    public function getLastVisitedCookie(Request $request, $id) {
+        $cookie_products = $request->cookie('last_visited');
+        $products = $cookie_products ? explode(",",$cookie_products):[];
+        array_unshift($products,$id);
+        $unique = array_unique($products);
+        $last_visited = array_slice($unique, 0, 5, true);
+        $products_string = implode(",", $last_visited);
+        $cookie = cookie('last_visited', $products_string, $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = false);
+        return $cookie;
+    }
+    public function getListHandler(Request $request) {
         $filter_by_ids  = $request->input('ids', false);
         $most_visited   = $request->input('most_visited', 0);
         $company_id   = $request->input('company_id', 0);
@@ -44,54 +75,23 @@ class ProductController extends Controller{
         }
         return response()->json( $return_data );
     }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function create(Request $request) {
+    public function createHandler(Request $request) {
         $data = $request->input();
-        return Model::create($data);
+        return response()->json( static::create($data) );
     }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function details(Request $request, $id) {
-        $item = Model::findOrFail($id);
+    public function detailsHandler(Request $request, $id) {
+        $item = static::details($id);
         $cookie = static::getLastVisitedCookie($request, $id);
         $item = $item->fill(['visited' => $item->visited+1]);
         $item->save();
         return response()->json($item)->withCookie($cookie);
     }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(Request $request, $id) {
+    public function updateHandler(Request $request, $id) {
         $data = $request->input();
-        $item = Model::findOrFail($id);
-        $item = $item->fill($data);
-        $item->save();
-        return response()->json( $item );
+        return response()->json( static::update($id, $data) );
     }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function archive(Request $request, $id) {
-        $item = Model::findOrFail($id)->delete();
-        return response()->json( $item );
-    }
-    public function getLastVisitedCookie(Request $request, $id) {
-        $cookie_products = $request->cookie('last_visited');
-        $products = $cookie_products ? explode(",",$cookie_products):[];
-        array_unshift($products,$id);
-        $unique = array_unique($products);
-        $last_visited = array_slice($unique, 0, 5, true);
-        $products_string = implode(",", $last_visited);
-        $cookie = cookie('last_visited', $products_string, $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = false);
-        return $cookie;
+    public function archiveHandler(Request $request, $id) {
+        return response()->json( static::archive($id) );
     }
 
 

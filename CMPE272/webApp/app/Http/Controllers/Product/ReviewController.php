@@ -13,50 +13,51 @@ use App\Models\Review as Model;
  * Class ReviewController
  */
 class ReviewController extends Controller{
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getList(Request $request, $product_id) {
-        $return_data = Model::where('product_id', $product_id)->orderBy('created_at')->get();
-        return response()->json( $return_data );
+    public function getList($product_id) {
+        $list = Model::where('product_id', $product_id)->orderBy('created_at')->get();
+        return $list;
     }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function create(Request $request, $product_id) {
-        $data = $request->input();
+    public function create($data=[]) {
         return Model::create($data);
     }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function details(Request $request, $product_id, $id) {
-        $item = Model::findOrFail($id);
-        return response()->json( $item );
+    public function details($id) {
+        return Model::findOrFail($id);
     }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(Request $request, $product_id, $id) {
-        $data = $request->input();
-        $data['product_id'] = array_get($data,'product_id',$product_id);
+    public function update($id, $data=[]) {
         $item = Model::findOrFail($id);
         $item = $item->fill($data);
         $item->save();
-        return response()->json( $item );
+        return $item;
     }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function archive(Request $request, $product_id, $id) {
-        $item = Model::findOrFail($id)->delete();
-        return response()->json( $item );
+    public function archive($id) {
+        return Model::findOrFail($id)->delete();
+    }
+
+    /*
+    * 
+    * Api Handlers 
+    * 
+    */
+    public function getListHandler(Request $request, $product_id) {
+        $data = $request->input();
+        $data['product_id'] = array_get($data,'product_id',$product_id);
+        return response()->json( static::getList($product_id) );
+    }
+    public function createHandler(Request $request, $product_id) {
+        $data = $request->input();
+        $data['product_id'] = array_get($data,'product_id',$product_id);
+        return response()->json( static::create($data) );
+    }
+    public function detailsHandler(Request $request, $product_id, $id) {
+        return response()->json( static::details($id) );
+    }
+    public function updateHandler(Request $request, $product_id, $id) {
+        $data = $request->input();
+        $data['product_id'] = array_get($data,'product_id',$product_id);
+        return response()->json( static::update($id, $data) );
+    }
+    public function archiveHandler(Request $request, $product_id, $id) {
+        return response()->json( static::archive($id) );
     }
 
 }

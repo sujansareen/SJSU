@@ -10,48 +10,48 @@ use App\Models\Company as Model;
 /**
  * Class CompanyController
  */
-class CompanyController extends Controller{
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getList(Request $request) {
-        $return_data = Model::whereNull('archived')->orderBy('company_id')->get();
-        return response()->json( $return_data );
+class CompanyController extends Controller {
+    public function getList() {
+        $list = Model::whereNull('archived')->orderBy('company_id')->get();
+        return $list;
     }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function create(Request $request) {
-        $data = $request->input();
+    public function details($company_id) {
+        return Model::findOrFail($company_id);
+    }
+    public function create($data = []) {
         return Model::create($data);
     }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function details(Request $request, $company_id) {
-        $item = Model::findOrFail($company_id);
-        return response()->json( $item );
-    }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(Request $request, $company_id) {
-        $data = $request->input();
+    public function update($company_id, $data = []) {
         $item = Model::findOrFail($company_id);
         $item = $item->fill($data);
         $item->save();
-        return response()->json( $item );
+        return $item;
     }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function archive(Request $request, $company_id) {
-        $item = Model::findOrFail($company_id)->delete();
-        return response()->json( $item );
+    public function archive($company_id) {
+        return Model::findOrFail($company_id)->delete();
+    }
+
+    /*
+    * 
+    * Api Handlers 
+    * 
+    */
+
+    public function getListHandler(Request $request) {
+        return response()->json( static::getList($data) );
+    }
+    public function createHandler(Request $request) {
+        $data = $request->input();
+        return response()->json( static::create($data) );
+    }
+    public function detailsHandler(Request $request, $company_id) {
+        return response()->json( static::details($company_id) );
+    }
+    public function updateHandler(Request $request, $company_id) {
+        $data = $request->input();
+        return response()->json( static::update($company_id, $data) );
+    }
+    public function archiveHandler(Request $request, $company_id) {
+        return response()->json( static::archive($company_id) );
     }
 }
