@@ -8,18 +8,42 @@ use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Cookie;
 use App\Http\getUrlContent;
 use Carbon\Carbon;
+use App\User as Model;
+
 /**
  * Class UserController
  */
 class UserController extends Controller{
+    public function getList() {
+        $list = Model::all();
+        return $list;
+    }
+    public function details($id) {
+        return Model::findOrFail($id);
+    }
+    public function create($data = []) {
+        return Model::create($data);
+    }
+    public function update($id, $data = []) {
+        $item = Model::findOrFail($id);
+        $item = $item->fill($data);
+        $item->save();
+        return $item;
+    }
+    public function archive($id) {
+        return Model::findOrFail($id)->delete();
+    }
     /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * Web Handlers
      */
-    public function getList(Request $request) {
-        $data                  = $request->input();
-        $field                  = $request->input("field", "first_name");
-        $search                  = $request->input("search", "");
+    
+    /**
+     * Api Handlers
+     */
+    public function getListHandler(Request $request) {
+        $data   = $request->input();
+        $field  = $request->input("field", "first_name");
+        $search = $request->input("search", "");
         $table = DB::table('users');
         $valid_field = ['first_name', 'last_name', 'email','cell_phone', 'home_phone'];
 
@@ -30,27 +54,20 @@ class UserController extends Controller{
         return response("Error", 400);
 
     }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function signin(Request $request) {
-        $email                  = $request->input("email", "");
-        $password                  = $request->input("password", "");
-        $table = DB::table('users');
-        $data = $table->where('email', '=', $email)->where('password', '=', $password)->whereNull('archived')->get();
-        if($data){
-            $cookie = cookie('user', 'sdfdlksdjflksdfjl;ajkf', $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = false);
-            return response()->json($data)->withCookie($cookie);
+    public function signinHandler(Request $request) {
+        $email      = $request->input("email", "");
+        $password   = $request->input("password", "");
+        $user = Model::where('email', '=', $email)
+                    ->where('password', '=', $password)
+                    ->get();
+        if($user){
+            $cookie = cookie('user', $user->id, $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = false);
+            return response()->json($user)->withCookie($cookie);
         }
         return response("Error", 400);
     }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function create(Request $request) {
-        $data                  = $request->input();
+    public function createHandler(Request $request) {
+        $data   = $request->input();
         $id = DB::table('users')->insertGetId( $data );
         if($id ){
             $return_data = ["id"=>$id ];
@@ -58,41 +75,25 @@ class UserController extends Controller{
         }
         return response("Missing Data", 400);
     }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function details(Request $request, $user_id) {
+    public function detailsHandler(Request $request, $user_id) {
         $item = DB::table('users')->select('first_name', 'last_name', 'email','home_address', 'cell_phone', 'home_phone')->where('id', $user_id)->whereNull('archived')->first();
         return response()->json($item);
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function archive(Request $request, $user_id) {
+    public function archiveHandler(Request $request, $user_id) {
         $item = DB::table('users')->where('id', $user_id)->update(['archived'=>Carbon::now()]);
         return response()->json( $item );
     }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(Request $request, $user_id) {
+    public function updateHandler(Request $request, $user_id) {
         $data = $request->input();
         $item = DB::table('users')->where('id', $user_id)->update($data);
         return response()->json( $item );
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getListFromAllCompanys(Request $request) {
-        $data                  = $request->input();
-        $field                  = $request->input("field", "first_name");
-        $search                  = $request->input("search", "");
+    public function getListFromAllCompanysHandler(Request $request) {
+        $data   = $request->input();
+        $field  = $request->input("field", "first_name");
+        $search = $request->input("search", "");
         $table = DB::table('users');
         $valid_field = ['first_name', 'last_name', 'email','cell_phone', 'home_phone'];
         if(in_array($field, $valid_field)){

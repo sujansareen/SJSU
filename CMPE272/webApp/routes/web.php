@@ -9,8 +9,38 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 */
+$data = [ "info"=>[],"cards"=>[],"contents"=>[],"contacts"=>[] ];
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/welcome', function () {
+    return view('welcome');
+});
+
+Route::group([], function () use ($data){
+    Route::get('/', 'PublicWebController@home')->name('main');
+    Route::get('/about', 'PublicWebController@about')->name('about');
+    Route::get('/services', 'PublicWebController@services')->name('services');
+    Route::get('/products/{id}', 'PublicWebController@productDetail')->name('productDetail');
+    Route::get('/news', 'PublicWebController@news')->name('news');
+    Route::get('/contacts', 'PublicWebController@contact')->name('contact');
+    Route::get('/user', 'PrivateWebController@user')->name('user');
+    Route::get('/company', 'PrivateWebController@all_users')->name('all_users');
+});
+Auth::routes();
 
 
+
+
+
+
+
+
+
+
+
+/**
+ *
 //TODO: move to stub data init
 $info = [
     ["title"=>"Duplicates & storage made easy", "msg"=>"you can create inexpensive backups and copies of your irreplaceable memories"],
@@ -45,43 +75,4 @@ $contacts = $contacts_collection->map(function ($item, $key) {
 });
 
 
-$data = [
-    "info"=>$info,
-    "cards"=>$cards,
-    "contents"=>$contents,
-    "contacts"=>$contacts
-];
-Route::get('/welcome', function () {
-    return view('welcome');
-});
-
-Route::group([], function () use ($data){
-    Route::get('/', function () {
-        return view('containers.home');
-    });
-    Route::get('/about', function () use ($data){
-        return view('containers.about',$data);
-    });
-    Route::get('/services', function ()  use ($data){
-        return view('containers.services',$data);
-    });
-    Route::get('/products/{id}', function ($id) use ($data){
-        $data['product_id'] = $id;
-        return view('containers.product',$data);
-    });
-    Route::get('/news', function () {
-        return view('containers.news');
-    });
-    Route::get('/contacts', function () use ($data){
-        return view('containers.contact',$data);
-    });
-    Route::get('/user', function () use ($data){
-        return view('containers.user',$data);
-    });
-    Route::get('/company', function () use ($data){
-        return view('containers.all_users',$data);
-    });
-});
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+ */

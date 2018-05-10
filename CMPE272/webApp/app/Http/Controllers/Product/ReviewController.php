@@ -6,63 +6,62 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Cookie;
+use App\Models\Review as Model;
+
 
 /**
  * Class ReviewController
  */
 class ReviewController extends Controller{
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getList(Request $request, $product_id) {
-        $table = DB::table('reviews');
-        $list = $table->where('product_id', $product_id)->whereNull('archived')->orderBy('created_at')->get();
-        $return_data = $list;
-        return response()->json( $return_data );
+    public function getList($product_id) {
+        $list = Model::where('product_id', $product_id)->orderBy('created_at')->get();
+        return $list;
+    }
+    public function create($data=[]) {
+        return Model::create($data);
+    }
+    public function details($id) {
+        return Model::findOrFail($id);
+    }
+    public function update($id, $data=[]) {
+        $item = Model::findOrFail($id);
+        $item = $item->fill($data);
+        $item->save();
+        return $item;
+    }
+    public function archive($id) {
+        return Model::findOrFail($id)->delete();
     }
     /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * Web Handlers
      */
-    public function create(Request $request, $product_id) {
-        $data                  = $request->input();
-        $id = DB::table('reviews')->insertGetId( $data ,'review_id');
-        if($id ){
-            $return_data = ["review_id"=>$id ];
-            return response()->json($return_data);
-        }
-        return response("Missing Data", 400);
-    }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function details(Request $request, $product_id, $id) {
-        $item = DB::table('reviews')->where('review_id', $id)->whereNull('archived')->first();
-        if($item){
-            return response()->json($item);
-        }
-        return response("Missing Data", 400);
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(Request $request, $product_id, $id) {
+    
+    
+    /*
+    * 
+    * Api Handlers 
+    * 
+    */
+    public function getListHandler(Request $request, $product_id) {
         $data = $request->input();
         $data['product_id'] = array_get($data,'product_id',$product_id);
-        $item = DB::table('reviews')->where('review_id', $id)->update($data);
-        return response()->json( $item );
+        return response()->json( static::getList($product_id) );
     }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function archive(Request $request, $product_id, $id) {
-        $item = DB::table('reviews')->where('review_id', $id)->update(['archived'=>Carbon::now()]);
-        return response()->json( $item );
+    public function createHandler(Request $request, $product_id) {
+        $data = $request->input();
+        $data['product_id'] = array_get($data,'product_id',$product_id);
+        return response()->json( static::create($data) );
+    }
+    public function detailsHandler(Request $request, $product_id, $id) {
+        return response()->json( static::details($id) );
+    }
+    public function updateHandler(Request $request, $product_id, $id) {
+        $data = $request->input();
+        $data['product_id'] = array_get($data,'product_id',$product_id);
+        return response()->json( static::update($id, $data) );
+    }
+    public function archiveHandler(Request $request, $product_id, $id) {
+        return response()->json( static::archive($id) );
     }
 
 }
