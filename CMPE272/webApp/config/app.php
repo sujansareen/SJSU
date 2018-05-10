@@ -208,6 +208,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Companies' => App\Models\Company::class,
+        'Products' => App\Models\Product::class,
+        'Reviews' => App\Models\Review::class,
 
     ],
 

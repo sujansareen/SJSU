@@ -6,28 +6,64 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Cookie;
+use App\Models\Product as Model;
 
 /**
  * Class ProductController
  */
 class ProductController extends Controller{
+    public function getList() {
+        $list = Model::all();
+        return $list;
+    }
+    public function create($data = []) {
+        return Model::create($data);
+    }
+    public function details($id) {
+        return Model::findOrFail($id);
+    }
+    public function update($id, $data = []) {
+        $item = Model::findOrFail($id);
+        $item = $item->fill($data);
+        $item->save();
+        return $item;
+    }
+    public function archive($id) {
+        return Model::findOrFail($id)->delete();
+    }
+    
     /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * Web Handlers
      */
-    public function getList(Request $request) {
+    
+    /*
+    * 
+    * Api Handlers 
+    * 
+    */
+    public function getLastVisitedCookie(Request $request, $id) {
+        $cookie_products = $request->cookie('last_visited');
+        $products = $cookie_products ? explode(",",$cookie_products):[];
+        array_unshift($products,$id);
+        $unique = array_unique($products);
+        $last_visited = array_slice($unique, 0, 5, true);
+        $products_string = implode(",", $last_visited);
+        $cookie = cookie('last_visited', $products_string, $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = false);
+        return $cookie;
+    }
+    public function getListHandler(Request $request) {
         $filter_by_ids  = $request->input('ids', false);
         $most_visited   = $request->input('most_visited', 0);
         $company_id   = $request->input('company_id', 0);
-        $table = DB::table('products');
+
         if($most_visited){
-            $list = $table->whereNull('archived')->orderBy('visited', 'desc')->take($most_visited)->get();
+            $list = Model::whereNull('archived')->orderBy('visited', 'desc')->take($most_visited)->get();
             $return_data = $list;
         } else if($company_id){
-            $list = $table->where('company_id',$company_id )->whereNull('archived')->orderBy('updated_at', 'desc')->get();
+            $list = Model::where('company_id',$company_id )->orderBy('updated_at', 'desc')->get();
             $return_data = $list;
         } else if($filter_by_ids && is_array ($filter_by_ids)){
-            $list = $table->get();
+            $list = Model::all();
             $return_data = [];
             foreach ($filter_by_ids as $item) {
                 $first = array_first($list, function ($value, $key) use ($item,$list){
@@ -39,60 +75,27 @@ class ProductController extends Controller{
             }
 
         } else {
-            $return_data = $table->get();
+            $return_data = Model::all();
         }
         return response()->json( $return_data );
     }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function create(Request $request) {
-        $data                  = $request->input();
-        $id = DB::table('products')->insertGetId( $data );
-        if($id ){
-            $return_data = ["id"=>$id ];
-            return response()->json($return_data);
-        }
-        return response("Missing Data", 400);
-    }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function details(Request $request, $id) {
-        $item = DB::table('products')->where('id', $id)->whereNull('archived')->first();
-        if($item){
-            $cookie_products = $request->cookie('last_visited');
-            $products = $cookie_products ? explode(",",$cookie_products):[];
-            array_unshift($products,$id);
-            $unique = array_unique($products);
-            $last_visited = array_slice($unique, 0, 5, true);
-            $products_string = implode(",", $last_visited);
-            $cookie = cookie('last_visited', $products_string, $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = false);
-            DB::table('products')->where('id', $id)->whereNull('archived')
-                ->update(['visited' => $item->visited+1]);
-            return response()->json($item)->withCookie($cookie);
-        }
-        return response("Missing Data", 400);
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(Request $request, $id) {
+    public function createHandler(Request $request) {
         $data = $request->input();
-        $item = DB::table('products')->where('id', $id)->update($data);
-        return response()->json( $item );
+        return response()->json( static::create($data) );
     }
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function archive(Request $request, $id) {
-        $item = DB::table('products')->where('id', $id)->update(['archived'=>Carbon::now()]);
-        return response()->json( $item );
+    public function detailsHandler(Request $request, $id) {
+        $item = static::details($id);
+        $cookie = static::getLastVisitedCookie($request, $id);
+        $item = $item->fill(['visited' => $item->visited+1]);
+        $item->save();
+        return response()->json($item)->withCookie($cookie);
+    }
+    public function updateHandler(Request $request, $id) {
+        $data = $request->input();
+        return response()->json( static::update($id, $data) );
+    }
+    public function archiveHandler(Request $request, $id) {
+        return response()->json( static::archive($id) );
     }
 
 
