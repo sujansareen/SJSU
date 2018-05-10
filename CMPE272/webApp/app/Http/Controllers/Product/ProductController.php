@@ -20,15 +20,15 @@ class ProductController extends Controller{
         $filter_by_ids  = $request->input('ids', false);
         $most_visited   = $request->input('most_visited', 0);
         $company_id   = $request->input('company_id', 0);
-        $table = DB::table('products');
+
         if($most_visited){
-            $list = $table->whereNull('archived')->orderBy('visited', 'desc')->take($most_visited)->get();
+            $list = Model::whereNull('archived')->orderBy('visited', 'desc')->take($most_visited)->get();
             $return_data = $list;
         } else if($company_id){
-            $list = $table->where('company_id',$company_id )->whereNull('archived')->orderBy('updated_at', 'desc')->get();
+            $list = Model::where('company_id',$company_id )->orderBy('updated_at', 'desc')->get();
             $return_data = $list;
         } else if($filter_by_ids && is_array ($filter_by_ids)){
-            $list = $table->get();
+            $list = Model::all();
             $return_data = [];
             foreach ($filter_by_ids as $item) {
                 $first = array_first($list, function ($value, $key) use ($item,$list){
@@ -40,7 +40,7 @@ class ProductController extends Controller{
             }
 
         } else {
-            $return_data = $table->get();
+            $return_data = Model::all();
         }
         return response()->json( $return_data );
     }
