@@ -18,9 +18,7 @@ class ReviewController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function getList(Request $request, $product_id) {
-        $table = DB::table('reviews');
-        $list = $table->where('product_id', $product_id)->whereNull('archived')->orderBy('created_at')->get();
-        $return_data = $list;
+        $return_data = Model::where('product_id', $product_id)->orderBy('created_at')->get();
         return response()->json( $return_data );
     }
     /**
@@ -28,24 +26,16 @@ class ReviewController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function create(Request $request, $product_id) {
-        $data                  = $request->input();
-        $id = DB::table('reviews')->insertGetId( $data ,'review_id');
-        if($id ){
-            $return_data = ["review_id"=>$id ];
-            return response()->json($return_data);
-        }
-        return response("Missing Data", 400);
+        $data = $request->input();
+        return Model::create($data);
     }
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function details(Request $request, $product_id, $id) {
-        $item = DB::table('reviews')->where('review_id', $id)->whereNull('archived')->first();
-        if($item){
-            return response()->json($item);
-        }
-        return response("Missing Data", 400);
+        $item = Model::findOrFail($id);
+        return response()->json( $item );
     }
 
     /**
@@ -55,7 +45,9 @@ class ReviewController extends Controller{
     public function update(Request $request, $product_id, $id) {
         $data = $request->input();
         $data['product_id'] = array_get($data,'product_id',$product_id);
-        $item = DB::table('reviews')->where('review_id', $id)->update($data);
+        $item = Model::findOrFail($id);
+        $item = $item->fill($data);
+        $item->save();
         return response()->json( $item );
     }
     /**
@@ -63,7 +55,7 @@ class ReviewController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function archive(Request $request, $product_id, $id) {
-        $item = DB::table('reviews')->where('review_id', $id)->update(['archived'=>Carbon::now()]);
+        $item = Model::findOrFail($id)->delete();
         return response()->json( $item );
     }
 

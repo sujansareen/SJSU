@@ -43,6 +43,7 @@ class CompanyController extends Controller{
         $data = $request->input();
         $item = Model::findOrFail($company_id);
         $item = $item->fill($data);
+        $item->save();
         return response()->json( $item );
     }
     /**

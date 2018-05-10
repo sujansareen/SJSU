@@ -49,33 +49,19 @@ class ProductController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function create(Request $request) {
-        $data                  = $request->input();
-        $id = DB::table('products')->insertGetId( $data );
-        if($id ){
-            $return_data = ["id"=>$id ];
-            return response()->json($return_data);
-        }
-        return response("Missing Data", 400);
+        $data = $request->input();
+        return Model::create($data);
     }
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function details(Request $request, $id) {
-        $item = DB::table('products')->where('id', $id)->whereNull('archived')->first();
-        if($item){
-            $cookie_products = $request->cookie('last_visited');
-            $products = $cookie_products ? explode(",",$cookie_products):[];
-            array_unshift($products,$id);
-            $unique = array_unique($products);
-            $last_visited = array_slice($unique, 0, 5, true);
-            $products_string = implode(",", $last_visited);
-            $cookie = cookie('last_visited', $products_string, $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = false);
-            DB::table('products')->where('id', $id)->whereNull('archived')
-                ->update(['visited' => $item->visited+1]);
-            return response()->json($item)->withCookie($cookie);
-        }
-        return response("Missing Data", 400);
+        $item = Model::findOrFail($id);
+        $cookie = static::getLastVisitedCookie($request, $id);
+        $item = $item->fill(['visited' => $item->visited+1]);
+        $item->save();
+        return response()->json($item)->withCookie($cookie);
     }
 
     /**
@@ -84,7 +70,9 @@ class ProductController extends Controller{
      */
     public function update(Request $request, $id) {
         $data = $request->input();
-        $item = DB::table('products')->where('id', $id)->update($data);
+        $item = Model::findOrFail($id);
+        $item = $item->fill($data);
+        $item->save();
         return response()->json( $item );
     }
     /**
@@ -92,8 +80,18 @@ class ProductController extends Controller{
      * @return \Illuminate\Http\JsonResponse
      */
     public function archive(Request $request, $id) {
-        $item = DB::table('products')->where('id', $id)->update(['archived'=>Carbon::now()]);
+        $item = Model::findOrFail($id)->delete();
         return response()->json( $item );
+    }
+    public function getLastVisitedCookie(Request $request, $id) {
+        $cookie_products = $request->cookie('last_visited');
+        $products = $cookie_products ? explode(",",$cookie_products):[];
+        array_unshift($products,$id);
+        $unique = array_unique($products);
+        $last_visited = array_slice($unique, 0, 5, true);
+        $products_string = implode(",", $last_visited);
+        $cookie = cookie('last_visited', $products_string, $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = false);
+        return $cookie;
     }
 
 
