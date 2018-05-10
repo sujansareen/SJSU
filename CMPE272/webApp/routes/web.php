@@ -18,31 +18,14 @@ Route::get('/welcome', function () {
 });
 
 Route::group([], function () use ($data){
-    Route::get('/', function () {
-        return view('containers.home');
-    });
-    Route::get('/about', function () use ($data){
-        return view('containers.about',$data);
-    });
-    Route::get('/services', function ()  use ($data){
-        return view('containers.services',$data);
-    });
-    Route::get('/products/{id}', function ($id) use ($data){
-        $data['product_id'] = $id;
-        return view('containers.product',$data);
-    });
-    Route::get('/news', function () {
-        return view('containers.news');
-    });
-    Route::get('/contacts', function () use ($data){
-        return view('containers.contact',$data);
-    });
-    Route::get('/user', function () use ($data){
-        return view('containers.user',$data);
-    });
-    Route::get('/company', function () use ($data){
-        return view('containers.all_users',$data);
-    });
+    Route::get('/', 'HomeController@home')->name('main');
+    Route::get('/about', 'HomeController@about')->name('about');
+    Route::get('/services', 'HomeController@services')->name('services');
+    Route::get('/products/{id}', 'HomeController@productDetail')->name('productDetail');
+    Route::get('/news', 'HomeController@news')->name('news');
+    Route::get('/contacts', 'HomeController@contact')->name('contact');
+    Route::get('/user', 'HomeController@user')->name('user');
+    Route::get('/company', 'HomeController@all_users')->name('all_users');
 });
 Auth::routes();
 

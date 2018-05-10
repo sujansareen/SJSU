@@ -32,7 +32,11 @@ class ReviewController extends Controller{
     public function archive($id) {
         return Model::findOrFail($id)->delete();
     }
-
+    /**
+     * Web Handlers
+     */
+    
+    
     /*
     * 
     * Api Handlers 

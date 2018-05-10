@@ -34,6 +34,10 @@ class UserController extends Controller{
         return Model::findOrFail($id)->delete();
     }
     /**
+     * Web Handlers
+     */
+    
+    /**
      * Api Handlers
      */
     public function getListHandler(Request $request) {
