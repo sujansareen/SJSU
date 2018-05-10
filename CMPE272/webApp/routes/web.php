@@ -18,14 +18,14 @@ Route::get('/welcome', function () {
 });
 
 Route::group([], function () use ($data){
-    Route::get('/', 'HomeController@home')->name('main');
-    Route::get('/about', 'HomeController@about')->name('about');
-    Route::get('/services', 'HomeController@services')->name('services');
-    Route::get('/products/{id}', 'HomeController@productDetail')->name('productDetail');
-    Route::get('/news', 'HomeController@news')->name('news');
-    Route::get('/contacts', 'HomeController@contact')->name('contact');
-    Route::get('/user', 'HomeController@user')->name('user');
-    Route::get('/company', 'HomeController@all_users')->name('all_users');
+    Route::get('/', 'PublicWebController@home')->name('main');
+    Route::get('/about', 'PublicWebController@about')->name('about');
+    Route::get('/services', 'PublicWebController@services')->name('services');
+    Route::get('/products/{id}', 'PublicWebController@productDetail')->name('productDetail');
+    Route::get('/news', 'PublicWebController@news')->name('news');
+    Route::get('/contacts', 'PublicWebController@contact')->name('contact');
+    Route::get('/user', 'PrivateWebController@user')->name('user');
+    Route::get('/company', 'PrivateWebController@all_users')->name('all_users');
 });
 Auth::routes();
 
