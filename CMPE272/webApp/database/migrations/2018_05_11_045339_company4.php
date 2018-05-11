@@ -36,8 +36,8 @@ class Company4 extends Migration
                 ISBN-13: 978-1455542673
                 Product Dimensions: 5.2 x 1.1 x 8 inches
                 Shipping Weight: 15.2 ounces",
-                "img" => "/wp-content/uploads/2018/03/book10-e1524197155696.jpg",
-                "url" => "/blackBook.php",
+                "img" => "wp-content/uploads/2018/03/book10-e1524197155696.jpg",
+                "url" => "blackBook.php",
                 "service" => false,
 				"company_id" => 4,
             ],
@@ -52,8 +52,8 @@ class Company4 extends Migration
                 ISBN-13: 978-0547577319
                 Product Dimensions: 5 x 0.2 x 8 inches
                 Shipping Weight: 3.2 ounces",
-                "img" => "/wp-content/uploads/2018/03/book11-e1524197303139.jpg",
-                "url" => "/longWalk.php",
+                "img" => "wp-content/uploads/2018/03/book11-e1524197303139.jpg",
+                "url" => "longWalk.php",
                 "service" => false,
 				"company_id" => 4,
             ],
@@ -66,8 +66,8 @@ class Company4 extends Migration
                 ISBN-13: 978-0310220213
                 Product Dimensions: 6 x 1.7 x 9 inches
                 Shipping Weight: 2.3 pounds",
-                "img" => "/wp-content/uploads/2018/03/book2.jpg",
-                "url" => "/bookGod.php",
+                "img" => "wp-content/uploads/2018/03/book2.jpg",
+                "url" => "bookGod.php",
                 "service" => false,
 				"company_id" => 4,
             ],
@@ -80,8 +80,8 @@ class Company4 extends Migration
                 ISBN-13: 978-0307474278
                 Product Dimensions: 4.1 x 1.5 x 7.5 inches
                 Shipping Weight: 10.4 ounces",
-                "img" => "/wp-content/uploads/2018/03/book9-e1524197348470.jpg",
-                "url" => "/DaVinci.php",
+                "img" => "wp-content/uploads/2018/03/book9-e1524197348470.jpg",
+                "url" => "DaVinci.php",
                 "service" => false,
 				"company_id" => 4,
             ],
@@ -94,8 +94,8 @@ class Company4 extends Migration
                 ISBN-13: 978-1594632327
                 Product Dimensions: 5.2 x 1 x 8 inches
                 Shipping Weight: 12 ounces",
-                "img" => "/wp-content/uploads/2018/03/book7.jpg",
-                "url" => "/teaspoon.php",
+                "img" => "wp-content/uploads/2018/03/book7.jpg",
+                "url" => "teaspoon.php",
                 "service" => false,
 				"company_id" => 4,
             ],
@@ -107,8 +107,8 @@ class Company4 extends Migration
                 Publication Date: July 8, 2014
                 Language: English
                 ASIN: B00K0OI42W",
-                "img" => "/wp-content/uploads/2018/03/book3.jpg",
-                "url" => "/beautifulDisaster.php",
+                "img" => "wp-content/uploads/2018/03/book3.jpg",
+                "url" => "beautifulDisaster.php",
                 "service" => false,
 				"company_id" => 4,
             ],
@@ -124,8 +124,8 @@ class Company4 extends Migration
                 ISBN-13: 978-0375842207
                 Product Dimensions: 5.1 x 1.2 x 8 inches
                 Shipping Weight: 15.2 ounces",
-                "img" => "/wp-content/uploads/2018/03/book6.jpg",
-                "url" => "/bookThief.php",
+                "img" => "wp-content/uploads/2018/03/book6.jpg",
+                "url" => "bookThief.php",
                 "service" => false,
 				"company_id" => 4,
             ],
@@ -138,8 +138,8 @@ class Company4 extends Migration
                 ISBN-13: 978-1501142970
                 Product Dimensions: 5.5 x 2 x 8.4 inches
                 Shipping Weight: 2.2 pounds",
-                "img" => "/wp-content/uploads/2018/03/book5.jpg",
-                "url" => "/it.php",
+                "img" => "wp-content/uploads/2018/03/book5.jpg",
+                "url" => "it.php",
                 "service" => false,
 				"company_id" => 4,
             ],
@@ -153,8 +153,8 @@ class Company4 extends Migration
                 ISBN-13: 978-0375815300
                 Product Dimensions: 6.7 x 1.4 x 9.3 inches
                 Shipping Weight: 1.8 pounds ",
-                "img" => "/wp-content/uploads/2018/03/book4.jpg",
-                "url" => "/bookDust.php",
+                "img" => "wp-content/uploads/2018/03/book4.jpg",
+                "url" => "bookDust.php",
                 "service" => false,
 				"company_id" => 4,
             ],
@@ -166,8 +166,8 @@ class Company4 extends Migration
                 Publication Date: July 8, 2014
                 Language: English
                 ASIN: B00K0OI42W ",
-                "img" => "/wp-content/uploads/2018/04/10.jpg",
-                "url" => "/mockingbird.php",
+                "img" => "wp-content/uploads/2018/04/10.jpg",
+                "url" => "mockingbird.php",
                 "service" => false,
 				"company_id" => 4,
             ]

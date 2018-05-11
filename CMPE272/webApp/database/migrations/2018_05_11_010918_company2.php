@@ -88,7 +88,7 @@ class Company2 extends Migration
             [    
                 "name" => "digitalart",
                 "description" => "You can request digital art commissions by one of our artists.",
-                "img" => "  images/service images/Digital Art.JPG ",
+                "img" => "images/service images/Digital Art.JPG",
                 "url" => "digitalartinfo.php",
                 "service" => false,
 				"company_id" => 2,

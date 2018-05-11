@@ -48,7 +48,7 @@ class AddCompanies extends Migration {
             [
                 "name" => "Story Mode",
                 "owner" => "Kevin",
-                "url" => "http://students.engr.scu.edu/~kta/StoryMode/",
+                "url" => "http://students.engr.scu.edu/~kta/StoryMode",
             ], 
             [
                 "name" => "Embedded System Solution",
@@ -58,7 +58,7 @@ class AddCompanies extends Migration {
             [
                 "name" => "Alphabet Bookstore",
                 "owner" => "Sujan",
-                "url" => "http://sujansareen.com/",
+                "url" => "http://sujansareen.com",
             ],
             [
                 "name" => "PaperClipper",
