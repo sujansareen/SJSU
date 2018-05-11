@@ -21,6 +21,7 @@ Route::group([], function () use ($data){
     Route::get('/', 'PublicWebController@home')->name('main');
     Route::get('/about', 'PublicWebController@about')->name('about');
     Route::get('/services', 'PublicWebController@services')->name('services');
+    Route::get('/products', 'PublicWebController@products')->name('products');
     Route::get('/products/{id}', 'PublicWebController@productDetail')->name('productDetail');
     Route::get('/news', 'PublicWebController@news')->name('news');
     Route::get('/contacts', 'PublicWebController@contact')->name('contact');

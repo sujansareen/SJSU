@@ -19,6 +19,36 @@ class ProductController extends Controller{
         $list = Model::all();
         return $list;
     }
+    public function getAllList() {
+        // top_rated
+        $ratings = ReviewModel::whereNull('archived')->orderBy('rating', 'asc')->get()->keyBy('product_id')->values();
+        $product_ids = $ratings->sortByDesc('rating')->values()->pluck('product_id')->take(5);
+
+        $list = Model::whereIn('id', $product_ids->all())->get()->keyBy('id')->all();
+        $return_data['top_rated'] = $product_ids->map(function ($item, $key) use($list){
+            return $list[$item];
+        });
+        // top_visited
+       $return_data['top_visited'] =  Model::whereNull('archived')->orderBy('visited', 'desc')->take(5)->get()->all();
+       // all products
+       $products = Model::all();
+       $return_data['products'] = $products->toArray();
+       // company 1 products
+       $return_data['company_1'] = $products->filter(function ($value) {
+            return $value->company_id ==1;
+        })->values()->all();
+       $return_data['company_2'] = $products->filter(function ($value) {
+            return $value->company_id ==2;
+        })->values()->all();
+       $return_data['company_3'] = $products->filter(function ($value) {
+            return $value->company_id ==3;
+        })->values()->all();
+       $return_data['company_4'] = $products->filter(function ($value) {
+            return $value->company_id ==4;
+        })->values()->all();
+
+       return $return_data;
+    }
     public static function getListWithReviews() {
         $products = Model::all();
         $reviews = ReviewModel::all();
