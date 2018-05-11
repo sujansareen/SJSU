@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Product\ProductController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\Visited as Visited;
 
 class PublicWebController extends Controller {
     public function __construct() {
-        
     }
     public function home($data=[]) {
         $data = array_merge($data, static::getData());
@@ -22,6 +24,14 @@ class PublicWebController extends Controller {
         return view('containers.services',$data);
     }
     public function productDetail($id, $data=[]) {
+        if (Auth::user())
+        {
+            $visit['product_id'] = $id;
+            $visit['user_id'] = auth()->user()->id;
+            $test = DB::table('products')->select('company_id')->where('id', $id)->get();
+            $visit['company_id'] = $test->first()->company_id;
+            Visited::updateOrCreate( $visit);
+        }
         $data = array_merge($data, static::getData());
         $data['product'] = ProductController::getDetailsWithReviews($id);
         $data['product_id'] = array_get($data,'product_id',$id);
