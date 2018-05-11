@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Cookie;
 use App\Models\Product as Model;
 use App\Models\Review as ReviewModel;
+use App\Models\Company as CompanyModel;
 use App\User as UserModel;
 
 /**
@@ -22,13 +23,16 @@ class ProductController extends Controller{
         $average = 0;
         $reviewlist = ReviewModel::where('product_id', $product_id)->orderBy('created_at', 'desc')->get();
         $item = Model::findOrFail($product_id)->toArray();
+        $company = CompanyModel::where('company_id', array_get($item,'company_id',''))->firstOrFail()->toArray();
         $user_ids = $reviewlist->pluck('user_id');
-        $item['users'] = UserModel::whereIn('id', $user_ids)->get()->keyBy('id')->all();
         $ratings = array_filter($reviewlist->pluck('rating')->toArray());
         if($ratings){
             $average = array_sum($ratings)/count($ratings);
         }
+        $item['users'] = UserModel::whereIn('id', $user_ids)->get()->keyBy('id')->all();
         $item['average'] = number_format($average, 2);
+        $item['company'] = $company;
+        $item['baseurl'] = $company['url'] == 'http://mymemories.arturomontoya.me'?'/images/products':$company['url'];
         $item['reviews'] = $reviewlist->map(function ($review) use($item) {
             $user = array_get($item['users'], $review['user_id'],[]);
             $review = $review->toArray();

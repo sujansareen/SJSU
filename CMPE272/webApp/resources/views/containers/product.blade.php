@@ -6,7 +6,7 @@
  -->    </div>
     <div id="card-decks" class="container">
         <div class="card box-shadow" style="min-width: 18rem;" >
-            <img class="card-img-top" src="/images/products/{{ $product['img'] }}" alt="Card image cap">
+            <img class="card-img-top" src="{{ $product['baseurl'] }}/{{ $product['img'] }}" alt="Card image cap">
             <div class="card-body">
                 <h3 class="card-title pricing-card-title">{{ $product["name"] }}</h3>
                 <p class="card-text">{{ $product["description"] }}</p>
