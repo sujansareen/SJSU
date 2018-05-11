@@ -19,19 +19,31 @@ class ProductController extends Controller{
         $list = Model::all();
         return $list;
     }
-    public function getAllList() {
+    public static function getAllList() {
+        $reviews = ReviewModel::whereNull('archived')->orderBy('rating', 'asc')->get();
+        $companies = CompanyModel::all();
         // top_rated
-        $ratings = ReviewModel::whereNull('archived')->orderBy('rating', 'asc')->get()->keyBy('product_id')->values();
+        $ratings = $reviews->keyBy('product_id')->values();
         $product_ids = $ratings->sortByDesc('rating')->values()->pluck('product_id')->take(5);
 
         $list = Model::whereIn('id', $product_ids->all())->get()->keyBy('id')->all();
         $return_data['top_rated'] = $product_ids->map(function ($item, $key) use($list){
-            return $list[$item];
+            $product=$list[$item];
+            $product->company;
+            return $product;
         });
         // top_visited
-       $return_data['top_visited'] =  Model::whereNull('archived')->orderBy('visited', 'desc')->take(5)->get()->all();
+        $top_visited = Model::whereNull('archived')->orderBy('visited', 'desc')->take(5)->get();
+        $return_data['top_visited'] = $top_visited->map(function ($product, $key) use($list){
+            $product->company;
+            return $product;
+        })->all();
        // all products
        $products = Model::all();
+       $products = $products->map(function ($product, $key) use($list){
+            $product->company;
+            return $product;
+        });
        $return_data['products'] = $products->toArray();
        // company 1 products
        $return_data['company_1'] = $products->filter(function ($value) {
@@ -46,7 +58,8 @@ class ProductController extends Controller{
        $return_data['company_4'] = $products->filter(function ($value) {
             return $value->company_id ==4;
         })->values()->all();
-
+       $return_data['reviews'] = $reviews;
+       $return_data['companies'] = $companies;
        return $return_data;
     }
     public static function getListWithReviews() {

@@ -11,9 +11,9 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link" href="#"> View All </a>
-                <a class="nav-link" href="#"> Top Rated </a>
-                <a class="nav-link" href="#"> Top Visted </a>
+                <a class="nav-link" href="/products?products=products"> View All </a>
+                <a class="nav-link" href="/products?products=top_rated"> Top Rated </a>
+                <a class="nav-link" href="/products?products=top_visited"> Top Visted </a>
               </li>
             </ul>
 
@@ -23,7 +23,7 @@
             <ul class="nav flex-column mb-2">
                 @foreach ($companies as $company)
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="/products?products=company_{{$company['company_id']}}">
                           <i class="far fa-building"></i>
                           {{$company['name']}}
                         </a>
@@ -59,7 +59,7 @@
 <!-- end of left sidebar -->
 
     <div class="card-deck mb-3 text-center">
-        <!-- @foreach ($products as $product)
+        {{-- @foreach ($products as $product)
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
                     <h4 class="my-0 font-weight-normal">{{ $product["header"] }}</h4>
@@ -72,7 +72,7 @@
                     </ul>
                 </div>
             </div>
-        @endforeach -->
+        @endforeach --}}
     </div>
 </div>
 
