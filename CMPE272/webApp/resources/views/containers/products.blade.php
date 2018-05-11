@@ -2,124 +2,80 @@
 @section('content')
 
 
-    <button id="most-visited-btn" type="button" class="btn btn-primary float-right" style="margin-top:3px;margin-right: 100px;display:none;">View Most Visited</button>
-    <button id="last-visited-btn" type="button" class="btn btn-primary float-right" style="margin-top:3px;margin-right: 100px;display:none;">View Last Visited</button>
-    <button id="all-btn" type="button" class="btn btn-primary float-right" style="margin-top:3px;margin-right:100px;display:none;">View All</button>
-    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center"style="margin-top: 40px;">
-        <h1 class="display-4">Digital Transfer Service</h1>
-        <p class="lead">Your memories to the cloud</p>
-    </div>
+<div class="container-fluid">
 
-    <div class="container">
-        <div id="card-deck" class="card-deck text-center"> 
-            @foreach ($cards as $card)
-                <div class="card mb-4 box-shadow">
-                    <div class="card-header">
-                        <h4 class="my-0 font-weight-normal">{{ $card["header"] }}</h4>
+    
+
+<div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" href="#"> View All </a>
+                <a class="nav-link" href="#"> Top Rated </a>
+                <a class="nav-link" href="#"> Top Visted </a>
+              </li>
+            </ul>
+
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>Companies</span>
+            </h6>
+            <ul class="nav flex-column mb-2">
+                @foreach ($companies as $company)
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                          <i class="far fa-building"></i>
+                          {{$company['name']}}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+          </div>
+        </nav>
+        <div class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div class="card-group">
+                @foreach ($products as $product)
+                    <div class="card box-shadow" style="min-width: 18rem;max-width: 50rem;margin:5px;">
+                        <img class="card-img-top" src="http://via.placeholder.com/3000x3000" alt="Card image cap">
+                        <div class="card-body">
+                          <a href="{{ $product["url"] }}" class="card-title">{{ $product["name"] }}</a>
+                          <p class="card-text">{{ $product["description"] }}</p>
+                        </div>
+                        <div class="card-footer">
+                          <small class="text-muted">Last updated 3 mins ago</small>
+                        </div>
                     </div>
-                    <img class="card-img-top" style="max-height: 250px;" src="{{$card['img']}}" alt="Card image cap">
-                    <div class="card-body">
-                        <h3 class="card-title pricing-card-title">Starting at {{ $card["price"] }}</h3>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            @foreach ($card['list'] as $item)
-                                <li>{{$item}}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+                @endforeach
+            </div>
+            
+                
+            
+        </div>
+      </div>
+
+
+
+
+<!-- end of left sidebar -->
+
+    <div class="card-deck mb-3 text-center">
+        <!-- @foreach ($products as $product)
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ $product["header"] }}</h4>
                 </div>
-            @endforeach
-        </div>
+                <img class="card-img-top" style="max-height: 250px;" src="{{$product['img']}}" alt="Card image cap">
+                <div class="card-body">
+                    <h3 class="card-title pricing-card-title">Starting at {{ $product["price"] }}</h3>
+                    <ul class="list-unstyled mt-3 mb-4">
+
+                    </ul>
+                </div>
+            </div>
+        @endforeach -->
     </div>
+</div>
 
-
-    {{--   Product Template --}}
-    <div id="ProductTemplateCard" class="card box-shadow" style="display: none;min-width: 18rem;" >
-        <div class="card-header">
-            <h4 class="product-name font-weight-normal"></h4>
-        </div>
-        <img class="card-img-top" style="max-height: 250px;" src="" alt="Card image cap">
-        <div class="card-body">
-            <h3 class="card-title pricing-card-title"></h3>
-            <p class="card-text"></p>
-
-        </div>
-    </div>
-
-    <script>
-        $allBtn = $('#all-btn');
-        $lastVisitedBtn = $('#last-visited-btn');
-        $mostVisitedBtn = $('#most-visited-btn');
-
-        function renderCard(data){
-            if(data && data.name){
-                var $card = $('#ProductTemplateCard').clone();
-                $card.attr('id', '');
-                $card.attr('data-id', data.id||'');
-                $card.find('.card-img-top').attr('src', data.url||'');
-                $card.find('.product-name').text('Video: '+ data.name||'');
-                $card.find('.card-img-top').attr('src', 'images/products/'+ data.img||'');
-                $card.find('.card-body .card-title').text(data.name||'');
-                $card.find('.card-body .card-text').text(data.description||'');
-                $card.show();
-            }
-            return $card;
-        }
-        function getProducts(data){
-            var params = data || {};
-            return axios.get('/api/products',{ params: params })
-                    .then(function (response) {
-                    window.products = response.data || [];
-                    var $cards = products.map(renderCard);
-                    $('#card-deck').html($cards);
-                    $('.card').unbind('click').on('click',
-                            function(e) {
-                                var id = e.currentTarget.dataset.id;
-                                window.location = '/products/' + id;
-                            });
-                })
-
-        }
-        var lastVisited = getCookie("last_visited") || {};
-        if(lastVisited.value){
-            $lastVisitedBtn.show();
-        }
-        $mostVisitedBtn.show();
-        
-        getProducts().catch(function (error) {
-            console.log(error);
-        });
-        $mostVisitedBtn.unbind('click').on('click',
-                function(e) {
-                        getProducts({most_visited:5}).catch(function (error) {
-                            console.log(error);
-                        });
-                        $mostVisitedBtn.hide();
-                });
-        $allBtn.unbind('click').on('click',
-                function(e) {
-                    getProducts().catch(function (error) {
-                        console.log(error);
-                    });
-                    $allBtn.hide();
-                    $lastVisitedBtn.show();
-                    $mostVisitedBtn.show();
-
-                });
-        $lastVisitedBtn.unbind('click').on('click',
-                function(e) {
-                    var lastVisited = getCookie("last_visited") || {};
-                    if(lastVisited.value){
-                        var ids = Array.isArray(lastVisited.value)?  lastVisited.value: lastVisited.value.split(',');
-                        getProducts({ids:ids}).catch(function (error) {
-                            console.log(error);
-                        });
-                        $allBtn.show();
-                        $lastVisitedBtn.hide();
-                        $mostVisitedBtn.show();
-                    }
-                });
-
-    </script>
 @endsection
 @section('header')
     @component('components.header')
@@ -127,29 +83,4 @@
 @endsection
 
 
-{{--
 
-<div class="container">
-    <div class="card-deck mb-3 text-center">
-        @foreach ($cards as $card)
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">{{ $card["header"] }}</h4>
-                </div>
-                <img class="card-img-top" style="max-height: 250px;" src="{{$card['img']}}" alt="Card image cap">
-                <div class="card-body">
-                    <h3 class="card-title pricing-card-title">Starting at {{ $card["price"] }}</h3>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        @foreach ($card['list'] as $item)
-                            <li>{{$item}}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        @endforeach
-    </div>
-</div>
-
-
-
---}}

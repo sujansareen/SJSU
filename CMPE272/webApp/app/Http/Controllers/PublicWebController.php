@@ -21,6 +21,11 @@ class PublicWebController extends Controller {
         $data = array_merge($data, static::getData());
         return view('containers.services',$data);
     }
+    public function products($data=[]) {
+        $fetchedData = ProductController::getListWithReviews($data);
+        $data = array_merge($data, static::getData(), $fetchedData);
+        return view('containers.products',$data);
+    }
     public function productDetail($id, $data=[]) {
         $data = array_merge($data, static::getData());
         $data['product'] = ProductController::getDetailsWithReviews($id);

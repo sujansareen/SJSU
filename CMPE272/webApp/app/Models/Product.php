@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model {
@@ -21,4 +20,10 @@ class Product extends Model {
         'service',
         'company_id'
     ];
+    public function reviews() {
+        return $this->hasMany('App\Models\Review');
+    }
+    public function company() {
+        return $this->hasOne('App\Models\Company','company_id','company_id');
+    }
 }

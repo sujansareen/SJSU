@@ -54,7 +54,7 @@ Route::group([
     Route::group([
         'prefix' => '{product_id}',
     ], function (){
-        Route::get('', 'Product\ProductController@detailsHandler');
+        Route::get('', 'Product\ProductController@getDetailsWithReviews');
         Route::put('', 'Product\ProductController@updateHandler');
         Route::delete('', 'Product\ProductController@archiveHandler');
         Route::group([

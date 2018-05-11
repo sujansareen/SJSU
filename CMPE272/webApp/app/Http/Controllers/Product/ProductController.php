@@ -19,20 +19,33 @@ class ProductController extends Controller{
         $list = Model::all();
         return $list;
     }
+    public static function getListWithReviews() {
+        $products = Model::all();
+        $reviews = ReviewModel::all();
+        $companies = CompanyModel::all();
+
+        return [
+            "products"=>$products,
+            "reviews"=>$reviews,
+            "companies"=>$companies
+        ];
+    }
     public static function getDetailsWithReviews($product_id) {
         $average = 0;
         $reviewlist = ReviewModel::where('product_id', $product_id)->orderBy('created_at', 'desc')->get();
-        $item = Model::findOrFail($product_id)->toArray();
-        $company = CompanyModel::where('company_id', array_get($item,'company_id',''))->firstOrFail()->toArray();
+        $product = Model::findOrFail($product_id);
+
+        $item = $product->toArray();
+        $company = $product->company;
+        $item['company'] = $product->company;
         $user_ids = $reviewlist->pluck('user_id');
         $ratings = array_filter($reviewlist->pluck('rating')->toArray());
         if($ratings){
             $average = array_sum($ratings)/count($ratings);
         }
-        $item['users'] = UserModel::whereIn('id', $user_ids)->get()->keyBy('id')->all();
         $item['average'] = number_format($average, 2);
-        $item['company'] = $company;
         $item['baseurl'] = $company['url'] == 'http://mymemories.arturomontoya.me'?'/images/products':$company['url'];
+        $item['users'] = UserModel::whereIn('id', $user_ids)->get()->keyBy('id')->all();
         $item['reviews'] = $reviewlist->map(function ($review) use($item) {
             $user = array_get($item['users'], $review['user_id'],[]);
             $review = $review->toArray();
@@ -113,6 +126,8 @@ class ProductController extends Controller{
         $cookie = static::getLastVisitedCookie($request, $id);
         $item = $item->fill(['visited' => $item->visited+1]);
         $item->save();
+        $return_data = $item;
+        $return_data['company'] = $item->company;
         return response()->json($item)->withCookie($cookie);
     }
     public function updateHandler(Request $request, $id) {
