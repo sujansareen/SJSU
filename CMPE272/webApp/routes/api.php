@@ -58,11 +58,12 @@ Route::group([
     'prefix' => 'products',
 ], function () {
     Route::get('', 'Product\ProductController@getListHandler');
+    Route::get('/all', 'Product\ProductController@getAllList');
     Route::post('', 'Product\ProductController@createHandler');
     Route::group([
         'prefix' => '{product_id}',
     ], function (){
-        Route::get('', 'Product\ProductController@detailsHandler');
+        Route::get('', 'Product\ProductController@getDetailsWithReviews');
         Route::put('', 'Product\ProductController@updateHandler');
         Route::delete('', 'Product\ProductController@archiveHandler');
         Route::group([

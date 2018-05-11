@@ -19,20 +19,76 @@ class ProductController extends Controller{
         $list = Model::all();
         return $list;
     }
+    public static function getAllList() {
+        $reviews = ReviewModel::whereNull('archived')->orderBy('rating', 'asc')->get();
+        $companies = CompanyModel::all();
+        // top_rated
+        $ratings = $reviews->keyBy('product_id')->values();
+        $product_ids = $ratings->sortByDesc('rating')->values()->pluck('product_id')->take(5);
+
+        $list = Model::whereIn('id', $product_ids->all())->get()->keyBy('id')->all();
+        $return_data['top_rated'] = $product_ids->map(function ($item, $key) use($list){
+            $product=$list[$item];
+            $product->company;
+            return $product;
+        });
+        // top_visited
+        $top_visited = Model::whereNull('archived')->orderBy('visited', 'desc')->take(5)->get();
+        $return_data['top_visited'] = $top_visited->map(function ($product, $key) use($list){
+            $product->company;
+            return $product;
+        })->all();
+       // all products
+       $products = Model::all();
+       $products = $products->map(function ($product, $key) use($list){
+            $product->company;
+            return $product;
+        });
+       $return_data['products'] = $products->toArray();
+       // company 1 products
+       $return_data['company_1'] = $products->filter(function ($value) {
+            return $value->company_id ==1;
+        })->values()->all();
+       $return_data['company_2'] = $products->filter(function ($value) {
+            return $value->company_id ==2;
+        })->values()->all();
+       $return_data['company_3'] = $products->filter(function ($value) {
+            return $value->company_id ==3;
+        })->values()->all();
+       $return_data['company_4'] = $products->filter(function ($value) {
+            return $value->company_id ==4;
+        })->values()->all();
+       $return_data['reviews'] = $reviews;
+       $return_data['companies'] = $companies;
+       return $return_data;
+    }
+    public static function getListWithReviews() {
+        $products = Model::all();
+        $reviews = ReviewModel::all();
+        $companies = CompanyModel::all();
+
+        return [
+            "products"=>$products,
+            "reviews"=>$reviews,
+            "companies"=>$companies
+        ];
+    }
     public static function getDetailsWithReviews($product_id) {
         $average = 0;
         $reviewlist = ReviewModel::where('product_id', $product_id)->orderBy('created_at', 'desc')->get();
-        $item = Model::findOrFail($product_id)->toArray();
-        $company = CompanyModel::where('company_id', array_get($item,'company_id',''))->firstOrFail()->toArray();
+        $product = Model::findOrFail($product_id);
+
+        $item = $product->toArray();
+        $company = $product->company;
+        $item['company'] = $product->company;
         $user_ids = $reviewlist->pluck('user_id');
         $ratings = array_filter($reviewlist->pluck('rating')->toArray());
         if($ratings){
             $average = array_sum($ratings)/count($ratings);
         }
-        $item['users'] = UserModel::whereIn('id', $user_ids)->get()->keyBy('id')->all();
         $item['average'] = number_format($average, 2);
-        $item['company'] = $company;
         $item['baseurl'] = $company['url'] == 'http://mymemories.arturomontoya.me'?'/images/products':$company['url'];
+        $item['users'] = UserModel::whereIn('id', $user_ids)->get()->keyBy('id')->all();
         $item['reviews'] = $reviewlist->map(function ($review) use($item) {
             $user = array_get($item['users'], $review['user_id'],[]);
             $review = $review->toArray();
@@ -113,6 +169,8 @@ class ProductController extends Controller{
         $cookie = static::getLastVisitedCookie($request, $id);
         $item = $item->fill(['visited' => $item->visited+1]);
         $item->save();
+        $return_data = $item;
+        $return_data['company'] = $item->company;
         return response()->json($item)->withCookie($cookie);
     }
     public function updateHandler(Request $request, $id) {

@@ -11,21 +11,21 @@ use App\Models\Visited as Visited;
 class PublicWebController extends Controller {
     public function __construct() {
     }
-    public function home($data=[]) {
+    public function home(Request $request, $data=[]) {
         $data = array_merge($data, static::getData());
         return view('containers.home');
     }
-    public function about($data=[]) {
+    public function about(Request $request, $data=[]) {
         $data = array_merge($data, static::getData());
         return view('containers.about',$data);
     }
-    public function services($data=[]) {
+    public function services(Request $request, $data=[]) {
         $data = array_merge($data, static::getData());
         return view('containers.services',$data);
     }
-    public function productDetail($id, $data=[]) {
-        if (Auth::user())
-        {
+  
+    public function productDetail(Request $request, $id, $data=[]) {
+        if (Auth::user()) {
             $visit['product_id'] = $id;
             $visit['user_id'] = auth()->user()->id;
             $test = DB::table('products')->select('company_id')->where('id', $id)->get();
@@ -37,11 +37,18 @@ class PublicWebController extends Controller {
         $data['product_id'] = array_get($data,'product_id',$id);
         return view('containers.product',$data);
     }
-    public function news($data=[]) {
+   public function products(Request $request, $data=[]) {
+        $products_flag = $request->input('products','products');
+        $fetchedData = ProductController::getAllList($data);
+        $data = array_merge($data, static::getData(), $fetchedData);
+        $data['products'] = array_get($data,$products_flag,[]);
+        return view('containers.products',$data);
+    }
+    public function news(Request $request, $data=[]) {
         $data = array_merge($data, static::getData());
         return view('containers.news');
     }
-    public function contact($data=[]) {
+    public function contact(Request $request, $data=[]) {
         $data = array_merge($data, static::getData());
         return view('containers.contact',$data);
     }
