@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Cookie;
 use App\Models\Product as Model;
+use App\Models\Review as ReviewModel;
+use App\User as UserModel;
 
 /**
  * Class ProductController
@@ -15,6 +17,25 @@ class ProductController extends Controller{
     public function getList() {
         $list = Model::all();
         return $list;
+    }
+    public static function getDetailsWithReviews($product_id) {
+        $average = 0;
+        $reviewlist = ReviewModel::where('product_id', $product_id)->orderBy('created_at', 'desc')->get();
+        $item = Model::findOrFail($product_id)->toArray();
+        $user_ids = $reviewlist->pluck('user_id');
+        $item['users'] = UserModel::whereIn('id', $user_ids)->get()->keyBy('id')->all();
+        $ratings = array_filter($reviewlist->pluck('rating')->toArray());
+        if($ratings){
+            $average = array_sum($ratings)/count($ratings);
+        }
+        $item['average'] = number_format($average, 2);
+        $item['reviews'] = $reviewlist->map(function ($review) use($item) {
+            $user = array_get($item['users'], $review['user_id'],[]);
+            $review = $review->toArray();
+            $review['user']=$user;
+            return $review;
+        })->toArray();
+        return $item;
     }
     public function create($data = []) {
         return Model::create($data);

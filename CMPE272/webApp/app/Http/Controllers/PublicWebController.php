@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Product\ProductController;
 
 class PublicWebController extends Controller {
     public function __construct() {
-
+        
     }
     public function home($data=[]) {
         $data = array_merge($data, static::getData());
@@ -22,6 +23,7 @@ class PublicWebController extends Controller {
     }
     public function productDetail($id, $data=[]) {
         $data = array_merge($data, static::getData());
+        $data['product'] = ProductController::getDetailsWithReviews($id);
         $data['product_id'] = array_get($data,'product_id',$id);
         return view('containers.product',$data);
     }
@@ -33,6 +35,20 @@ class PublicWebController extends Controller {
         $data = array_merge($data, static::getData());
         return view('containers.contact',$data);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function getData() {
         $info = [
             ["title"=>"Duplicates & storage made easy", "msg"=>"you can create inexpensive backups and copies of your irreplaceable memories"],
