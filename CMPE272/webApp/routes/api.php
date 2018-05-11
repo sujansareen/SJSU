@@ -31,6 +31,14 @@ Route::group([
         Route::get('', 'User\UserController@detailsHandler');
         Route::put('', 'User\UserController@updateHandler');
         Route::delete('', 'User\UserController@archiveHandler');
+        Route::group([
+            'prefix' => '{company_id}',
+        ], function (){
+            Route::get('', 'User\VisitedController@detailsHandler');
+            Route::post('', 'User\VisitedController@createHandler');
+            Route::delete('', 'User\VisitedController@archiveHandler');
+            
+        });    
     });
 });
 Route::group([

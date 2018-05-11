@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Product\ProductController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\Visited as Visited;
 
 class PublicWebController extends Controller {
     public function __construct() {
-        
     }
     public function home(Request $request, $data=[]) {
         $data = array_merge($data, static::getData());
@@ -21,18 +23,26 @@ class PublicWebController extends Controller {
         $data = array_merge($data, static::getData());
         return view('containers.services',$data);
     }
-    public function products(Request $request, $data=[]) {
+  
+    public function productDetail(Request $request, $id, $data=[]) {
+        if (Auth::user()) {
+            $visit['product_id'] = $id;
+            $visit['user_id'] = auth()->user()->id;
+            $test = DB::table('products')->select('company_id')->where('id', $id)->get();
+            $visit['company_id'] = $test->first()->company_id;
+            Visited::updateOrCreate( $visit);
+        }
+        $data = array_merge($data, static::getData());
+        $data['product'] = ProductController::getDetailsWithReviews($id);
+        $data['product_id'] = array_get($data,'product_id',$id);
+        return view('containers.product',$data);
+    }
+   public function products(Request $request, $data=[]) {
         $products_flag = $request->input('products','products');
         $fetchedData = ProductController::getAllList($data);
         $data = array_merge($data, static::getData(), $fetchedData);
         $data['products'] = array_get($data,$products_flag,[]);
         return view('containers.products',$data);
-    }
-    public function productDetail(Request $request, $id, $data=[]) {
-        $data = array_merge($data, static::getData());
-        $data['product'] = ProductController::getDetailsWithReviews($id);
-        $data['product_id'] = array_get($data,'product_id',$id);
-        return view('containers.product',$data);
     }
     public function news(Request $request, $data=[]) {
         $data = array_merge($data, static::getData());

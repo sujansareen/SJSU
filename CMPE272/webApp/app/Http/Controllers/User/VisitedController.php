@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Cookie;
 use App\Http\getUrlContent;
 use Carbon\Carbon;
 use App\Models\Visited as Model;
+use Illuminate\Support\Facades\Auth;
 
 class VisitedController extends Controller
 {
@@ -23,8 +24,7 @@ class VisitedController extends Controller
     }
     public function createHandler(Request $request) {
         $data = $request->input();
-        $item = DB::table('visited')->insertGetId($data);
-        return response()->json( $item );
+        return response()->json( Model::create($data) );
     }
 
 }
