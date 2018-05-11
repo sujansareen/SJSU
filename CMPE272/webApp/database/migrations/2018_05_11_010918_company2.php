@@ -24,7 +24,7 @@ class Company2 extends Migration
      */
     public function down()
     {
-        //Schema::dropIfExists('products');
+        DB::table('products')->where('company_id', 2)->delete();
     }
 
     public function addProducts() {
