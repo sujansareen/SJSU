@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class company3_products extends Migration
+class Company3Products extends Migration
 {
     /**
      * Run the migrations.
@@ -24,7 +24,7 @@ class company3_products extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        //Schema::dropIfExists('products');
     }
 
     public function addProducts() {

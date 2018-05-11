@@ -20,7 +20,7 @@ class VideoProducts extends Migration {
             $table->string('name');
             $table->string('img');
             $table->string('url');
-            $table->string('description');
+            $table->string('description', 10000);
             $table->timestamp('updated_at')->useCurrent();
             $table->timestamp('created_at')->useCurrent();
             $table->string('archived')->nullable()->default(null);

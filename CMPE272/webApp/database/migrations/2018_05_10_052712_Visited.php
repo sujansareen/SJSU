@@ -19,13 +19,13 @@ class Visited extends Migration
             $table->increments('visited_id');
             $table->unsignedInteger('product_id');
             $table->foreign('product_id')
-                ->references('id')->on('products');
+                ->references('id')->on('products')->onDelete('cascade');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')
-                ->references('id')->on('users');
+                ->references('id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('company_id');
             $table->foreign('company_id')
-            ->references('company_id')->on('companies');
+            ->references('company_id')->on('companies')->onDelete('cascade');
             $table->timestamp('updated_at')->useCurrent();
             $table->timestamp('created_at')->useCurrent();
             $table->string('archived')->nullable()->default(null);
