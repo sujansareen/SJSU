@@ -36,13 +36,15 @@
             <div class="card-group">
                 @foreach ($products as $product)
                     <div class="card box-shadow" style="min-width: 18rem;max-width: 50rem;margin:5px;">
-                        <img class="card-img-top" src="{{ $product["company"]["url"] }}/{{ $product["img"] }}" alt="Card image cap">
+                        <a href="/products/{{$product["id"]}}"><img class="card-img-top" src="{{ $product["company"]["url"] }}/{{ $product["img"] }}" alt="Card image cap"></a>
                         <div class="card-body">
-                          <a href="{{ $product["company"]["url"] }}/{{ $product["url"] }}" class="card-title">{{ $product["name"] }}</a>
+                          <a href="/products/{{$product["id"]}}" class="card-title">{{ $product["name"] }}</a>
+
                           <p class="card-text">{{ $product["description"] }}</p>
+
                         </div>
                         <div class="card-footer">
-                          <small class="text-muted">Last updated 3 mins ago</small>
+                          <small class="text-muted"><a href="{{ $product["company"]["url"] }}/{{ $product["url"] }}" class="card-title">{{ $product["company"]["name"] }}</a></small>
                         </div>
                     </div>
                 @endforeach
