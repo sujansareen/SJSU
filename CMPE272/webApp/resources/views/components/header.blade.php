@@ -19,12 +19,13 @@
                 @guest
                     <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                     <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
+                    <li><a class="nav-link" href="{{ url('/about') }}">{{ __('About') }}</a></li>
+                    <li><a class="nav-link" href="{{ url('/contacts') }}">{{ __(Contacts') }}</a></li>
                 @else
                 <!-- Medium and below View -->
                     <div class="d-lg-none">
                         <li><a class="nav-link" href="{{ url('/about') }}">About</a></li>
-                        <li><a class="nav-link" href="{{ url('/services') }}">Services</a></li>
-                        <li><a class="nav-link" href="{{ url('/news') }}">News</a></li>
+                        <li><a class="nav-link" href="{{ url('/products') }}">Products</a></li>
                         <li><a class="nav-link" href="{{ url('/contacts') }}">Contacts</a></li>
                         <li><a class="nav-link" href="{{ route('logout') }}"
                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -39,8 +40,7 @@
 
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ url('/about') }}">About</a>
-                            <a class="dropdown-item" href="{{ url('/services') }}">Services</a>
-                            <a class="dropdown-item" href="{{ url('/news') }}">News</a>
+                            <a class="dropdown-item" href="{{ url('/products') }}">Products</a>
                             <a class="dropdown-item" href="{{ url('/contacts') }}">Contacts</a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
