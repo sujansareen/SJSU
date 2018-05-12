@@ -38,8 +38,12 @@ class ProductController extends Controller{
         $companies = CompanyModel::all();
         $visited = VisitedModel::where('user_id', $user_id)->orderBy('updated_at', 'desc')->get();
         $last_visited_product_ids = $visited->pluck('product_id');
-        $visited = Model::whereIn('id', $last_visited_product_ids)->get()->all();
-
+        $visited_list = Model::whereIn('id', $last_visited_product_ids)->get()->keyBy('id')->all();
+        $return_data['visited'] = $last_visited_product_ids->map(function ($item, $key) use($visited_list){
+            $product=$visited_list[$item];
+            $product->company;
+            return $product;
+        });
         // top_rated
         $ratings = $reviews->keyBy('product_id')->values();
         $product_ids = $ratings->sortByDesc('rating')->values()->pluck('product_id')->take(5);
@@ -81,7 +85,6 @@ class ProductController extends Controller{
         })->values()->all();
        $return_data['reviews'] = $reviews;
        $return_data['companies'] = $companies;
-       $return_data['visited'] = $visited;
        return $return_data;
     }
     public static function getListWithReviews() {

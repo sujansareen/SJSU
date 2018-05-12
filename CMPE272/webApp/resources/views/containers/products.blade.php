@@ -14,6 +14,7 @@
                 <a class="nav-link" href="/products?products=products"> View All </a>
                 <a class="nav-link" href="/products?products=top_rated"> Top Rated </a>
                 <a class="nav-link" href="/products?products=top_visited"> Top Visted </a>
+                <a class="nav-link" href="/products?products=visited"> Recently Visted </a>
               </li>
             </ul>
 
