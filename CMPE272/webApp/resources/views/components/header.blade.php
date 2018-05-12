@@ -20,7 +20,7 @@
                     <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                     <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
                     <li><a class="nav-link" href="{{ url('/about') }}">{{ __('About') }}</a></li>
-                    <li><a class="nav-link" href="{{ url('/contacts') }}">{{ __(Contacts') }}</a></li>
+                    <li><a class="nav-link" href="{{ url('/contacts') }}">{{ __('Contacts') }}</a></li>
                 @else
                 <!-- Medium and below View -->
                     <div class="d-lg-none">
