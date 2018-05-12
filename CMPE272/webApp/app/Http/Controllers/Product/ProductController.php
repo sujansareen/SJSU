@@ -102,7 +102,8 @@ class ProductController extends Controller{
         $average = 0;
         $reviewlist = ReviewModel::where('product_id', $product_id)->orderBy('created_at', 'desc')->get();
         $product = Model::findOrFail($product_id);
-        $product = $product->fill(['visited' => $product->visited+1]);
+        $visited = $product->visited ? $product->visited+1 : 1;
+        $product = $product->fill(['visited' => $visited]);
         $product->save();
         $item = $product->toArray();
         $company = $product->company;
