@@ -9,22 +9,9 @@
         <div class="alert alert-danger" id="erroruser" style="display: none;" role="alert">
             Error
         </div>
-        <div class="card card-body" style="display:none">
-            <h3>Sign In to Search Users</h3>
-            <form class="form-inline" id="signinForm" onsubmit="return false">
-            <div class="form-group mx-sm-3 mb-4">
-                <label for="inputPassword2" class="sr-only">sign in</label>
-                <input type="text" name="email" class="form-control required" id="inputPassword2" placeholder="email">
-            </div>
-            <div class="form-group mx-sm-3 mb-4">
-                <label for="inputPassword2" class="sr-only">password</label>
-                <input type="password" name="password" class="form-control required" id="inputPassword2" placeholder="password">
-            </div>
-            <button type="submit" class="btn btn-primary mb-4">Sign In</button>
-            </form>
-        </div>
 
-        <div class="card card-body" style="display:none">
+
+        <div class="card card-body" >
             <form class="form-inline" id="searchform"  onsubmit="return false">
                 <div class="form-group mx-sm-3 mb-4">
                     <label for="inputPassword2" class="sr-only">search</label>
@@ -70,33 +57,33 @@
         <br />
         <br />
         <div class="card card-body">
-            <h4>Create an account</h4>
+            <h4>Update account</h4>
             <form id="userform" onsubmit="return false">
                 <div class="form-group">
                     <label for="firstName">First Name</label>
-                    <input type="text" name="first_name" class="form-control required" id="firstName" placeholder="First Name">
+                    <input type="text" name="first_name" class="form-control required" id="firstName" placeholder="First Name" value="{{$user['first_name']}}">
                 </div>
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
-                    <input type="text" name="last_name"  class="form-control required" id="lastName" placeholder="Last Name">
+                    <input type="text" name="last_name"  class="form-control required" id="lastName" placeholder="Last Name"value="{{$user['last_name']}}">
                 </div>
                 <div class="form-group">
                     <label for="homeAddress">Home address</label>
-                    <input type="text" name="home_address"  class="form-control required" id="exampleInputPassword1" placeholder="Home address">
+                    <input type="text" name="home_address"  class="form-control required" id="exampleInputPassword1" placeholder="Home address" value="{{$user['home_address']}}">
                 </div>
                 <div class="form-group">
                     <label for="homePhone">Home Phone</label>
-                    <input type="tel" name="home_phone"  class="form-control" id="homePhone" placeholder="Home Phone">
+                    <input type="tel" name="home_phone"  class="form-control" id="homePhone" placeholder="Home Phone" value="{{$user['home_phone']}}">
                 </div>
                 <div class="form-group">
                     <label for="cellPhone">Cell phone</label>
-                    <input type="tel" name="cell_phone"  class="form-control" id="cellPhone" placeholder="Cell Phone">
+                    <input type="tel" name="cell_phone"  class="form-control" id="cellPhone" placeholder="Cell Phone"value="{{$user['cell_phone']}}">
                 </div>
                 <br />
 
                 <br />
 
-                <div class="form-group">
+<!--                 <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
                     <input type="email" name="email"  class="form-control required" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
@@ -107,7 +94,7 @@
                     <small id="passwordHelpInline" class="text-muted">
                         Must be 8-20 characters long.
                     </small>
-                </div>
+                </div> -->
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
@@ -127,35 +114,6 @@
             } else {
                 $searchForm.parent().show();
             }
-            //==========    Sign in
-            $signinForm.submit(function(e) {
-                var data = $signinForm.serializeArray().reduce(function(acc,curr){acc[curr.name] = curr.value; return acc;},{});
-                console.log("sdfsdf: ",data)
-                axios.post('/api/user/signin', data)
-                        .then(function (response) {
-                            console.log(response);
-                            window.scrollTo(0,0);
-                            $alertFound.show();
-                            $alertFound.text('Signed In');
-                            $signinForm.parent().hide();
-                            $searchForm.parent().show();
-                            setTimeout(function(){
-                                $alertFound.hide();
-                            },4000)
-                            $form[0].reset();
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                            $alertError.show();
-                            window.scrollTo(0,0);
-
-                            setTimeout(function(){
-                                $alertError.hide();
-                            },4000)
-                        });
-
-                e.preventDefault(); // avoid to execute the actual submit of the form.
-            });
             
 
             //========== 
@@ -163,7 +121,7 @@
 
             $form.submit(function(e) {
                 var data = $form.serializeArray().reduce(function(acc,curr){acc[curr.name] = curr.value; return acc;},{});
-                axios.post('/api/user', data)
+                axios.put('/api/users/'+ '{{$user_id}}' , data)
                         .then(function (response) {
                             console.log(response);
                             window.scrollTo(0,0);
@@ -172,7 +130,6 @@
                             setTimeout(function(){
                                 $alertSaved.hide();
                             },4000)
-                            $form[0].reset();
                         })
                         .catch(function (error) {
                             console.log(error);
@@ -204,7 +161,7 @@
                 var data = $searchForm.serializeArray().reduce(function(acc,curr){acc[curr.name] = curr.value; return acc;},{});
                 console.log("Search: ",data);
                 $('#user-table-body').html('');
-                axios.get('/api/user', { params: data })
+                axios.get('/api/users', { params: data })
                         .then(function (response) {
                             console.log(response);
                             window.scrollTo(0,0);
