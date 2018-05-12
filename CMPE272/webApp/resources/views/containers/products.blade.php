@@ -13,11 +13,34 @@
               <li class="nav-item">
                 <a class="nav-link" href="/products?products=products"> View All </a>
                 <a class="nav-link" href="/products?products=top_rated"> Top Rated </a>
-                <a class="nav-link" href="/products?products=top_visited"> Top Visted </a>
-                <a class="nav-link" href="/products?products=visited"> Recently Visted </a>
+                <a class="nav-link" href="/products?products=top_visited"> Top Visited </a>
+                <a class="nav-link" href="/products?products=visited"> Recently Visited </a>
               </li>
             </ul>
-
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Top Rated by Companies</span>
+            </h6>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                        <a class="nav-link" href="/products?products=top_rated&company_id=1"> My Memories </a>
+                        <a class="nav-link" href="/products?products=top_rated&company_id=2"> Story Mode </a>
+                        <a class="nav-link" href="/products?products=top_rated&company_id=3"> Embedded System Solution </a>
+                        <a class="nav-link" href="/products?products=top_rated&company_id=4"> Alphabet BookStore </a>
+                        <a class="nav-link" href="/products?products=top_rated&company_id=5"> PaperClipper </a>
+                </li>
+            </ul>
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>Top Visited by Companies</span>
+                </h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/products?products=top_visited&company_id=1"> My Memories </a>
+                            <a class="nav-link" href="/products?products=top_visited&company_id=2"> Story Mode </a>
+                            <a class="nav-link" href="/products?products=top_visited&company_id=3"> Embedded System Solution </a>
+                            <a class="nav-link" href="/products?products=top_visited&company_id=4"> Alphabet BookStore </a>
+                            <a class="nav-link" href="/products?products=top_visited&company_id=5"> PaperClipper </a>
+                        </li>
+                    </ul>
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
               <span>Companies</span>
             </h6>
