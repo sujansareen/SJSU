@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Cookie;
 use App\Http\getUrlContent;
 use Carbon\Carbon;
 use App\User as Model;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Class UserController
@@ -68,10 +69,12 @@ class UserController extends Controller{
     }
     public function createHandler(Request $request) {
         $data   = $request->input();
+        $data ['password'] = Hash::make($data['password']);
         $id = DB::table('users')->insertGetId( $data );
         if($id ){
-            $return_data = ["id"=>$id ];
-            return response()->json($return_data);
+            return "User successfully created with id $id";
+            //$return_data = ["id"=>$id ];
+            //return response()->json($return_data);
         }
         return response("Missing Data", 400);
     }
