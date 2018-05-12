@@ -58,6 +58,9 @@ class ProductController extends Controller{
        $return_data['company_4'] = $products->filter(function ($value) {
             return $value->company_id ==4;
         })->values()->all();
+       $return_data['company_5'] = $products->filter(function ($value) {
+            return $value->company_id ==5;
+        })->values()->all();
        $return_data['reviews'] = $reviews;
        $return_data['companies'] = $companies;
        return $return_data;
