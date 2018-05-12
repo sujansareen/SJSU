@@ -31,10 +31,18 @@ class ProductController extends Controller{
         $list = Model::all();
         return $list;
     }
-    public static function getAllList() {
+    public static function getAllListHandler(Request $request) {
+        return static:getAllList($request->input());
+    }
+    public static function getAllList($data=[]) {
+        $company_id = array_get($data, 'company_id',false);
         $user_id = Auth::user() ? auth()->user()->id : 0;
 
-        $reviews = ReviewModel::whereNull('archived')->orderBy('rating', 'asc')->get();
+        $reviews = ReviewModel::whereNull('archived');
+        if($company_id){
+            $reviews = $reviews->where('company_id',$company_id);
+        }
+        $reviews = $reviews->orderBy('rating', 'asc')->get();
         $companies = CompanyModel::all();
         $visited = VisitedModel::where('user_id', $user_id)->orderBy('updated_at', 'desc')->get();
         $last_visited_product_ids = $visited->pluck('product_id');
@@ -45,6 +53,7 @@ class ProductController extends Controller{
             return $product;
         });
         // top_rated
+        
         $ratings = $reviews->keyBy('product_id')->values();
         $product_ids = $ratings->sortByDesc('rating')->values()->pluck('product_id')->take(5);
 
