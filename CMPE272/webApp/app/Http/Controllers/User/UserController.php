@@ -58,10 +58,10 @@ class UserController extends Controller{
         $email      = $request->input("email", "");
         $password   = $request->input("password", "");
         $user = Model::where('email', '=', $email)
-                    ->where('password', '=', $password)
+                    // ->where('password', '=', $password)
                     ->get();
         if($user){
-            $cookie = cookie('user', $user->id, $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = false);
+            $cookie = cookie('user', 'userid', $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = false);
             return response()->json($user)->withCookie($cookie);
         }
         return response("Error", 400);
