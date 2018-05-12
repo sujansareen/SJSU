@@ -169,7 +169,7 @@ class ProductController extends Controller{
         $cookie = static::getLastVisitedCookie($request, $id);
         $item = $item->fill(['visited' => $item->visited+1]);
         $item->save();
-        $return_data = $item;
+        $return_data = static::getDetailsWithReviews($id);
         $return_data['company'] = $item->company;
         return response()->json($item)->withCookie($cookie);
     }
