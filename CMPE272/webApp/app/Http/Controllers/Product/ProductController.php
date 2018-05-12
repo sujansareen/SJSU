@@ -10,11 +10,23 @@ use App\Models\Product as Model;
 use App\Models\Review as ReviewModel;
 use App\Models\Company as CompanyModel;
 use App\User as UserModel;
-
+use Illuminate\Support\Facades\Auth;
+use App\Models\Visited as VisitedModel;
 /**
  * Class ProductController
  */
 class ProductController extends Controller{
+    public static function updateProductVisited($product_id='',$user_id='',$company_id='') {
+        $user_id = Auth::user() ? auth()->user()->id : $user_id;
+        if ($user_id) {
+            $test = DB::table('products')->select('company_id')->where('id', $product_id)->get();
+            $visit['company_id'] = $company_id?$company_id:$test->first()->company_id;
+            $visit['product_id'] = $product_id;
+            $visit['user_id'] = $user_id;
+            return VisitedModel::updateOrCreate( $visit)->touch();
+        }
+        return false;
+    }
     public function getList() {
         $list = Model::all();
         return $list;
@@ -168,12 +180,15 @@ class ProductController extends Controller{
         return response()->json( static::create($data) );
     }
     public function detailsHandler(Request $request, $id) {
+        $company_id = $request->input('company_id','1');
+        $user_id = $request->input('user_id',false);
         $item = static::details($id);
         $cookie = static::getLastVisitedCookie($request, $id);
         $item = $item->fill(['visited' => $item->visited+1]);
         $item->save();
         $return_data = static::getDetailsWithReviews($id);
         $return_data['company'] = $item->company;
+        static::updateProductVisited($id,$user_id,$company_id);
         return response()->json($item)->withCookie($cookie);
     }
     public function updateHandler(Request $request, $id) {

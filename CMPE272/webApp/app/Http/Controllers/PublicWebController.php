@@ -25,13 +25,7 @@ class PublicWebController extends Controller {
     }
   
     public function productDetail(Request $request, $id, $data=[]) {
-        if (Auth::user()) {
-            $visit['product_id'] = $id;
-            $visit['user_id'] = auth()->user()->id;
-            $test = DB::table('products')->select('company_id')->where('id', $id)->get();
-            $visit['company_id'] = $test->first()->company_id;
-            Visited::updateOrCreate( $visit);
-        }
+        ProductController::updateProductVisited($id,auth()->user()->id);
         $data = array_merge($data, static::getData());
         $data['product'] = ProductController::getDetailsWithReviews($id);
         $data['product_id'] = array_get($data,'product_id',$id);

@@ -81,13 +81,13 @@
 
 
         <div class="row">
-            <div class="col-sm-7">
+            <div class="col-sm-10">
                 <hr/>
                 <div class="review-block">
                     @foreach ($product['reviews'] as $review)
                         <div class="row">
                             <div class="col-sm-3">
-                                <img src="http://dummyimage.com/60x60/666/ffffff&text=No+Image" class="img-rounded">
+                                <img src="http://via.placeholder.com/70x70" class="img-rounded">
                                 <div class="review-block-name"><a href="#">{{ $review['user']['name'] }}</a></div>
                                 <div class="review-block-date">{{ $review['created_at'] }}</div>
                             </div>
