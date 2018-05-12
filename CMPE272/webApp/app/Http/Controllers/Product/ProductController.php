@@ -37,7 +37,13 @@ class ProductController extends Controller{
     public static function getAllList($data=[]) {
         $company_id = array_get($data, 'company_id',false);
         $user_id = Auth::user() ? auth()->user()->id : 0;
-        $reviews = ReviewModel::whereNull('archived');
+        if($company_id){
+            $product_id_bycompany = Model::where('company_id',$company_id)->pluck('id');
+            $reviews = ReviewModel::whereNull('archived')->whereIn('product_id', $product_id_bycompany);
+        }
+        else{
+            $reviews = ReviewModel::whereNull('archived');
+        }
         $reviews = $reviews->orderBy('rating', 'asc')->get();
         $companies = CompanyModel::all();
         $visited = VisitedModel::where('user_id', $user_id)->orderBy('updated_at', 'desc')->get();
