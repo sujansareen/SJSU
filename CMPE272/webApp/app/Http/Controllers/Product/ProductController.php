@@ -32,8 +32,14 @@ class ProductController extends Controller{
         return $list;
     }
     public static function getAllList() {
+        $user_id = Auth::user() ? auth()->user()->id : 0;
+
         $reviews = ReviewModel::whereNull('archived')->orderBy('rating', 'asc')->get();
         $companies = CompanyModel::all();
+        $visited = VisitedModel::where('user_id', $user_id)->orderBy('updated_at', 'desc')->get();
+        $last_visited_product_ids = $visited->pluck('product_id');
+        $visited = Model::whereIn('id', $last_visited_product_ids)->get()->all();
+
         // top_rated
         $ratings = $reviews->keyBy('product_id')->values();
         $product_ids = $ratings->sortByDesc('rating')->values()->pluck('product_id')->take(5);
@@ -75,6 +81,7 @@ class ProductController extends Controller{
         })->values()->all();
        $return_data['reviews'] = $reviews;
        $return_data['companies'] = $companies;
+       $return_data['visited'] = $visited;
        return $return_data;
     }
     public static function getListWithReviews() {
