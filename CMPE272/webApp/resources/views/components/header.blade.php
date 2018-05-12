@@ -24,6 +24,7 @@
                 @else
                 <!-- Medium and below View -->
                     <div class="d-lg-none">
+                        <li><a class="nav-link" href="{{ url('/user') }}">User</a></li>
                         <li><a class="nav-link" href="{{ url('/about') }}">About</a></li>
                         <li><a class="nav-link" href="{{ url('/products') }}">Products</a></li>
                         <li><a class="nav-link" href="{{ url('/contacts') }}">Contacts</a></li>
@@ -39,6 +40,7 @@
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ url('/user') }}">User</a>
                             <a class="dropdown-item" href="{{ url('/about') }}">About</a>
                             <a class="dropdown-item" href="{{ url('/products') }}">Products</a>
                             <a class="dropdown-item" href="{{ url('/contacts') }}">Contacts</a>
