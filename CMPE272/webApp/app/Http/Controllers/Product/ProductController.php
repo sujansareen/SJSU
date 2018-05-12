@@ -195,8 +195,6 @@ class ProductController extends Controller{
         $user_id = $request->input('user_id',false);
         $item = static::details($id);
         $cookie = static::getLastVisitedCookie($request, $id);
-        $item = $item->fill(['visited' => $item->visited+1]);
-        $item->save();
         $return_data = static::getDetailsWithReviews($id);
         $return_data['company'] = $item->company;
         static::updateProductVisited($id,$user_id,$company_id);
