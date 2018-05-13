@@ -62,7 +62,7 @@ class ProductController extends Controller{
         });
         // top_rated
         $ratings = $rating_avg_keyed->values();
-        $product_ids = $ratings->sortByDesc('rating')->values()->pluck('product_id')->take(5);
+        $product_ids = $ratings->sortByDesc('avg_rating')->values()->pluck('product_id')->take(5);
 
         $list = Model::whereIn('id', $product_ids->all())->get()->keyBy('id')->all();
         $return_data['top_rated'] = $product_ids->map(function ($item, $key) use($list,$rating_avg_keyed){
