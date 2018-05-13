@@ -40,9 +40,11 @@ class ProductController extends Controller{
         if($company_id){
             $product_id_bycompany = Model::where('company_id',$company_id)->pluck('id');
             $reviews = ReviewModel::whereNull('archived')->whereIn('product_id', $product_id_bycompany);
+            $visited = VisitedModel::where('user_id', $user_id)->where('company_id',$company_id)->orderBy('updated_at', 'desc')->get();
         }
         else{
             $reviews = ReviewModel::whereNull('archived');
+            $visited = VisitedModel::where('user_id', $user_id)->orderBy('updated_at', 'desc')->get();
         }
         $reviews = $reviews->orderBy('rating', 'asc')->get();
         $rating_avg_keyed = $reviews->groupBy('product_id')
@@ -52,7 +54,6 @@ class ProductController extends Controller{
                 return $item;
             });
         $companies = CompanyModel::all();
-        $visited = VisitedModel::where('user_id', $user_id)->orderBy('updated_at', 'desc')->get();
         $last_visited_product_ids = $visited->pluck('product_id');
         $visited_list = Model::whereIn('id', $last_visited_product_ids)->get()->keyBy('id')->all();
         $return_data['visited'] = $last_visited_product_ids->map(function ($item, $key) use($visited_list){
