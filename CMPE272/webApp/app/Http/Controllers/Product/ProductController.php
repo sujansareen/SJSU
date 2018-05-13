@@ -45,6 +45,12 @@ class ProductController extends Controller{
             $reviews = ReviewModel::whereNull('archived');
         }
         $reviews = $reviews->orderBy('rating', 'asc')->get();
+        $rating_avg_keyed = $reviews->groupBy('product_id')
+            ->map(function ($review, $key){
+                $item = $review->first();
+                $item['avg_rating'] = number_format($review->avg('rating'), 2);
+                return $item;
+            });
         $companies = CompanyModel::all();
         $visited = VisitedModel::where('user_id', $user_id)->orderBy('updated_at', 'desc')->get();
         $last_visited_product_ids = $visited->pluck('product_id');
@@ -55,14 +61,14 @@ class ProductController extends Controller{
             return $product;
         });
         // top_rated
-        
-        $ratings = $reviews->keyBy('product_id')->values();
-        $product_ids = $ratings->sortByDesc('rating')->values()->pluck('product_id')->take(5);
+        $ratings = $rating_avg_keyed->values();
+        $product_ids = $ratings->sortByDesc('avg_rating')->values()->pluck('product_id')->take(5);
 
         $list = Model::whereIn('id', $product_ids->all())->get()->keyBy('id')->all();
-        $return_data['top_rated'] = $product_ids->map(function ($item, $key) use($list){
+        $return_data['top_rated'] = $product_ids->map(function ($item, $key) use($list,$rating_avg_keyed){
             $product=$list[$item];
             $product->company;
+            $product['avg_rating'] = array_get($rating_avg_keyed,$item.".avg_rating",0);
             return $product;
         });
         // top_visited
