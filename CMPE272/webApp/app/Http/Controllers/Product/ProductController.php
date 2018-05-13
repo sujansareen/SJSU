@@ -32,15 +32,17 @@ class ProductController extends Controller{
         return $list;
     }
     public static function getAllListHandler(Request $request) {
-        return static:getAllList($request->input());
+        return static::getAllList($request->input());
     }
     public static function getAllList($data=[]) {
         $company_id = array_get($data, 'company_id',false);
         $user_id = Auth::user() ? auth()->user()->id : 0;
-
-        $reviews = ReviewModel::whereNull('archived');
         if($company_id){
-            $reviews = $reviews->where('company_id',$company_id);
+            $product_id_bycompany = Model::where('company_id',$company_id)->pluck('id');
+            $reviews = ReviewModel::whereNull('archived')->whereIn('product_id', $product_id_bycompany);
+        }
+        else{
+            $reviews = ReviewModel::whereNull('archived');
         }
         $reviews = $reviews->orderBy('rating', 'asc')->get();
         $companies = CompanyModel::all();
@@ -64,7 +66,12 @@ class ProductController extends Controller{
             return $product;
         });
         // top_visited
-        $top_visited = Model::whereNull('archived')->orderBy('visited', 'desc')->take(5)->get();
+        if($company_id){
+            $top_visited = Model::whereNull('archived')->where('company_id', $company_id)->orderBy('visited', 'desc')->take(5)->get();
+        }
+        else{
+            $top_visited = Model::whereNull('archived')->orderBy('visited', 'desc')->take(5)->get();
+        }
         $return_data['top_visited'] = $top_visited->map(function ($product, $key) use($list){
             $product->company;
             return $product;

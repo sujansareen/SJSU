@@ -34,6 +34,7 @@ class PublicWebController extends Controller {
     }
    public function products(Request $request, $data=[]) {
         $products_flag = $request->input('products','products');
+        $data['company_id'] = $request->input('company_id',false);
         $fetchedData = ProductController::getAllList($data);
         $data = array_merge($data, static::getData(), $fetchedData);
         $data['products'] = array_get($data,$products_flag,[]);
